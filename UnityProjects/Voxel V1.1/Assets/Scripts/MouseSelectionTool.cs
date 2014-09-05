@@ -47,33 +47,33 @@ public class MouseSelectionTool : MonoBehaviour {
 		                     hitPos.point.z / VoxelMesh.VoxelSpacing);
 //		vtest = hitPos.point;
 
-		Debug.Log ("pre normal "+vtest);
+		//Debug.Log ("pre normal "+vtest);
 		//Apply an offset in the direction of the normal
 		vtest += new Vector3 (hitPos.normal.x * (VoxelMesh.VoxelSpacing / 2.0f),
 		                      hitPos.normal.y * (VoxelMesh.VoxelSpacing / 2.0f),
 		                      hitPos.normal.z * (VoxelMesh.VoxelSpacing / 2.0f));
 
-		Debug.Log ("normal "+hitPos.normal);
+		//Debug.Log ("normal "+hitPos.normal);
 
 		vtest.x -= VoxelMesh.x_offset/VoxelMesh.VoxelSpacing;
 		vtest.y -= VoxelMesh.y_offset/VoxelMesh.VoxelSpacing;
 		vtest.z -= VoxelMesh.z_offset/VoxelMesh.VoxelSpacing;
 
-		Debug.Log ("offset "+vtest);
+		//Debug.Log ("offset "+vtest);
 
-		Debug.Log ("pre-round "+vtest);
+		//Debug.Log ("pre-round "+vtest);
 		
 		vtest.x =  (float)System.Math.Round(vtest.x,System.MidpointRounding.AwayFromZero);
 		vtest.y =  (float)System.Math.Round(vtest.y,System.MidpointRounding.AwayFromZero);
 		vtest.z =  (float)System.Math.Round(vtest.z,System.MidpointRounding.AwayFromZero);
 		
-		Debug.Log ("post-round "+vtest);
+		//Debug.Log ("post-round "+vtest);
 
 		VoxelPos voxel = new VoxelPos (vtest.x, vtest.y, vtest.z);
 
 		VoxelEvents.VoxelAdded(voxel);
 
-		Debug.Log ("Voxel Added:" + voxel.ToString ());
+		//Debug.Log ("Voxel Added:" + voxel.ToString ());
 
 	}
 	void RemoveVoxel(RaycastHit hitPos)
@@ -87,33 +87,33 @@ public class MouseSelectionTool : MonoBehaviour {
 		                     hitPos.point.z / VoxelMesh.VoxelSpacing);
 		//		vtest = hitPos.point;
 		
-		Debug.Log ("pre normal "+vtest);
+		//Debug.Log ("pre normal "+vtest);
 		//Apply an offset in the direction of the normal
 		vtest -= new Vector3 (hitPos.normal.x * (VoxelMesh.VoxelSpacing / 2.0f),
 		                      hitPos.normal.y * (VoxelMesh.VoxelSpacing / 2.0f),
 		                      hitPos.normal.z * (VoxelMesh.VoxelSpacing / 2.0f));
 		
-		Debug.Log ("normal "+hitPos.normal);
+		//Debug.Log ("normal "+hitPos.normal);
 		
 		vtest.x -= VoxelMesh.x_offset/VoxelMesh.VoxelSpacing;
 		vtest.y -= VoxelMesh.y_offset/VoxelMesh.VoxelSpacing;
 		vtest.z -= VoxelMesh.z_offset/VoxelMesh.VoxelSpacing;
 		
-		Debug.Log ("offset "+vtest);
+		//Debug.Log ("offset "+vtest);
 		
-		Debug.Log ("pre-round "+vtest);
+		//Debug.Log ("pre-round "+vtest);
 		
 		vtest.x =  (float)System.Math.Round(vtest.x,System.MidpointRounding.AwayFromZero);
 		vtest.y =  (float)System.Math.Round(vtest.y,System.MidpointRounding.AwayFromZero);
 		vtest.z =  (float)System.Math.Round(vtest.z,System.MidpointRounding.AwayFromZero);
 		
-		Debug.Log ("post-round "+vtest);
+		//Debug.Log ("post-round "+vtest);
 		
 		VoxelPos voxel = new VoxelPos (vtest.x, vtest.y, vtest.z);
 		
 		VoxelEvents.VoxelAdded(voxel);
 		
-		Debug.Log ("Voxel Added:" + voxel.ToString ());
+		//Debug.Log ("Voxel Added:" + voxel.ToString ());
 			
 
 

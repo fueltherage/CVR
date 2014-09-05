@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 public class VoxelSystem : MonoBehaviour {
 	//Notes
-	/* 
+	/* Voxel systems must have a layer around the outside that is empty.
 	 * 
 	*/
-	public  int XSize = 6;
-	public  int YSize = 6;
-	public  int ZSize = 6;
-	public  float VoxelSpacing = 1f;
+	public  int XSize = 20;
+	public  int YSize = 20;
+	public  int ZSize = 20;
+	public  float VoxelSpacing = 4f;
 	public float x_offset;
 	public float y_offset;
 	public float z_offset;
@@ -44,7 +44,6 @@ public class VoxelSystem : MonoBehaviour {
 					if(x==0||y==0||z==0||x==XSize-1||y==YSize-1||z==ZSize-1)
 					{
 						blocks[x,y,z].locked = true;
-						//Lock the outer layer
 					}
 					else{ blocks[x,y,z].locked = false;}
 				}				
@@ -134,6 +133,7 @@ public class VoxelSystem : MonoBehaviour {
 							Triangles.Add((faceCount*4)+3);
 							Triangles.Add(faceCount*4);
 							Triangles.Add((faceCount*4)+1);
+
 							Triangles.Add((faceCount*4)+1);
 							Triangles.Add((faceCount*4)+2);
 							Triangles.Add((faceCount*4)+3);
