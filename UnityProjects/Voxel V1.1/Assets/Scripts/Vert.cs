@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Vert : MonoBehaviour {
+public class Vert{
+	public Index index;
+	public Vector3 Vertex;
+	public bool used;
+	public Vert(ref Index _index, ref Vector3 _Vertex)
+	{
+		index = _index;
+		Vertex = _Vertex;
+	}
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+
 }

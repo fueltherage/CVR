@@ -49,12 +49,9 @@
      <Compile Include="Assets\Scripts\CameraZoom.cs" />
      <Compile Include="Assets\Scripts\Editor_MouseControl.cs" />
      <Compile Include="Assets\Scripts\GUI_EditorInfo.cs" />
-     <Compile Include="Assets\Scripts\MeshData.cs" />
      <Compile Include="Assets\Scripts\MouseSelectionTool.cs" />
-     <Compile Include="Assets\Scripts\Vert.cs" />
      <Compile Include="Assets\Scripts\Voxel.cs" />
      <Compile Include="Assets\Scripts\VoxelEvents.cs" />
-     <Compile Include="Assets\Scripts\VoxelNeighbours.cs" />
      <Compile Include="Assets\Scripts\VoxelPos.cs" />
      <Compile Include="Assets\Scripts\VoxelSystem.cs" />
   </ItemGroup>
