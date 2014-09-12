@@ -58,6 +58,7 @@
      <Compile Include="Assets\Scripts\Vert.cs" />
      <Compile Include="Assets\Scripts\Voxel.cs" />
      <Compile Include="Assets\Scripts\VoxelEvents.cs" />
+     <Compile Include="Assets\Scripts\VoxelNeighbours.cs" />
      <Compile Include="Assets\Scripts\VoxelPos.cs" />
      <Compile Include="Assets\Scripts\VoxelSystem.cs" />
      <None Include="Assets\Shaders\Wiki shaders\Triplanar.shader" />

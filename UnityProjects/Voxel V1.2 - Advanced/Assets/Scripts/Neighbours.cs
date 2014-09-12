@@ -2,13 +2,13 @@
 using System.Collections;
 
 public class Neighbours {
-	public Voxel top;
-	public Voxel bot;
-	public Voxel left;
-	public Voxel right;
-	public Voxel front;
-	public Voxel back;
-	public Neighbours(ref Voxel _top, ref Voxel _bot, ref Voxel _left, ref Voxel _right, ref Voxel _front, ref Voxel _back)
+	public VoxelShell top;
+	public VoxelShell bot;
+	public VoxelShell left;
+	public VoxelShell right;
+	public VoxelShell front;
+	public VoxelShell back;
+	public Neighbours(ref VoxelShell _top, ref VoxelShell _bot, ref VoxelShell _left, ref VoxelShell _right, ref VoxelShell _front, ref VoxelShell _back)
 	{
 		top = _top;
 		bot = _bot; 

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class MouseSelectionTool : MonoBehaviour {
 
-	VoxelSystem VoxelMesh;
+	VoxelChunk VoxelMesh;
 	public GameObject SystemObject;
 
 
@@ -15,7 +15,7 @@ public class MouseSelectionTool : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		VoxelMesh = SystemObject.GetComponent<VoxelSystem> ();
+		VoxelMesh = SystemObject.GetComponent<VoxelChunk> ();
 		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 		if(Input.GetMouseButtonDown(0))

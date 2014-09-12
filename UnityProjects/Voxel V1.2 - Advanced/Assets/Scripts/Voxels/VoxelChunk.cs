@@ -2,25 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class VoxelSystem : MonoBehaviour {
+public class VoxelChunk: MonoBehaviour {
 	//Notes
 	/* 
 	 * 
 	*/
-	public  int XSize = 6;
-	public  int YSize = 6;
-	public  int ZSize = 6;
+
+	public  int XSize = 10;
+	public  int YSize = 10;
+	public  int ZSize = 10;
 	public  float VoxelSpacing = 1f;
 	public Vector3 offset;
+	public GameObject VoxelMats;
 
+	VoxMaterialFactory factory;
 	Dictionary<int, int> SubmeshIndex;
+	Dictionary<int, int> MaterialIndex;
 
 	int SubmeshCount;
+	int currentSelectedVoxel=1;
 
-	Voxel[,,] blocks;
+	VoxelShell[,,] blocks;
 
 	// Use this for initialization
 	void Start () {
+		factory = VoxelMats.GetComponent<VoxMaterialFactory>();
+
 		//Shift the game oject over so the center is always the origin.
 		this.transform.Translate (-VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f);
 	
@@ -32,13 +39,15 @@ public class VoxelSystem : MonoBehaviour {
 		//Subscribe to Voxel Events
 		VoxelEvents.onVoxelAdded += AddVoxel;
 		VoxelEvents.onVoxelRemoved += RemoveVoxel;
+		VoxelEvents.onVoxelSwitch += SelectedVoxel;
 
-		//Initializing Voxel/Vertex array
-		blocks = new Voxel[XSize,YSize,ZSize];
+		//Initializing Voxel/VoxelShell array
+		blocks = new VoxelShell[XSize,YSize,ZSize];
 		for (int x =0; x < XSize; x++){
-			for (int y =0; y < XSize; y++){
-				for (int z =0; z < XSize; z++){
-					blocks[x,y,z] = new Voxel();
+			for (int y =0; y < YSize; y++){
+				for (int z =0; z < ZSize; z++){
+					blocks[x,y,z] = new VoxelShell();
+					blocks[x,y,z].voxel = new Voxel();
 					blocks[x,y,z].vp = new VoxelPos(x,y,z);
 				}
 			}
@@ -49,42 +58,51 @@ public class VoxelSystem : MonoBehaviour {
 				for (int z = 0; z < ZSize; ++z) {
 					if(x==0||y==0||z==0||x==XSize-1||y==YSize-1||z==ZSize-1)
 					{
-
 						blocks[x,y,z].locked = true;
 						blocks[x,y,z].filled = false;
 						//Lock the outer layer
 					}
 					else{
+
 						blocks[x,y,z].neighbours = new Neighbours(ref blocks[x,y+1,z], ref blocks[x,y-1,z], ref blocks[x-1,y,z],
 						                              			  ref blocks[x+1,y,z], ref blocks[x,y,z-1] ,ref blocks[x,y,z+1]);					
-						blocks[x,y,z] =	VoxelFactory.GenerateVoxel(1,ref blocks[x,y,z],offset,VoxelSpacing);
+
 						blocks[x,y,z].locked = false;
+						//VoxelFactory.GenerateVoxel(1,ref blocks[x,y,z],offset,VoxelSpacing);
 					}
 				}				
 			}
 		}
 
 		SubmeshIndex = new Dictionary<int, int>();
+		MaterialIndex = new Dictionary<int, int>();
 		SubmeshCount = 0;
 
 		//Center Voxel filled for testing
-		blocks [XSize/2,YSize/2,ZSize/2] = VoxelFactory.GenerateVoxel(2,ref blocks[XSize/2,YSize/2,ZSize/2],offset,VoxelSpacing);
-		blocks [XSize/2,YSize/2,ZSize/2].filled = true;
+		VoxelFactory.GenerateVoxel(1,ref blocks[XSize/2,YSize/2,ZSize/2],offset,VoxelSpacing);
 
 		UpdateMesh ();
 	}
-
+	public void SelectedVoxel(int _currentSelectedVoxel)
+	{
+		currentSelectedVoxel = _currentSelectedVoxel;
+	}
 	public void AddVoxel(VoxelPos voxel)
 	{
 		//Debug.Log(voxel);
 		if (!blocks [voxel.x, voxel.y, voxel.z].locked) {
-			blocks [voxel.x, voxel.y, voxel.z].filled = true;
-			UpdateMesh ();
+			if(blocks [voxel.x, voxel.y, voxel.z].voxel.VoxelType!= currentSelectedVoxel)
+			{
+				VoxelFactory.GenerateVoxel(currentSelectedVoxel, ref blocks [voxel.x, voxel.y, voxel.z], offset, VoxelSpacing);
+	
+
+				UpdateMesh ();
+			}
 		} 	
 	}
 	public void RemoveVoxel(VoxelPos voxel)
 	{
-		blocks [voxel.x, voxel.y, voxel.z].filled = false;
+		VoxelFactory.GenerateVoxel(0,ref blocks [voxel.x, voxel.y, voxel.z], offset, VoxelSpacing);
 		UpdateMesh ();
 	}
 
@@ -120,15 +138,15 @@ public class VoxelSystem : MonoBehaviour {
 					if(blocks[x,y,z].filled)
 					{
 						faceCount = blocks[x,y,z].GenerateMesh(faceCount);					
-						for (int i = 0; i < blocks[x,y,z].meshData.Verts.Count; ++i)
+						for (int i = 0; i < blocks[x,y,z].voxel.meshData.Verts.Count; ++i)
 						{
-							Verts.Add(blocks[x,y,z].meshData.Verts[i]);
-							UVs.Add(blocks[x,y,z].meshData.UVs[i]);
+							Verts.Add(blocks[x,y,z].voxel.meshData.Verts[i]);
+							UVs.Add(blocks[x,y,z].voxel.meshData.UVs[i]);
 						}
-						for (int i = 0; i < blocks[x,y,z].meshData.Triangles.Count; ++i)
+						for (int i = 0; i < blocks[x,y,z].voxel.meshData.Triangles.Count; ++i)
 						{
-							Triangles.Add(blocks[x,y,z].meshData.Triangles[i]);
-							TrIndex.Add(SubmeshIndexChecker(blocks[x,y,z].VoxelType));
+							Triangles.Add(blocks[x,y,z].voxel.meshData.Triangles[i]);
+							TrIndex.Add(SubmeshIndexChecker(blocks[x,y,z].voxel.VoxelType));
 						}
 					}
 				}				
@@ -137,14 +155,20 @@ public class VoxelSystem : MonoBehaviour {
 
 		mesh.vertices = Verts.ToArray();
 		//mesh.triangles = GetRawTriangles(ref Triangles);
-
 		mesh.subMeshCount = SubmeshCount;
 
 		for (int i = 0; i < SubmeshCount; i++) 
 		{
 			mesh.SetTriangles(GetSubMeshTriangles(i,ref Triangles,ref TrIndex), i);
 		}
-	
+
+		List<Material> mat= new List<Material>();
+		for(int i = 0; i < SubmeshCount; i++)
+		{
+			mat.Add (factory.VoxelMats[MaterialIndex[i]]);
+		}
+		renderer.materials = mat.ToArray();
+
 		mesh.uv = UVs.ToArray ();
 		mesh.RecalculateNormals ();
 
@@ -172,6 +196,7 @@ public class VoxelSystem : MonoBehaviour {
 			return SubmeshIndex[_voxelType];
 		}else{
 			SubmeshIndex.Add(_voxelType, SubmeshCount);
+			MaterialIndex.Add(SubmeshCount, _voxelType);
 			SubmeshCount++;
 			return SubmeshIndex[_voxelType];
 		}

@@ -35,7 +35,8 @@ public class CubeMesh: MeshData {
 
 			normal = Vector3.Cross ( VoxelVerts.Vert110.Vertex - VoxelVerts.Vert010.Vertex,
 	                                 VoxelVerts.Vert110.Vertex - VoxelVerts.Vert111.Vertex);
-			
+			normal.Normalize();
+			normal *= -1;
 			Normals.Add (normal);
 			Normals.Add (normal);
 
@@ -70,7 +71,8 @@ public class CubeMesh: MeshData {
 
 			Vector3 normal = Vector3.Cross ( VoxelVerts.Vert001.Vertex - VoxelVerts.Vert000.Vertex,
 			                                 VoxelVerts.Vert100.Vertex - VoxelVerts.Vert100.Vertex);
-			
+			normal.Normalize();
+			normal *= -1;
 			Normals.Add (normal);
 			Normals.Add (normal);
 
@@ -107,7 +109,8 @@ public class CubeMesh: MeshData {
 
 			Vector3 normal = Vector3.Cross (VoxelVerts.Vert000.Vertex - VoxelVerts.Vert010.Vertex,
 			                                VoxelVerts.Vert000.Vertex - VoxelVerts.Vert001.Vertex);
-			
+			normal.Normalize();
+			normal *= -1;
 			Normals.Add (normal);
 			Normals.Add (normal);
 
@@ -133,7 +136,8 @@ public class CubeMesh: MeshData {
 
 			Vector3 normal = Vector3.Cross ( VoxelVerts.Vert100.Vertex - VoxelVerts.Vert110.Vertex,
 			                                 VoxelVerts.Vert100.Vertex - VoxelVerts.Vert101.Vertex);
-
+			normal.Normalize();
+			normal *= -1;
 			Normals.Add (normal);
 			Normals.Add (normal);
 
@@ -169,7 +173,8 @@ public class CubeMesh: MeshData {
 
 			Vector3 normal = Vector3.Cross ( VoxelVerts.Vert100.Vertex - VoxelVerts.Vert000.Vertex,
 			                                 VoxelVerts.Vert100.Vertex - VoxelVerts.Vert110.Vertex);
-			
+			normal.Normalize();
+			normal *= -1;
 			Normals.Add (normal);
 			Normals.Add (normal);
 
@@ -204,7 +209,8 @@ public class CubeMesh: MeshData {
 			Vector3 normal = Vector3.Cross (VoxelVerts.Vert001.Vertex - VoxelVerts.Vert011.Vertex,
 			                                VoxelVerts.Vert001.Vertex - VoxelVerts.Vert111.Vertex );
 			                               
-			
+			normal.Normalize();
+			normal *= -1;
 			Normals.Add (normal);
 			Normals.Add (normal);
 
