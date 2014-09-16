@@ -29,7 +29,7 @@ public class CubeMesh_Vox : MeshData_Vox {
 		Verts.Clear ();
 
 
-		if(!neighbours.right.filled)
+		if(!neighbours.xpos.filled)
 		{
 			Verts.Add (new Vector3(offset.x + (_vp.x+1) * spacing, offset.y + _vp.y * spacing, offset.z + _vp.z * spacing));
 			Verts.Add (new Vector3(offset.x + (_vp.x+1) * spacing, offset.y + _vp.y * spacing, offset.z + (_vp.z+1) * spacing));
@@ -46,7 +46,7 @@ public class CubeMesh_Vox : MeshData_Vox {
 
 			_faceCount++; 
 		}
-		if(!neighbours.left.filled)
+		if(!neighbours.xneg.filled)
 		{
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + _vp.y * spacing, offset.z + _vp.z * spacing));
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + _vp.y * spacing, offset.z + (_vp.z+1) * spacing));
@@ -70,7 +70,7 @@ public class CubeMesh_Vox : MeshData_Vox {
 			
 			_faceCount++;    
 		}
-		if(!neighbours.top.filled)
+		if(!neighbours.ypos.filled)
 		{
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + (_vp.y+1) * spacing, offset.z + (_vp.z) * spacing));
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + (_vp.y+1) * spacing, offset.z + (_vp.z+1) * spacing));
@@ -94,7 +94,7 @@ public class CubeMesh_Vox : MeshData_Vox {
 			
 			_faceCount++;  
 		}
-		if(!neighbours.bot.filled)
+		if(!neighbours.yneg.filled)
 		{
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + (_vp.y) * spacing, offset.z + (_vp.z) * spacing));
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + (_vp.y) * spacing, offset.z + (_vp.z+1) * spacing));
@@ -118,7 +118,7 @@ public class CubeMesh_Vox : MeshData_Vox {
 			
 			_faceCount++;  
 		}
-		if(!neighbours.back.filled)
+		if(!neighbours.zpos.filled)
 		{
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + (_vp.y) * spacing, offset.z + (_vp.z+1) * spacing));
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + (_vp.y+1) * spacing, offset.z + (_vp.z+1) * spacing));
@@ -142,7 +142,7 @@ public class CubeMesh_Vox : MeshData_Vox {
 			
 			_faceCount++;  
 		}
-		if(!neighbours.front.filled)
+		if(!neighbours.zneg.filled)
 		{
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + (_vp.y) * spacing, offset.z + (_vp.z) * spacing));
 			Verts.Add (new Vector3(offset.x + (_vp.x) * spacing, offset.y + (_vp.y+1) * spacing, offset.z + (_vp.z) * spacing));

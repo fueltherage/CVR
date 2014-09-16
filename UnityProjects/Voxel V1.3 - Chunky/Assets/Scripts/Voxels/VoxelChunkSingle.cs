@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class VoxelChunk: MonoBehaviour {
+public class VoxelChunkSingle: MonoBehaviour {
 	//Notes
 	/* 
 	 * 

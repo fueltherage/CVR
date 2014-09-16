@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MouseSelectionTool : MonoBehaviour {
+public class MouseSelectionTool_MultiChunk : MonoBehaviour {
 
-	VoxelChunk VoxelMesh;
+	VoxelSystem VoxelMesh;
 	public GameObject SystemObject;
 
 
@@ -15,7 +15,7 @@ public class MouseSelectionTool : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		VoxelMesh = SystemObject.GetComponent<VoxelChunk> ();
+		VoxelMesh = SystemObject.GetComponent<VoxelSystem> ();
 		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
 		if(Input.GetMouseButtonDown(0))
@@ -42,12 +42,14 @@ public class MouseSelectionTool : MonoBehaviour {
 
 		Vector3 vtest = new Vector3();
 
-		vtest = new Vector3 (hitPos.point.x / VoxelMesh.VoxelSpacing,
-		                     hitPos.point.y / VoxelMesh.VoxelSpacing,
-		                     hitPos.point.z / VoxelMesh.VoxelSpacing);
+
+
+		vtest = new Vector3 ((hitPos.point.x - VoxelMesh.transform.position.x) / VoxelMesh.VoxelSpacing,
+		                     (hitPos.point.y - VoxelMesh.transform.position.y) / VoxelMesh.VoxelSpacing,
+		                     (hitPos.point.z - VoxelMesh.transform.position.z) / VoxelMesh.VoxelSpacing);
 //		vtest = hitPos.point;
 
-		//Debug.Log ("pre normal "+vtest);
+		//Debug.Log ("pre normal "+vtest);	
 		//Apply an offset in the direction of the normal
 		vtest += new Vector3 (hitPos.normal.x * (VoxelMesh.VoxelSpacing / 2.0f),
 		                      hitPos.normal.y * (VoxelMesh.VoxelSpacing / 2.0f),
@@ -55,9 +57,9 @@ public class MouseSelectionTool : MonoBehaviour {
 
 		//Debug.Log ("normal "+hitPos.normal);
 
-		vtest.x -= VoxelMesh.offset.x/VoxelMesh.VoxelSpacing;
-		vtest.y -= VoxelMesh.offset.y/VoxelMesh.VoxelSpacing;
-		vtest.z -= VoxelMesh.offset.z/VoxelMesh.VoxelSpacing;
+//		vtest.x -= VoxelMesh.offset.x/VoxelMesh.VoxelSpacing;
+//		vtest.y -= VoxelMesh.offset.y/VoxelMesh.VoxelSpacing;
+//		vtest.z -= VoxelMesh.offset.z/VoxelMesh.VoxelSpacing;
 
 		//Debug.Log ("offset "+vtest);
 
@@ -82,9 +84,9 @@ public class MouseSelectionTool : MonoBehaviour {
 		
 		Vector3 vtest = new Vector3();
 		
-		vtest = new Vector3 (hitPos.point.x / VoxelMesh.VoxelSpacing,
-		                     hitPos.point.y / VoxelMesh.VoxelSpacing,
-		                     hitPos.point.z / VoxelMesh.VoxelSpacing);
+		vtest = new Vector3 ((hitPos.point.x - VoxelMesh.transform.position.x) / VoxelMesh.VoxelSpacing,
+		                     (hitPos.point.y - VoxelMesh.transform.position.y) / VoxelMesh.VoxelSpacing,	
+		                     (hitPos.point.z - VoxelMesh.transform.position.z) / VoxelMesh.VoxelSpacing);
 		//		vtest = hitPos.point;
 		
 		//Debug.Log ("pre normal "+vtest);
@@ -94,10 +96,10 @@ public class MouseSelectionTool : MonoBehaviour {
 		                      hitPos.normal.z * (VoxelMesh.VoxelSpacing / 2.0f));
 		
 		//Debug.Log ("normal "+hitPos.normal);
-		
-		vtest.x -= VoxelMesh.offset.x/VoxelMesh.VoxelSpacing;
-		vtest.y -= VoxelMesh.offset.y/VoxelMesh.VoxelSpacing;
-		vtest.z -= VoxelMesh.offset.z/VoxelMesh.VoxelSpacing;
+//			
+//		vtest.x -= VoxelMesh.offset.x/VoxelMesh.VoxelSpacing;
+//		vtest.y -= VoxelMesh.offset.y/VoxelMesh.VoxelSpacing;
+//		vtest.z -= VoxelMesh.offset.z/VoxelMesh.VoxelSpacing;
 		
 		//Debug.Log ("offset "+vtest);
 		
@@ -111,10 +113,9 @@ public class MouseSelectionTool : MonoBehaviour {
 		
 		VoxelPos voxel = new VoxelPos (vtest.x, vtest.y, vtest.z);
 		
-		VoxelEvents.VoxelAdded(voxel);
+		//VoxelEvents.VoxelAdded(voxel);
 		
-		//Debug.Log ("Voxel Added:" + voxel.ToString ());
-			
+		//Debug.Log ("Voxel Added:" + voxel.ToString ());		
 
 
 		VoxelEvents.VoxelRemoved(voxel);

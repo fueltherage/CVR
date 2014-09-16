@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Editor_MouseControl : MonoBehaviour {
+public class Editor_MouseControl_SingleChunk : MonoBehaviour {
 
 	public float MouseRotationSensitivity =1;
 	public float MaxZoom =100;

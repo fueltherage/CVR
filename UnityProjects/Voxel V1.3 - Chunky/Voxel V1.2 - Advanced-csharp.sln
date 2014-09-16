@@ -1,7 +1,7 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{4FF8D245-8D2F-7FF7-8B59-F083BA81E22D}") = "Voxel V1.2 - Advanced", "Assembly-CSharp.csproj", "{C55BDA98-C0FA-E51E-5BD9-58CA96D8A963}"
+Project("{4FF8D245-8D2F-7FF7-8B59-F083BA81E22D}") = "Voxel V1.2 - Advanced", "Assembly-CSharp-vs.csproj", "{C55BDA98-C0FA-E51E-5BD9-58CA96D8A963}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,7 +17,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																															GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																									GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

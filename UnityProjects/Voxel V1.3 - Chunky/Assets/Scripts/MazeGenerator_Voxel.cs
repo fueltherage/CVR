@@ -4,7 +4,7 @@ using System.Collections;
 public class MazeGenerator_Voxel : MonoBehaviour {
 
 	public GameObject SystemObject;
-	VoxelChunk VoxelMesh;
+	VoxelChunkSingle VoxelMesh;
 
 	bool[,,]mazeBlocks;
 	bool generated = false;
@@ -31,7 +31,7 @@ public class MazeGenerator_Voxel : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Space) && !generated)
 		{
-			VoxelMesh = SystemObject.GetComponent<VoxelChunk>();
+			VoxelMesh = SystemObject.GetComponent<VoxelChunkSingle>();
 			mazeBlocks = new bool[VoxelMesh.XSize,VoxelMesh.YSize,VoxelMesh.ZSize];
 			for(int x = 0; x < VoxelMesh.XSize; x++)
 			{

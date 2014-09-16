@@ -11,7 +11,7 @@ public class VoxelShell {
 	{
 
 	}
-	public virtual int GenerateMesh(int _faceCount)
+	public int GenerateMesh(int _faceCount)
 	{	
 		return voxel.meshData.GenerateMesh(_faceCount, vp);
 	}
