@@ -1,0 +1,20 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\NoiseMapGenerator.cs">
+    <Files>
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\Voxels\VoxSystemChunkManager.cs" Line="31" Column="17" />
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\NoiseMapGenerator.cs" Line="70" Column="1" />
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\Voxels\VoxelSystem.cs" Line="108" Column="43" />
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\Voxels\VoxelChunk.cs" Line="104" Column="5" />
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\Voxels\VoxelFactory.cs" Line="15" Column="15" />
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\Voxels\VoxelSystemChunk.cs" Line="40" Column="40" />
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\Datatypes\VoxelShell.cs" Line="14" Column="1" />
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\Voxels\VoxelChunkEmpty.cs" Line="17" Column="58" />
+      <File FileName="..\Voxel V1.3 - Chunky Refinements\Assets\Scripts\Datatypes\Neighbours.cs" Line="27" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
