@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\FractalSystemControls.cs">
+    <Files>
+      <File FileName="Assets\FractalSystemControls.cs" Line="9" Column="13" />
+      <File FileName="Assets\VoxMaterialAnimator.cs" Line="37" Column="44" />
+      <File FileName="Assets\Scripts\GreedyMeshDemo\VoxelSystemGreedy.cs" Line="15" Column="33" />
+      <File FileName="Assets\Scripts\GreedyMeshDemo\VoxelSystemChunkGreedy.cs" Line="17" Column="14" />
+      <File FileName="Assets\Scripts\MinecraftDemo\Voxels\VoxelChunk.cs" Line="91" Column="56" />
+      <File FileName="Assets\Scripts\MinecraftDemo\GUI Stuff\GUI_EditorInfo.cs" Line="19" Column="79" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
