@@ -6,10 +6,10 @@ public class FractalSystemControls : MonoBehaviour {
 	// Use this for initialization
 	VoxelSystemGreedy vc;
 	float step = 0.2f;
-	float n = 1f;
+	float n = 3f;
 	float shiftStep = 0.5f;
 	float shift = 1.0f;
-	float scale = 0.45f;
+	float scale = 0.75f;
 	float colorManip = 1.75f;
 	Vector3 zoomLocation;
 	Ray mouseRay;
