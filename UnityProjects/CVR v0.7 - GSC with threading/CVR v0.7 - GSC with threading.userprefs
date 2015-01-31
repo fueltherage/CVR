@@ -1,26 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MinecraftDemo\Voxels\VoxelChunk.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\..\Unity Projects\Voxel Versions\Jam Voxels\Assets\Scripts\MicControlC.cs">
     <Files>
-      <File FileName="Assets\Scripts\VoxelThreads.cs" Line="373" Column="1" />
-      <File FileName="Assets\Scripts\GreedyMeshDemo\VoxelSystemGreedy.cs" Line="1" Column="1" />
-      <File FileName="Assets\PerlinScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\VoxelSystemUpdateManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GreedyMeshDemo\VoxelSystemChunkGreedy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MinecraftDemo\Datatypes\Neighbours.cs" Line="1" Column="1" />
-      <File FileName="Assets\FillWholeSystem.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MinecraftDemo\NoiseMapGenerator.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MovementDemo\basicMovement.cs" Line="26" Column="30" />
-      <File FileName="Assets\Scripts\MinecraftDemo\Voxels\VoxelChunk.cs" Line="153" Column="1" />
+      <File FileName="..\..\..\..\Unity Projects\Voxel Versions\Jam Voxels\Assets\Scripts\MicControlC.cs" Line="130" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="C:\Users\FuelTR\Documents\Unity Projects\Voxel Versions\CVR v0.7 - GSC with threading\Assets\Scripts\MinecraftDemo\NoiseMapGenerator.cs" line="58" />
-      <Breakpoint file="C:\Users\FuelTR\Documents\Unity Projects\Voxel Versions\CVR v0.7 - GSC with threading\Assets\Scripts\MinecraftDemo\NoiseMapGenerator.cs" line="65" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
-    <Watch file="Assets\Scripts\MinecraftDemo\NoiseMapGenerator.cs" line="51" offsetX="513" offsetY="905" expression="vp" liveUpdate="False" />
-  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

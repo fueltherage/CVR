@@ -63,8 +63,33 @@ public class NoiseMapGenerator : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.G))
 		{
-
 			LoadImageData();
 		}
+		if(Input.GetKeyDown(KeyCode.RightArrow))
+		{
+			LoadImageData();
+			StartX += 5;
+		}
+		if(Input.GetKeyDown(KeyCode.LeftArrow))
+		{
+			LoadImageData();
+			StartX -= 5;
+		}
+		if(Input.GetKeyDown(KeyCode.UpArrow))
+		{
+			LoadImageData();
+			StartY += 5;
+		}
+		if(Input.GetKeyDown(KeyCode.DownArrow))
+		{
+			LoadImageData();
+			StartY -= 5;
+		}
+		if(Input.GetKeyDown(KeyCode.Space))
+		{
+			LoadImageData();
+
+		}
+
 	}
 }
