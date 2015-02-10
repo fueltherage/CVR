@@ -32,15 +32,15 @@ public class VoxelSystemUpdateManager : MonoBehaviour {
 			
 			if(difference.magnitude < P1Distance)
 			{
-				vt.QueueVoxMeshUpdate(ref _chunk,1);
+                VoxelThreads.Current.QueueVoxMeshUpdate(ref _chunk,1);
 			}
 			else if(difference.magnitude < P2Distance)
 			{
-				vt.QueueVoxMeshUpdate(ref _chunk, 2);
+                VoxelThreads.Current.QueueVoxMeshUpdate(ref _chunk, 2);
 			}
 			else
 			{
-				vt.QueueVoxMeshUpdate(ref _chunk, 3);
+                VoxelThreads.Current.QueueVoxMeshUpdate(ref _chunk, 3);
 			}	
 		}
 	}

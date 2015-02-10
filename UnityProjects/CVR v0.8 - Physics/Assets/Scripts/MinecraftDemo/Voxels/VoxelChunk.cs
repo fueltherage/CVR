@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class VoxelChunk: MonoBehaviour {
 	//Notes
 	/* 
-	 * 
+	 * Triangles need to be optimized into a 1D array 
 	*/
 	public int XSize = 10;
 	public int YSize = 10;

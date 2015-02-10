@@ -1,13 +1,9 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-Project("{D2BF56F7-6F0F-1E27-AFD7-ABB56746AFAD}") = "CVR v0.8 - Physics", "Assembly-CSharp-firstpass.csproj", "{C2D8F04D-9AC2-2E57-F954-80B99C8EC97A}"
-EndProject
 Project("{D2BF56F7-6F0F-1E27-AFD7-ABB56746AFAD}") = "CVR v0.8 - Physics", "Assembly-CSharp.csproj", "{033F21A1-47D7-C1F3-AE48-56607D6647C2}"
 EndProject
 Project("{D2BF56F7-6F0F-1E27-AFD7-ABB56746AFAD}") = "CVR v0.8 - Physics", "Assembly-CSharp-Editor.csproj", "{634FAF1F-F678-AE44-E66F-CC5C21BB2CA7}"
-EndProject
-Project("{D2BF56F7-6F0F-1E27-AFD7-ABB56746AFAD}") = "CVR v0.8 - Physics", "Assembly-UnityScript-firstpass.unityproj", "{5A14ADFC-E345-4EED-D3CD-7C294723AC4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C2D8F04D-9AC2-2E57-F954-80B99C8EC97A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2D8F04D-9AC2-2E57-F954-80B99C8EC97A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2D8F04D-9AC2-2E57-F954-80B99C8EC97A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2D8F04D-9AC2-2E57-F954-80B99C8EC97A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{033F21A1-47D7-C1F3-AE48-56607D6647C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{033F21A1-47D7-C1F3-AE48-56607D6647C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{033F21A1-47D7-C1F3-AE48-56607D6647C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,15 +19,11 @@ Global
 		{634FAF1F-F678-AE44-E66F-CC5C21BB2CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{634FAF1F-F678-AE44-E66F-CC5C21BB2CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{634FAF1F-F678-AE44-E66F-CC5C21BB2CA7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5A14ADFC-E345-4EED-D3CD-7C294723AC4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5A14ADFC-E345-4EED-D3CD-7C294723AC4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5A14ADFC-E345-4EED-D3CD-7C294723AC4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5A14ADFC-E345-4EED-D3CD-7C294723AC4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-			GlobalSection(MonoDevelopProperties) = preSolution
+																																																GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

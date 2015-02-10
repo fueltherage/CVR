@@ -9,17 +9,24 @@ public class NoiseMapGenerator : MonoBehaviour {
 	public bool FillImage = false;
 	public float Cuttoff = 0.1f;
 	public int numberOfLayers = 2;
+    public bool SinWave = false;
+    public float w = 0.1f;
 	VoxSystemChunkManager vcm;
 	VoxelSystemGreedy vs;
 	int layerStep;
+    Color[] textAlpha;
 	// Use this for initialization
 	void Start () {
+        vcm = gameObject.GetComponent<VoxSystemChunkManager>();
+        vs = gameObject.GetComponent<VoxelSystemGreedy>();
 	}
 
 	void LoadImageData()
 	{
-		vcm = gameObject.GetComponent<VoxSystemChunkManager>();
-		vs = gameObject.GetComponent<VoxelSystemGreedy>();
+		
+        int width = vs.XSize* vs.ChunkSizeX;
+        int height = vs.ZSize * vs.ChunkSizeZ;
+        textAlpha = noiseMap.GetPixels(StartX, StartY, width, height);
 		int maxHeight = vs.ChunkSizeY * vs.YSize;
 		//int CellWidth = noiseMap.width / vs.ChunkSizeX / vs.XSize;
 		//int CellHeight = noiseMap.height / vs.ChunkSizeZ / vs.ZSize;
@@ -27,30 +34,37 @@ public class NoiseMapGenerator : MonoBehaviour {
 		VoxelPos vp = new VoxelPos();
 		float alphaValue;
 		int type ;
-		for (int x = 0; x < vs.XSize; x++) 
+		for (int z = 0; z < vs.ZSize; z++) 
 		{
-			for(int y = 0; y < vs.ZSize; y++)
+			for(int x = 0; x < vs.ZSize; x++)
 			{
-				for(int xi = 0; xi < vs.ChunkSizeX; xi++)
+				for(int zc = 0; zc < vs.ChunkSizeZ; zc++)
 				{
-					for (int yi = 0; yi < vs.ChunkSizeZ; yi++)
+					for (int xc = 0; xc < vs.ChunkSizeX; xc++)
 					{
-						vp.x = x * vs.ChunkSizeX + xi;
+						vp.x = x * vs.ChunkSizeX + xc;
 						vp.y = 0;
-						vp.z = y * vs.ChunkSizeX + yi;
-						alphaValue = noiseMap.GetPixel(StartX + vp.x ,StartY + vp.z).a;
-						type =0; 
-						if(alphaValue > Cuttoff)
+						vp.z = z * vs.ChunkSizeZ + zc;
+						alphaValue = textAlpha[xc + zc * width + x * vs.ChunkSizeX + z * vs.ChunkSizeZ * width].a;
+						type = 0; 
+					    if(alphaValue > Cuttoff)
 						{
-							vp.y = Mathf.RoundToInt(maxHeight * alphaValue);
-							type = (vp.y / layerStep);				
+							vp.y = Mathf.RoundToInt(maxHeight * alphaValue - (Cuttoff * maxHeight));
+
+
+										
 							//Debug.Log(vp.ToString());
 							for (int h = vp.y; h >= 0; h--) {
+                                if(SinWave)
+                                {
+                                    type = Mathf.RoundToInt( (Mathf.Sin((w/2.0f*Mathf.PI)*(x*vs.ChunkSizeX+xc))+w)+
+                                                             (Mathf.Sin((w/2.0f*Mathf.PI)*(h))+w)+
+                                                             (Mathf.Sin((w/2.0f*Mathf.PI)*(z*vs.ChunkSizeZ+zc))+w));
+                                }
+                                else type = (vp.y / layerStep);  
 								vcm.AddVoxel(new VoxelPos(vp.x,h,vp.z),false,type);
-							}
-							vcm.AddVoxel(vp,false,type);
+							}							
 						}
-
 					}
 				}
 			}
@@ -63,8 +77,11 @@ public class NoiseMapGenerator : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.G))
 		{
-			Debug.Log("loading image");
-			LoadImageData();
+            if(vs.Initialized)
+            {               
+    			Debug.Log("loading image");
+    			LoadImageData();
+            }else Debug.Log("Can not load noise map, System not initialized");
 		}
 	}
 }

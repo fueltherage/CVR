@@ -7,6 +7,7 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
 	public ChunkNeighbours neighbours;
 	public VoxelPos chunkPos = new VoxelPos(0,0,0);
 	VoxelPos bookmark;
+    public bool CreateConvexCollider = false;
 	public VoxelSystemGreedy systemParent;
 
 	protected VoxelSystemChunkGreedy thisChunk;
@@ -29,15 +30,17 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
 	}
 	public override void Init()
 	{
-		ConvexCollider = new GameObject(gameObject.name + " CC");
-		CC = ConvexCollider.AddComponent<MeshCollider>();
-		ConvexCollider.transform.parent = gameObject.transform.parent;
-		ConvexCollider.layer = LayerMask.NameToLayer("Ignore Raycast");
-		CC.convex = true;
-		ConvexCollider.transform.localPosition = this.transform.localPosition;
-		ConvexCollider.transform.localRotation = this.transform.localRotation;
-		ConvexCollider.transform.localScale = this.transform.localScale;
-
+        if(CreateConvexCollider)
+        {
+    		ConvexCollider = new GameObject(gameObject.name + " CC");
+    		CC = ConvexCollider.AddComponent<MeshCollider>();
+    		ConvexCollider.transform.parent = gameObject.transform.parent;
+    		ConvexCollider.layer = LayerMask.NameToLayer("Ignore Raycast");
+    		CC.convex = true;
+    		ConvexCollider.transform.localPosition = this.transform.localPosition;
+    		ConvexCollider.transform.localRotation = this.transform.localRotation;
+    		ConvexCollider.transform.localScale = this.transform.localScale;
+        }
 		meshCollider = GetComponent<MeshCollider>();
 		meshFilter = GetComponent<MeshFilter>();
 
@@ -1108,6 +1111,11 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
 			}
 		}
 	}
+    public void HardMeshUpdate()
+    {
+        GenerateQuad();
+        GenerateMesh();
+    }
 	
 	protected override void GenerateMesh()
 	{
@@ -1180,33 +1188,20 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
            	meshFilter.mesh = vmesh;
     	
             //Nullify the mesh so it initiates a reset... :(
-    		Profiler.BeginSample("Collisder Assignemnt");  
-                       
-            try
-            {
-                meshCollider.sharedMesh = null; 	
-            	meshCollider.sharedMesh = vmesh;
-            }
-            catch(UnityException e)
-            {
+    		Profiler.BeginSample("Collisder Assignemnt");                        
 
-            }
-            try
+
+            //Inertia tensors blow a gasket and start leeking errors
+
+            meshCollider.sharedMesh = null; 	
+        	meshCollider.sharedMesh = vmesh; 
+
+            if(CreateConvexCollider)
             {   
                 CC.sharedMesh = null;
-                CC.sharedMesh = vmesh;  
+                CC.sharedMesh = vmesh;       
             }
-            catch(UnityException e)
-            {
-
-            }        
-        	
-            if(thisChunk.systemParent.rigidbody != null)
-            thisChunk.systemParent.rigidbody.inertiaTensor = new Vector3(10,10,10);
-
-    		
-    		
-
+            systemParent.calc.CalcIntertia();
 
     		MeshBaking = false;
     		MeshBaked = true;
@@ -1227,8 +1222,7 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
 					Debug.Log("wtf");
 				}
 				if(_submesh == _trIndex[i])
-				{
-					string s = this.gameObject.name;
+				{					
 					rawTri[i*3]     = (_triangles[i].verts[0]);
 					rawTri[(i*3)+1] = (_triangles[i].verts[1]);
 					rawTri[(i*3)+2] = (_triangles[i].verts[2]);
@@ -1237,8 +1231,8 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
      
 		}
         catch(System.ArgumentOutOfRangeException e)
-		{
-			//Debug.Log("Another thread error");
+		{			
+            Debug.Log("Another thread error");
 		}
 
 	}

@@ -21,28 +21,30 @@ public class Editor_MouseControl_SingleChunk : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetMouseButtonDown(1))previousMousePos = Input.mousePosition;
-		if (Input.GetMouseButton (1)) 
-		{
-			Vector3 difference = previousMousePos - Input.mousePosition;
+        if(!GameState.gamePaused)
+        {
+    		if(Input.GetMouseButtonDown(1))previousMousePos = Input.mousePosition;
+    		if (Input.GetMouseButton (1)) 
+    		{
+    			Vector3 difference = previousMousePos - Input.mousePosition;
 
-			HorizontalRotation += -difference.x * MouseRotationSensitivity;
-			VerticalRotation += difference.y * MouseRotationSensitivity;
-			VerticalRotation = Mathf.Clamp(VerticalRotation, -VerticalRotationMax, VerticalRotationMax);
+    			HorizontalRotation += -difference.x * MouseRotationSensitivity;
+    			VerticalRotation += difference.y * MouseRotationSensitivity;
+    			VerticalRotation = Mathf.Clamp(VerticalRotation, -VerticalRotationMax, VerticalRotationMax);
 
-			//Debug.Log("Camera Rotation: Horizontal: "+HorizontalRotation+" Vertical: "+VerticalRotation);
+    			//Debug.Log("Camera Rotation: Horizontal: "+HorizontalRotation+" Vertical: "+VerticalRotation);
 
-			transform.rotation = Quaternion.Euler(new Vector3(VerticalRotation, 
-                                                              transform.rotation.eulerAngles.y,
-                                                              transform.rotation.eulerAngles.z));
+    			transform.rotation = Quaternion.Euler(new Vector3(VerticalRotation, 
+                                                                  transform.rotation.eulerAngles.y,
+                                                                  transform.rotation.eulerAngles.z));
 
-            transform.parent.rotation = Quaternion.Euler(new Vector3(transform.parent.rotation.eulerAngles.x,
-			                                                         HorizontalRotation,
-			                                                         transform.parent.rotation.eulerAngles.z));        
-		
+                transform.parent.rotation = Quaternion.Euler(new Vector3(transform.parent.rotation.eulerAngles.x,
+    			                                                         HorizontalRotation,
+    			                                                         transform.parent.rotation.eulerAngles.z));        
+    		
 
-			previousMousePos = Input.mousePosition;
-		}
-
+    			previousMousePos = Input.mousePosition;
+    		}
+        }
 	}
 }

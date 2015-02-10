@@ -18,19 +18,20 @@ public class RigidBodyController : MonoBehaviour {
 		}
 		if(Input.GetKey (KeyCode.A))
 		{
-			this.rigidbody.AddForce(-this.transform.right * ForceSpeed);
+
+            this.rigidbody.AddForce(new Vector3(-1,0,0) * ForceSpeed);
 		}
 		if(Input.GetKey (KeyCode.D))
 		{
-			this.rigidbody.AddForce(this.transform.right * ForceSpeed);
+            this.rigidbody.AddForce(new Vector3(1,0,0)  * ForceSpeed);
 		}
 		if(Input.GetKey (KeyCode.W))
 		{
-			this.rigidbody.AddForce(this.transform.forward * ForceSpeed);
+            this.rigidbody.AddForce(new Vector3(0,0,1) * ForceSpeed);
 		}
 		if(Input.GetKey (KeyCode.S))
 		{
-			this.rigidbody.AddForce(-this.transform.forward * ForceSpeed);
+            this.rigidbody.AddForce(new Vector3(0,0,-1)  * ForceSpeed);
 		}	
 	}
 }

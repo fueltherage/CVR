@@ -15,18 +15,18 @@ public class GUI_VoxelSelection : MonoBehaviour {
 
     //CameraControls cc;
 
-//	void OnGUI()
-//	{
-//        for (int i = 1; i < numberOfBoxes; i++ )
-//        {
-//            if (currentSelectedBox == i)
-//            { GUI.color = Color.yellow; }
-//            else GUI.color = Color.black;
-//
-//		    GUI.Box (new Rect (Screen.width*i/numberOfBoxes, Screen.height - Screen.height/10, boxWidth, boxHeight), i.ToString());
-//        }
-//       
-//	}
+	void OnGUI()
+	{
+        for (int i = 1; i < numberOfBoxes; i++ )
+        {
+            if (currentSelectedBox == i)
+            { GUI.color = Color.yellow; }
+            else GUI.color = Color.black;
+
+		    GUI.Box (new Rect (Screen.width*i/numberOfBoxes, Screen.height - Screen.height/10, boxWidth, boxHeight), i.ToString());
+        }
+       
+	}
 	void Start () {
         //cc = CameraOrigin.GetComponent<CameraControls>();
 	}

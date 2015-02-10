@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using System.Threading;
 using System.Linq;
-
+[ExecuteInEditMode]
 public class VoxelThreads : MonoBehaviour {
 
     static bool _quitting;
@@ -15,8 +15,13 @@ public class VoxelThreads : MonoBehaviour {
     private static Queue<QeueuItem> p1Chunks = new Queue<QeueuItem>();
     private static Queue<QeueuItem> p2Chunks = new Queue<QeueuItem>();
     private static Queue<QeueuItem> p3Chunks = new Queue<QeueuItem>();
-    public static int MaxVoxelMeshUpdateThreads = 4;
+    public static int MaxVoxelMeshUpdateThreads = 6;
+
     public int ActiveThreads =0;
+
+    public static bool _initialized;
+    static int _threadId; 
+
 
 	//Loom Code
 	#region LoomCode
@@ -33,8 +38,7 @@ public class VoxelThreads : MonoBehaviour {
 			return _current;
 		}
 	}
-	public static bool _initialized;
-	static int _threadId;	
+
 	public static void Initialize()
 	{
 		if (!Application.isPlaying || _quitting)
@@ -46,16 +50,13 @@ public class VoxelThreads : MonoBehaviour {
 		
 		if (go)
 		{
-
 			foreach (var voxelThreads in Resources.FindObjectsOfTypeAll(typeof(VoxelThreads)).Cast<VoxelThreads>())
 				DestroyImmediate(voxelThreads.gameObject);
 			GameObject g = new GameObject("VoxelThreads GO");
 
-
 			_current = g.AddComponent<VoxelThreads>();
 			_initialized = true;
-			_threadId = Thread.CurrentThread.ManagedThreadId;
-			
+			_threadId = Thread.CurrentThread.ManagedThreadId;			
 		}
 		chunksGenerating.Capacity=MaxVoxelMeshUpdateThreads;
 		
@@ -154,11 +155,8 @@ public class VoxelThreads : MonoBehaviour {
 	private static void RunAction(object action)
 	{
 		((Action)action)();
-	}
-	
+	}	
 	readonly Action[] _toRun = new Action[4000];	
-
-
 
 	struct QueuedChunk{
 		public bool Active;
@@ -166,11 +164,9 @@ public class VoxelThreads : MonoBehaviour {
 		public VoxelSystemChunkGreedy chunk;
 	}
 	QueuedChunk[] qChunks = new QueuedChunk[MaxVoxelMeshUpdateThreads];
-
+  
 	void Update()
 	{
-
-
 		Profiler.BeginSample("GenerateThisMesh");
 		for (int i = 0; i < chunksGenerating.Count; i++) {
 			if(!chunksGenerating[i].Chunk.Generating && !chunksGenerating[i].Chunk.MeshBaking)

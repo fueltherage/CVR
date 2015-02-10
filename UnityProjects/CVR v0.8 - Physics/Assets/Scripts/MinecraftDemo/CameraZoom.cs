@@ -13,6 +13,7 @@ public class CameraZoom : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        if(!GameState.gamePaused)
 		transform.Translate(new Vector3(0,0,ZoomSensitivity*Input.GetAxis ("Mouse ScrollWheel")),Space.Self	);
 	
 	}
