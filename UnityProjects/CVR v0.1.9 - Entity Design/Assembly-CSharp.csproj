@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+	<ProductVersion>10.0.20506</ProductVersion>
+	<SchemaVersion>2.0</SchemaVersion>
+	<ProjectGuid>{8FBA6F1A-508C-5B98-AA3F-87EA038ECB59}</ProjectGuid>
+	<OutputType>Library</OutputType>
+	<AppDesignerFolder>Properties</AppDesignerFolder>
+	<RootNamespace></RootNamespace>
+	<AssemblyName>Assembly-CSharp</AssemblyName>
+	<TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+	<FileAlignment>512</FileAlignment>
+	<BaseDirectory>Assets</BaseDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+	<DebugSymbols>true</DebugSymbols>
+	<DebugType>full</DebugType>
+	<Optimize>false</Optimize>
+	<OutputPath>Temp\bin\Debug\</OutputPath>
+	<DefineConstants>DEBUG;TRACE;UNITY_4_6_1;UNITY_4_6;UNITY_STANDALONE_WIN;ENABLE_MICROPHONE;ENABLE_TEXTUREID_MAP;ENABLE_UNITYEVENTS;ENABLE_NEW_HIERARCHY ;ENABLE_AUDIO_FMOD;UNITY_STANDALONE;ENABLE_MONO;ENABLE_TERRAIN;ENABLE_SUBSTANCE;ENABLE_GENERICS;INCLUDE_WP8SUPPORT;ENABLE_MOVIES;ENABLE_WWW;ENABLE_IMAGEEFFECTS;ENABLE_4_6_FEATURES;INCLUDE_WP_BLUE_SUPPORT;ENABLE_WEBCAM;INCLUDE_METROSUPPORT;RENDER_SOFTWARE_CURSOR;ENABLE_NETWORK;ENABLE_PHYSICS;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_2D_PHYSICS;ENABLE_SHADOWS;ENABLE_AUDIO;ENABLE_NAVMESH_CARVING;ENABLE_DUCK_TYPING;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_WIN</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+	<DebugType>pdbonly</DebugType>
+	<Optimize>true</Optimize>
+	<OutputPath>Temp\bin\Release\</OutputPath>
+	<DefineConstants>TRACE</DefineConstants>
+	<ErrorReport>prompt</ErrorReport>
+	<WarningLevel>4</WarningLevel>
+	<NoWarn>0169</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+	<Reference Include="System" />
+    <Reference Include="System.XML" />
+	<Reference Include="System.Core" />
+	<Reference Include="System.Xml.Linq" />
+	<Reference Include="UnityEngine">
+	  <HintPath>C:/Program Files (x86)/Unity4.5.4/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	</Reference>
+	<Reference Include="UnityEditor">
+	  <HintPath>C:/Program Files (x86)/Unity4.5.4/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	</Reference>
+  </ItemGroup>
+  <ItemGroup>
+     <Compile Include="Assets\SaveLoadVoxels.cs" />
+     <Compile Include="Assets\Scripts\CameraFollowMouse.cs" />
+     <Compile Include="Assets\Scripts\CameraState.cs" />
+     <Compile Include="Assets\Scripts\ClearAlphaSystem.cs" />
+     <Compile Include="Assets\Scripts\ConvexColliderUtils.cs" />
+     <Compile Include="Assets\Scripts\DebugLogCatcher.cs" />
+     <Compile Include="Assets\Scripts\DisableOnStart.cs" />
+     <Compile Include="Assets\Scripts\FillCenter.cs" />
+     <Compile Include="Assets\Scripts\FillWholeSystem.cs" />
+     <Compile Include="Assets\Scripts\FollowMousePos.cs" />
+     <Compile Include="Assets\Scripts\FollowObject.cs" />
+     <Compile Include="Assets\Scripts\FractalSystemControls.cs" />
+     <Compile Include="Assets\Scripts\GameState.cs" />
+     <Compile Include="Assets\Scripts\GreedyMeshDemo\FractalControls.cs" />
+     <Compile Include="Assets\Scripts\GreedyMeshDemo\Quad.cs" />
+     <Compile Include="Assets\Scripts\GreedyMeshDemo\VoxMaterialFactoryGreedy.cs" />
+     <Compile Include="Assets\Scripts\GreedyMeshDemo\VoxSystemChunkManagerGreedy.cs" />
+     <Compile Include="Assets\Scripts\GreedyMeshDemo\VoxelChunkGreedy.cs" />
+     <Compile Include="Assets\Scripts\GreedyMeshDemo\VoxelSystemChunkGreedy.cs" />
+     <Compile Include="Assets\Scripts\GreedyMeshDemo\VoxelSystemGreedy.cs" />
+     <Compile Include="Assets\Scripts\InertiaCalculator.cs" />
+     <Compile Include="Assets\Scripts\JamQuad.cs" />
+     <Compile Include="Assets\Scripts\KillClock.cs" />
+     <Compile Include="Assets\Scripts\KillOnImpact.cs" />
+     <Compile Include="Assets\Scripts\Loom.cs" />
+     <Compile Include="Assets\Scripts\MainMenu\Wobble.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\CameraControls.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\CameraZoom.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Datatypes\ChunkNeighbours.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Datatypes\Neighbours.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Datatypes\Triangle.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Datatypes\VoxelPos.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Datatypes\VoxelShell.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Editor_MouseControl_SingleChunk.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\GUI Stuff\GUI_EditorInfo.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\GUI Stuff\GUI_VoxelSelection.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Mesh Generation\CubeMesh_Vox.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Mesh Generation\MeshData_Vox.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\MouseSelectionTool_Cull.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\MouseSelectionTool_Greedy.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\NoiseMapGenerator.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\TurretVoxel.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxChunkManager.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxMaterialFactory.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxSystemChunkManager.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\Voxel.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelChunk.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelChunkEmpty.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelEvents.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelFactory.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelSystem.cs" />
+     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelSystemChunk.cs" />
+     <Compile Include="Assets\Scripts\MovementDemo\FaceForward.cs" />
+     <Compile Include="Assets\Scripts\MovementDemo\RigidBodyController.cs" />
+     <Compile Include="Assets\Scripts\MovementDemo\basicMovement.cs" />
+     <Compile Include="Assets\Scripts\MovingTextures.cs" />
+     <Compile Include="Assets\Scripts\PauseToggle.cs" />
+     <Compile Include="Assets\Scripts\PerlinScript.cs" />
+     <Compile Include="Assets\Scripts\RandomFill.cs" />
+     <Compile Include="Assets\Scripts\ShootBall.cs" />
+     <Compile Include="Assets\Scripts\SinWaveGen.cs" />
+     <Compile Include="Assets\Scripts\SphereWithLayers.cs" />
+     <Compile Include="Assets\Scripts\VSG_ConvexCollider_Manager.cs" />
+     <Compile Include="Assets\Scripts\VoxMaterialAnimator.cs" />
+     <Compile Include="Assets\Scripts\VoxMaterialFactoryGenerator.cs" />
+     <Compile Include="Assets\Scripts\VoxelSystemUpdateManager.cs" />
+     <Compile Include="Assets\Scripts\VoxelThreads.cs" />
+     <Compile Include="Assets\ShootBallForward.cs" />
+     <Compile Include="Assets\TextureOffsetZoom.cs" />
+     <Compile Include="Assets\VoxRamp.cs" />
+     <Compile Include="Assets\XMLSystem.cs" />
+ <Reference Include="UnityEngine.UI">
+ <HintPath>C:/Program Files (x86)/Unity4.5.4/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="ICSharpCode.SharpZipLib">
+ <HintPath>C:/Users/FuelTR/Documents/Unity Projects/Voxel Versions/CVR v0.1.9 - Entity Design/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{3595C95D-5A14-0743-87D9-06A4C417C6ED}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+	   Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  
+</Project>
