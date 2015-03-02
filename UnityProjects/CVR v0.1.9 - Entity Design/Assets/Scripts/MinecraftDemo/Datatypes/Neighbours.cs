@@ -42,8 +42,8 @@ public class Neighbours {
 	{	
 		if(xpos.filled )//Is it filled?
 		if(xpos.parentChunk != xpos.neighbours.xneg.parentChunk )//Is it the same chunk?
-		if(xpos.parentChunk!= null )//Is it the emptyChunk? The only chunk with null parent
-		if(!xpos.parentChunk.queuedForUpdate)
+		if(xpos.parentChunk != null)//Is it the emptyChunk? The only chunk with a null parent
+		if(!xpos.parentChunk.queuedForUpdate)//Only queue chunks that arnt already queued
 		xpos.parentChunk.systemParent.VSUM.QueueChunkForUpdate(ref xpos.parentChunk);
 
 
@@ -80,7 +80,6 @@ public class Neighbours {
 		if(zneg.parentChunk != null )		
 		if(!zneg.parentChunk.queuedForUpdate)
 		zneg.parentChunk.systemParent.VSUM.QueueChunkForUpdate(ref zneg.parentChunk);
-
 
 	}
 

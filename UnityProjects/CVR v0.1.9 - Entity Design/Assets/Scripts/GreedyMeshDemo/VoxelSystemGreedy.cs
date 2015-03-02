@@ -47,18 +47,18 @@ public class VoxelSystemGreedy : MonoBehaviour {
         
         chunks = new GameObject[XSize, YSize, ZSize];
         
-        offset.x = (- XSize*ChunkSizeX*VoxelSpacing/2.0f)+ ChunkSizeX /2.0f;
-        offset.y = (- YSize*ChunkSizeY*VoxelSpacing/2.0f)+ ChunkSizeY /2.0f;
-        offset.z = (- ZSize*ChunkSizeZ*VoxelSpacing/2.0f)+ ChunkSizeZ /2.0f;
+		offset.x = -(XSize*ChunkSizeX*VoxelSpacing/2.0f);//+ ChunkSizeX /2.0f;
+		offset.y = -(YSize*ChunkSizeY*VoxelSpacing/2.0f);//+ ChunkSizeY /2.0f;
+		offset.z = -(ZSize*ChunkSizeZ*VoxelSpacing/2.0f);//+ ChunkSizeZ /2.0f;
         
         for (int x =0; x < XSize; x++){
             for (int y =0; y < YSize; y++){
                 for (int z =0; z < ZSize; z++){
                     chunks[x,y,z] = Instantiate(VoxelChunkGO, this.transform.position, Quaternion.identity) as GameObject;
                     chunks[x,y,z].transform.parent = this.transform;
-                    chunks[x,y,z].transform.Translate(new Vector3(offset.x + x  * ChunkSizeX * VoxelSpacing, //+ ChunkSizeX /2.0f,
-                                                                  offset.y + y  * ChunkSizeY * VoxelSpacing, //+ ChunkSizeY /2.0f,
-                                                                  offset.z + z  * ChunkSizeZ * VoxelSpacing)); //+ ChunkSizeZ /2.0f));
+					chunks[x,y,z].transform.Translate(new Vector3(offset.x / 2.0f + x * ChunkSizeX * VoxelSpacing, // ,
+					                                              offset.y / 2.0f + y * ChunkSizeY * VoxelSpacing, // ChunkSizeY /2.0f,
+					                                              offset.z / 2.0f + z * ChunkSizeZ * VoxelSpacing));//ChunkSizeZ /2.0f));
                     
                     chunks[x,y,z].name = "Chunk "+x+" "+y+ " "+z;
                 }

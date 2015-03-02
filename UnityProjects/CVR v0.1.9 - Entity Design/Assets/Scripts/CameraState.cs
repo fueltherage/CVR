@@ -8,7 +8,7 @@ public class CameraState : MonoBehaviour {
 	public CameraView StartingState;
 	public GameObject EditorViewGO;
 	public GameObject GamePlayViewGO;
-
+	public static Camera CurrentCamera;
 	public KeyCode EditorKey;
 	public KeyCode GameplayKey;
 	int viewSwapCount=0;
@@ -54,11 +54,13 @@ public class CameraState : MonoBehaviour {
 			switch (current) {
 				case CameraView.EditorView:
 				EditorViewGO.SetActive(true);
+				CurrentCamera = EditorViewGO.GetComponentInChildren<Camera>();
 				GamePlayViewGO.SetActive(false);				                    
 				break;
 
 				case CameraView.GamePlayView:
 				EditorViewGO.SetActive(false);
+				CurrentCamera = GamePlayViewGO.GetComponentInChildren<Camera>();
 				GamePlayViewGO.SetActive(true);	
 				break;
 

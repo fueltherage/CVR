@@ -14,6 +14,7 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
 
 	public bool MeshBaked=false;
 	public bool MeshBaking = false;
+	public Vector3 UVRatio;
 
 	GameObject ConvexCollider;
 	MeshCollider CC;
@@ -59,7 +60,8 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
 		vmesh = new Mesh();
 		Quads = new List<JamQuad>();
 
-
+		float max = Mathf.Max (Mathf.Max(systemParent.XSize * XSize, systemParent.YSize * YSize), systemParent.ZSize * ZSize);
+		UVRatio = new Vector3(max / (systemParent.XSize * XSize), max /(systemParent.YSize * YSize), max / (systemParent.ZSize * ZSize));
 		//needsUpdating = true;
 		Initialized = true;
 	}
@@ -106,6 +108,14 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
 
 
     		//Greedy JamQuad Mesh Generation
+			/*Greedy meshing  works by checking ajacent voxels to for similar states and uses this info to generate a quad for the combined
+			 * 1. If the side is empty
+			 * 2. If the voxel is the same type
+			 * If both of these conditions are met the quad grows in width 
+			 * Repeat until conditions is false
+			 * then check voxel above the starting point
+			 */
+		
     		#region xnegLoop
     		{
     			ResetBookmark();
@@ -128,9 +138,11 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
     								QuadDone = false;
     								type = blocks[xtemp, ytemp, ztemp].voxel.VoxelType;
     								
-    								do{
-    									//First Row 
-    									do{
+    								do
+                                    {
+
+                                        do
+                                        {//First Row 
     										//Check the adjacent voxel
     										if(ztemp+1 == ZSize)break;
     										if (blocks[xtemp, ytemp, ztemp + 1].filled && !blocks[xtemp, ytemp, ztemp].neighbours.xneg.neighbours.zpos.filled)
@@ -231,7 +243,8 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
     								                   new VoxelPos(-1, 0, 0),
     								                   ref faceCount, 
     								                   new VoxelPos(x,y,z),
-    								                   ref thisChunk));
+    								                   ref thisChunk,
+									          		   UVRatio));
     								TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     								TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     								//Debug.Log(bookmark.ToString());
@@ -401,8 +414,10 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
     							                   new VoxelPos(1, 0, 0),
     							                   ref faceCount, 
     							                   new VoxelPos(x,y,z),
-    							                   ref thisChunk));
-    							
+								                   ref thisChunk,
+							          			   UVRatio));
+								
+								
     							TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     							TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     							//Debug.Log(bookmark.ToString());
@@ -560,17 +575,18 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
     							}
     							
     							Quads.Add(new JamQuad(SubmeshIndexChecker(type),
-    							                   width,
-    							                   height,
-    							                   new Vector3(offset.x + x * VoxelSpacing,
-							            			offset.y + y * VoxelSpacing + VoxelSpacing,
-		    							            offset.z + z * VoxelSpacing),
-    							                   VoxelSpacing,
-    							                   new VoxelPos(0, 1, 0),
-    							                   ref faceCount, 
-    							                   new VoxelPos(x,y,z),
-    							                   ref thisChunk));
-    							
+								                   width,
+								                   height,
+								                   new Vector3(offset.x + x * VoxelSpacing,
+								            			offset.y + y * VoxelSpacing + VoxelSpacing,
+			    							            offset.z + z * VoxelSpacing),
+								                   VoxelSpacing,
+								                   new VoxelPos(0, 1, 0),
+								                   ref faceCount, 
+								                   new VoxelPos(x,y,z),
+									               ref thisChunk,
+								          		   UVRatio));
+								
     							TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     							TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     							//Debug.Log(bookmark.ToString());
@@ -737,7 +753,8 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
     								                   new VoxelPos(0, -1, 0),
     								                   ref faceCount, 
     								                   new VoxelPos(x,y,z),
-    								                   ref thisChunk));
+									                      ref thisChunk,
+									                      UVRatio));
     								
     								TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     								TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
@@ -906,7 +923,8 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
     								                   new VoxelPos(0, 0, -1),
     								                   ref faceCount, 
     								                   new VoxelPos(x,y,z),
-    								                   ref thisChunk));
+									                      ref thisChunk,
+									                      UVRatio));
     								
     								TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     								TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
@@ -1074,7 +1092,8 @@ public class VoxelSystemChunkGreedy : VoxelChunkGreedy {
     								                   new VoxelPos(0, 0, 1),
     								                   ref faceCount, 
     								                   new VoxelPos(x,y,z),
-    								                   ref thisChunk));
+									                      ref thisChunk,
+									                      UVRatio));
     								
     								TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);
     								TrIndex.Add(Quads[Quads.Count - 1].submeshIndex);

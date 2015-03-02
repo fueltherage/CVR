@@ -23,7 +23,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
     {
         Vector3 difference = Pos - vSystem.transform.position;
         difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= vSystem.offset;            
+		difference -= vSystem.offset/2.0f;            
         difference -= vSystem.chunks_vcs[0,0,0].offset;
 		difference /= vSystem.VoxelSpacing;   
         vSystem.AddVoxel(new VoxelPos(difference), update);
@@ -33,7 +33,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
        //Remove the voxel that Pos is in.
         Vector3 difference = Pos - vSystem.transform.position;
 		difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-		difference -= vSystem.offset;
+		difference -= vSystem.offset/2.0f;
 		difference -= vSystem.chunks_vcs[0,0,0].offset;
 		difference /= vSystem.VoxelSpacing;    
 
@@ -154,7 +154,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
         Vector3 difference = Pos.point - vSystem.transform.position;
 		difference += Pos.normal * vSystem.VoxelSpacing / 2.0f;
 		difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= vSystem.offset;///2.0f;              
+        difference -= vSystem.offset / 2.0f;              
 		difference -= vSystem.chunks_vcs[0,0,0].offset;
 		difference /= vSystem.VoxelSpacing;  
 		vSystem.AddVoxel(new VoxelPos(difference), update);
@@ -164,7 +164,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
         Vector3 difference = Pos.point - vSystem.transform.position;
         difference -= Pos.normal * vSystem.VoxelSpacing / 2.0f;   
 		difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= vSystem.offset;// / 2.0f;         
+        difference -= vSystem.offset / 2.0f;         
 		difference -= vSystem.chunks_vcs[0,0,0].offset;
 		difference /= vSystem.VoxelSpacing;      
 	

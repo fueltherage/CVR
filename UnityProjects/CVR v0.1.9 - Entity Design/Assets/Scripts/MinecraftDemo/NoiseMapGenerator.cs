@@ -11,10 +11,12 @@ public class NoiseMapGenerator : MonoBehaviour {
 	public int numberOfLayers = 2;
     public bool SinWave = false;
     public float w = 0.1f;
+	public int maxHeight = 16;
 	VoxSystemChunkManager vcm;
 	VoxelSystemGreedy vs;
 	int layerStep;
     Color[] textAlpha;
+	public int type;
 	// Use this for initialization
 	void Start () {
         vcm = gameObject.GetComponent<VoxSystemChunkManager>();
@@ -27,13 +29,14 @@ public class NoiseMapGenerator : MonoBehaviour {
         int width = vs.XSize* vs.ChunkSizeX;
         int height = vs.ZSize * vs.ChunkSizeZ;
         textAlpha = noiseMap.GetPixels(StartX, StartY, width, height);
-		int maxHeight = vs.ChunkSizeY * vs.YSize;
+
 		//int CellWidth = noiseMap.width / vs.ChunkSizeX / vs.XSize;
 		//int CellHeight = noiseMap.height / vs.ChunkSizeZ / vs.ZSize;
-		layerStep = maxHeight/numberOfLayers;
+		//layerStep = maxHeight/numberOfLayers;
+		layerStep=1;
 		VoxelPos vp = new VoxelPos();
 		float alphaValue;
-		int type ;
+
 		for (int z = 0; z < vs.ZSize; z++) 
 		{
 			for(int x = 0; x < vs.ZSize; x++)
@@ -46,7 +49,7 @@ public class NoiseMapGenerator : MonoBehaviour {
 						vp.y = 0;
 						vp.z = z * vs.ChunkSizeZ + zc;
 						alphaValue = textAlpha[xc + zc * width + x * vs.ChunkSizeX + z * vs.ChunkSizeZ * width].a;
-						type = 0; 
+
 					    if(alphaValue > Cuttoff)
 						{
 							vp.y = Mathf.RoundToInt(maxHeight * alphaValue - (Cuttoff * maxHeight));
@@ -61,7 +64,6 @@ public class NoiseMapGenerator : MonoBehaviour {
                                                              (Mathf.Sin((w/2.0f*Mathf.PI)*(h))+w)+
                                                              (Mathf.Sin((w/2.0f*Mathf.PI)*(z*vs.ChunkSizeZ+zc))+w));
                                 }
-                                else type = (vp.y / layerStep);  
 								vcm.AddVoxel(new VoxelPos(vp.x,h,vp.z),false,type);
 							}							
 						}
