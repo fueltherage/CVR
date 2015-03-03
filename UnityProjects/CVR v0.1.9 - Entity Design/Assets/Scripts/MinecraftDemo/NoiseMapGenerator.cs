@@ -60,11 +60,15 @@ public class NoiseMapGenerator : MonoBehaviour {
 							for (int h = vp.y; h >= 0; h--) {
                                 if(SinWave)
                                 {
-                                    type = Mathf.RoundToInt( (Mathf.Sin((w/2.0f*Mathf.PI)*(x*vs.ChunkSizeX+xc))+w)+
-                                                             (Mathf.Sin((w/2.0f*Mathf.PI)*(h))+w)+
-                                                             (Mathf.Sin((w/2.0f*Mathf.PI)*(z*vs.ChunkSizeZ+zc))+w));
-                                }
-								vcm.AddVoxel(new VoxelPos(vp.x,h,vp.z),false,type);
+                                    type = Mathf.RoundToInt((Mathf.Sin((w/2.0f*Mathf.PI)*(x*vs.ChunkSizeX+xc))+w)+
+										   (Mathf.Sin((w/2.0f*Mathf.PI)*(h))+w)+
+									       (Mathf.Sin((w/2.0f*Mathf.PI)*(z*vs.ChunkSizeZ+zc))+w));
+									if(type<=0)vcm.RemoveVoxel(new VoxelPos(vp.x,h,vp.z),false);
+
+                                }else
+								{
+									vcm.AddVoxel(new VoxelPos(vp.x,h,vp.z),false,type);
+								}
 							}							
 						}
 					}

@@ -7,7 +7,7 @@ public class VoxelChunkEmpty: VoxelChunk {
 	/* 
 	 * 
 	*/
-	VoxelShell emptyShell;
+	public VoxelShell emptyShell;
 	// Use this for initialization
 	void Start () {
 

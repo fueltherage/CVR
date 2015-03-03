@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\FloorVox.cs" />
+     <Compile Include="Assets\LightCookieOffset.cs" />
      <Compile Include="Assets\SaveLoadVoxels.cs" />
      <Compile Include="Assets\Scripts\CameraFollowMouse.cs" />
      <Compile Include="Assets\Scripts\CameraState.cs" />
@@ -122,11 +123,12 @@
      <None Include="Assets\SavedVoxels\Enviro.txt" />
      <None Include="Assets\SavedVoxels\EnviroTest1.txt" />
      <None Include="Assets\SavedVoxels\Environment.txt" />
+     <None Include="Assets\SavedVoxels\EnviroTest.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity4.5.4/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>C:/Users/FuelTR/Documents/Unity Projects/Voxel Versions/CVR v0.1.9 - Entity Design/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>C:/Users/FuelTR/Documents/Repos/CVR/UnityProjects/CVR v0.1.9 - Entity Design/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>

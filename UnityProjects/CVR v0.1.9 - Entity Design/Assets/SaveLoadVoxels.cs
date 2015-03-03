@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using SimpleJSON;
 
 public class SaveLoadVoxels : MonoBehaviour {
-	public string Name = "";
-
+	public string voxName = "";
+	public bool ClearBeforeLoading = false;
 	VoxelSystemGreedy vs; 
 	bool loading = false;
 	bool saving = false;
-	int VoxNum =1;
+
 	int count;
 
 	// Use this for initialization
@@ -20,9 +20,20 @@ public class SaveLoadVoxels : MonoBehaviour {
 	void OnGUI()
 	{
 		Color col = new Color();
-		col = (saving) ? col = Color.red : col = Color.blue;
+		col = Color.grey;
+		string message = "Idle";
+		if(saving) 
+		{
+			col = Color.red;
+			message = " Saving.";
+		}
+		if(loading) 
+		{
+			col = Color.red;
+			message = " Loading.";
+		}
 		GUI.color = col;
-		GUI.TextField( new Rect(10, 40, 100, 25), (Mathf.RoundToInt((float)(count / VoxNum)*100)).ToString());
+		GUI.TextField( new Rect(10, 40, 100, 25), "Status: " + message );
 	}
 
 	VoxelPos VoxelNum(VoxelPos c, VoxelPos s)
@@ -55,65 +66,80 @@ public class SaveLoadVoxels : MonoBehaviour {
 	public void LoadSystem()
 	{
 		loading = true;
-		if(Name == "")
+		if(voxName == "")
 		{
-			Debug.LogError("<color=red>Error:</color> Missing file name, please provide name in script inspector.");
+			Debug.LogError("<color=red>Error:</color> Missing voxName, please provide voxName in script inspector.");
 			return;
 		}
 		string s = "";
 		try
 		{
-			s = System.IO.File.ReadAllText("./Assets/SavedVoxels/"+Name+".txt");
+			s = System.IO.File.ReadAllText("./Assets/SavedVoxels/"+voxName+".txt");
 		}catch(UnityException e)
 		{
-			Debug.LogError("<color=red>Error:</color> File not found at location: /Assets/SavedVoxels/"+Name+".txt");
+			Debug.LogError("<color=red>Error:</color> File not found at location: /Assets/SavedVoxels/"+voxName+".txt");
 			return;
 		}
 
 		JSONNode node = JSONNode.Parse(s);
 
 		
-		vs.XSize = node[Name]["i"]["x"].AsInt;
-		vs.YSize = node[Name]["i"]["y"].AsInt;
-		vs.ZSize = node[Name]["i"]["z"].AsInt;
-		vs.ChunkSizeX = node[Name]["i"]["xc"].AsInt;
-		vs.ChunkSizeY = node[Name]["i"]["yc"].AsInt;
-		vs.ChunkSizeZ = node[Name]["i"]["zc"].AsInt;
-		vs.VoxelSpacing = node[Name]["i"]["vs"].AsFloat;
+		vs.XSize = node[voxName]["i"][0].AsInt;
+		vs.YSize = node[voxName]["i"][1].AsInt;
+		vs.ZSize = node[voxName]["i"][2].AsInt;
+		vs.ChunkSizeX = node[voxName]["i"][3].AsInt;
+		vs.ChunkSizeY = node[voxName]["i"][4].AsInt;
+		vs.ChunkSizeZ = node[voxName]["i"][5].AsInt;
+		vs.VoxelSpacing = node[voxName]["i"][6].AsFloat;
 
 		//vs.Init();
 
+		if(ClearBeforeLoading)
 		for (int x = 0; x < vs.XSize; x++)
 			for (int y = 0; y < vs.YSize; y++)
 				for (int z = 0; z < vs.ZSize; z++)
 					for (int xc = 0; xc < vs.ChunkSizeX; xc++)
 						for (int yc = 0; yc < vs.ChunkSizeY; yc++)
 							for (int zc = 0; zc < vs.ChunkSizeZ; zc++){	
-							vs.RemoveVoxel(new VoxelPos(x*vs.ChunkSizeX + xc, 
-							                            y*vs.ChunkSizeX + yc, 
-							                            z*vs.ChunkSizeX + zc),
-							               				false);
+								vs.RemoveVoxel(new VoxelPos(x*vs.ChunkSizeX + xc, 
+								                            y*vs.ChunkSizeX + yc, 
+								                            z*vs.ChunkSizeX + zc),
+								               				false);
 							}
 
-		int max = node[Name]["c"].AsArray.Count;
-		VoxNum = max;
-		if(VoxNum == 0)
-		{
-			Debug.Log("Saving Empty System, Plz fix");VoxNum = 1;
-		}
+
+
+
+
+
+		//Areas 
 		count = 0;
-		for (int i = 0; i < max; i++) {
-			vs.AddVoxel(new VoxelPos(node[Name]["c"][i]["p"][0].AsInt,
-			                         node[Name]["c"][i]["p"][1].AsInt,
-			                         node[Name]["c"][i]["p"][2].AsInt),
-			            			 false,
-			            			 node[Name]["c"][i]["t"].AsInt);
-			++count;
-
+		for (int i = 0; i < node[voxName]["c"]["a"].AsArray.Count; i++) {
+			int xStart =    node[voxName]["c"]["a"][i][0].AsInt;
+			int yStart =    node[voxName]["c"]["a"][i][1].AsInt;
+			int zStart =    node[voxName]["c"]["a"][i][2].AsInt;
+			int xLength =   node[voxName]["c"]["a"][i][3].AsInt;
+			int yLength =   node[voxName]["c"]["a"][i][4].AsInt;
+			int zLength =   node[voxName]["c"]["a"][i][5].AsInt;
+			int type =      node[voxName]["c"]["a"][i][6].AsInt;
+			for (int x =  xStart; x < xStart + xLength; x++) {
+				for (int y = yStart; y < yStart + yLength; y++) {
+					for (int z = zStart; z < zStart + zLength; z++) {
+						vs.AddVoxel(new VoxelPos(x, y, z), false, type);
+						++count;
+					}
+				}
+			}
 		}
-
+		//Singles
+		for (int i = 0; i < node[voxName]["c"]["s"].AsArray.Count; i++) {
+			vs.AddVoxel(new VoxelPos(node[voxName]["c"]["s"][i][0].AsInt, node[voxName]["c"]["s"][i][1].AsInt, node[voxName]["c"]["s"][i][2].AsInt), false, node[voxName]["c"]["s"][3].AsInt);
+			++count;
+		}
 		vs.UpdateMeshes();
-		Debug.Log ("<color=green>VoxSaveFile "+Name+" loaded successfully. "+count+" voxels loaded.</color>");
+
+
+		Debug.Log ("<color=green>VoxSaveFile "+voxName+" loaded successfully. "+count+" voxels loaded.</color>");
 		loading = false;
 	}
 	struct SaveGarbage
@@ -121,18 +147,15 @@ public class SaveLoadVoxels : MonoBehaviour {
 		public int type;
 		public bool saved;
 	}
-	interface SavedInfo
-	{
 
-	}
-	struct SaveArea : SavedInfo
+	struct SaveArea 
 	{
 		public SaveArea(int _type, VoxelPos _p1, VoxelPos _p2){type = _type;pos1 = _p1; pos2 = _p2;}
 		public int type;
 		public VoxelPos pos1;
 		public VoxelPos pos2;
 	}
-	struct SaveSingle : SavedInfo
+	struct SaveSingle
 	{
 		public SaveSingle(int _type, VoxelPos _p1){type = _type;pos1 = _p1;}
 		public int type;
@@ -145,16 +168,16 @@ public class SaveLoadVoxels : MonoBehaviour {
 		JSONClass node = new JSONClass();
 
 
-		//if(Name == "") Name = vs.name;
+		//if(voxName == "") voxName = vs.voxName;
 
 
-		node[Name]["i"][0].AsInt = vs.XSize;
-		node[Name]["i"][1].AsInt = vs.YSize;
-		node[Name]["i"][2].AsInt = vs.ZSize;
-		node[Name]["i"][3].AsInt = vs.ChunkSizeX;
-		node[Name]["i"][4].AsInt = vs.ChunkSizeY;
-		node[Name]["i"][5].AsInt = vs.ChunkSizeZ;
-		node[Name]["i"][6].AsFloat = vs.VoxelSpacing;
+		node[voxName]["i"][0].AsInt = vs.XSize;
+		node[voxName]["i"][1].AsInt = vs.YSize;
+		node[voxName]["i"][2].AsInt = vs.ZSize;
+		node[voxName]["i"][3].AsInt = vs.ChunkSizeX;
+		node[voxName]["i"][4].AsInt = vs.ChunkSizeY;
+		node[voxName]["i"][5].AsInt = vs.ChunkSizeZ;
+		node[voxName]["i"][6].AsFloat = vs.VoxelSpacing;
 
 		/* Might not need to save this
 		if(SaveWorldSpace)
@@ -170,7 +193,7 @@ public class SaveLoadVoxels : MonoBehaviour {
 
 		//Loop through all the voxels in the system, Save them if they're not 0
 		count = 0;
-		VoxNum = vs.ChunkSizeX*vs.ChunkSizeY*vs.ChunkSizeZ*vs.XSize*vs.YSize*vs.ZSize;
+
 		int voxX = vs.XSize*vs.ChunkSizeX;
 		int voxY = vs.YSize*vs.ChunkSizeY;
 		int voxZ = vs.ZSize*vs.ChunkSizeZ;
@@ -191,7 +214,8 @@ public class SaveLoadVoxels : MonoBehaviour {
 
 		int xtemp, ytemp, ztemp, type, x_length, y_length, z_length; 
 		VoxelPos Bookmark = new VoxelPos();
-		List<SavedInfo> saveStream = new List<SavedInfo>();
+		List<SaveArea> saveStreamArea = new List<SaveArea>();
+		List<SaveSingle> saveStreamSingle = new List<SaveSingle>();
 		for (int x = 0; x < voxX; x++) {
 			for (int y = 0; y < voxY; y++) {
 				for (int z = 0; z < voxZ; z++) {
@@ -295,11 +319,11 @@ public class SaveLoadVoxels : MonoBehaviour {
 						if( x_length ==1 && y_length == 1 && z_length == 1)
 						{
 							SaveSingle info = new SaveSingle(g[x,y,z].type, new VoxelPos(x,y,z));
-							saveStream.Add(info);
+							saveStreamSingle.Add(info);
 						}else
 						{
-							SaveArea info = new SaveArea(g[x,y,z].type, new VoxelPos(x,y,z), new VoxelPos(x+x_length, y+y_length, z+z_length));
-							saveStream.Add(info);
+							SaveArea info = new SaveArea(g[x,y,z].type, new VoxelPos(x,y,z), new VoxelPos(x_length, y_length, z_length));
+							saveStreamArea.Add(info);
 						}
 						x = Bookmark.x;
 						y = Bookmark.y;
@@ -309,30 +333,32 @@ public class SaveLoadVoxels : MonoBehaviour {
 			}
 		}
 		count = 0;
-		int count2 = 0;
-		foreach(SavedInfo i in saveStream)
+
+		foreach(SaveArea i in saveStreamArea)
 		{
-			if(i is SaveArea)
-			{
-				node[name]["c"]["a"][count][0][0].AsInt = ((SaveArea)i).pos1.x;
-				node[name]["c"]["a"][count][0][1].AsInt = ((SaveArea)i).pos1.y;		
-				node[name]["c"]["a"][count][0][2].AsInt = ((SaveArea)i).pos1.z;
-				node[name]["c"]["a"][count][1][0].AsInt = ((SaveArea)i).pos2.x;
-				node[name]["c"]["a"][count][1][1].AsInt = ((SaveArea)i).pos2.y;
-				node[name]["c"]["a"][count][1][2].AsInt = ((SaveArea)i).pos2.z;
-				node[name]["c"]["a"][count][3].AsInt = ((SaveArea)i).type;
-				count++;
-			}else{
-				node[name]["c"]["s"][count2][0][0].AsInt = ((SaveSingle)i).pos1.x;
-				node[name]["c"]["s"][count2][0][1].AsInt = ((SaveSingle)i).pos1.y;		
-				node[name]["c"]["s"][count2][0][2].AsInt = ((SaveSingle)i).pos1.z;
-				node[name]["c"]["s"][count2][1].AsInt = ((SaveSingle)i).type;
-				count2++;
-			}
+
+			node[voxName]["c"]["a"][count][0].AsInt = i.pos1.x;
+			node[voxName]["c"]["a"][count][1].AsInt = i.pos1.y;		
+			node[voxName]["c"]["a"][count][2].AsInt = i.pos1.z;
+			node[voxName]["c"]["a"][count][3].AsInt = i.pos2.x;
+			node[voxName]["c"]["a"][count][4].AsInt = i.pos2.y;
+			node[voxName]["c"]["a"][count][5].AsInt = i.pos2.z;
+			node[voxName]["c"]["a"][count][6].AsInt = i.type;
+			count++;
+		}
+		count = 0;
+		foreach(SaveSingle i in saveStreamSingle)
+		{
+			node[voxName]["c"]["s"][count][0].AsInt = i.pos1.x;
+			node[voxName]["c"]["s"][count][1].AsInt = i.pos1.y;		
+			node[voxName]["c"]["s"][count][2].AsInt = i.pos1.z;
+			node[voxName]["c"]["s"][count][3].AsInt = i.type;
+			count++;
+
 		}
 
-		System.IO.File.WriteAllText("./Assets/SavedVoxels/"+Name+".txt",node.ToString());
-		//Debug.Log("String Char Count "+node.ToString().Length+" "+node.ToString());
+		System.IO.File.WriteAllText("./Assets/SavedVoxels/"+ voxName +".txt",node.ToString());
+		//Debug.Log("String Char Count "+node.ToString().Length);//+" "+node.ToString());
 		saving = false;
 
 	}

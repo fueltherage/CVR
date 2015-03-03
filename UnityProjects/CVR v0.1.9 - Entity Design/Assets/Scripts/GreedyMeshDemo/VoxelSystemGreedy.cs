@@ -15,6 +15,7 @@ public class VoxelSystemGreedy : MonoBehaviour {
 	public VoxelSystemChunkGreedy[,,] chunks_vcs;
 	public GameObject VoxelChunkGO;
 	public GameObject EmptyChunk;
+	public bool EmptyChunkFilled = false;
 	public Vector3 offset;
 	public VoxMaterialFactory factory;
 	public bool Initialized = false;
@@ -110,6 +111,7 @@ public class VoxelSystemGreedy : MonoBehaviour {
         //Make sure each chunk is initialized
         EmptyChunkSync.Init();
         EmptyChunkSync.gameObject.transform.parent = this.transform;
+		EmptyChunkSync.emptyShell.filled = EmptyChunkFilled;
         for (int x =0; x < XSize; x++){
             for (int y =0; y < YSize; y++){
                 for (int z =0; z < ZSize; z++){
