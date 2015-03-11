@@ -1,0 +1,25 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\MinecraftDemo\MouseSelectionTool_Greedy.cs">
+    <Files>
+      <File FileName="Assets\VoxRexAdd.cs" Line="22" Column="18" />
+      <File FileName="Assets\SaveLoadVoxels.cs" Line="1" Column="1" />
+      <File FileName="Assets\NodeManager.cs" Line="25" Column="23" />
+      <File FileName="Assets\SphereRemoval.cs" Line="32" Column="21" />
+      <File FileName="Assets\Node.cs" Line="23" Column="47" />
+      <File FileName="Assets\Scripts\MinecraftDemo\Voxels\VoxSystemChunkManager.cs" Line="79" Column="39" />
+      <File FileName="Assets\Scripts\MinecraftDemo\MouseSelectionTool_Greedy.cs" Line="33" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\FuelTR\Documents\Unity Projects\Voxel Versions\CVR v0.1.9 - Entity Design\Assets\Scripts\MinecraftDemo\Voxels\VoxelChunk.cs" line="157" />
+      <Breakpoint file="C:\Users\FuelTR\Documents\Unity Projects\Voxel Versions\CVR v0.1.9 - Entity Design\Assets\Scripts\MinecraftDemo\MouseSelectionTool_Greedy.cs" line="69" />
+      <Breakpoint file="C:\Users\FuelTR\Documents\Unity Projects\Voxel Versions\CVR v0.1.9 - Entity Design\Assets\Scripts\CameraState.cs" line="74" />
+      <Breakpoint file="C:\Users\FuelTR\Documents\Unity Projects\Voxel Versions\CVR v0.1.9 - Entity Design\Assets\Scripts\CameraState.cs" line="80" />
+      <Breakpoint file="C:\Users\FuelTR\Documents\Unity Projects\Voxel Versions\CVR v0.1.9 - Entity Design\Assets\Scripts\CameraState.cs" line="21" />
+      <Breakpoint file="C:\Users\FuelTR\Documents\Unity Projects\Voxel Versions\CVR v0.1.9 - Entity Design\Assets\Scripts\CameraState.cs" line="29" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
