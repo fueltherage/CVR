@@ -10,18 +10,28 @@ public static class VoxelFactory {
 		{
 		case 0:
 			_voxelShell.filled = false;
+            _voxelShell.locked = false;
 			break;
 		case 1:
-			_voxelShell.filled = true;	
+			_voxelShell.filled = true;
+            _voxelShell.locked = false;
+			_voxelShell.voxel.Mass = 1;
 			break;		
 		case 2:	
-			_voxelShell.filled = true;	
+			_voxelShell.filled = true;
+            _voxelShell.locked = false;
+			_voxelShell.voxel.Mass = 2;
 			break;
 		case 3:
 			_voxelShell.filled = true;
+            _voxelShell.locked = true;
+			_voxelShell.voxel.Mass = 3;
 			break;
 		case 4:
 			_voxelShell.filled = true;
+            _voxelShell.locked = false;
+			//_voxelShell.locked = true;
+			_voxelShell.voxel.Mass = 1000;
 			break;
 		case 5:
 			_voxelShell.filled = true;

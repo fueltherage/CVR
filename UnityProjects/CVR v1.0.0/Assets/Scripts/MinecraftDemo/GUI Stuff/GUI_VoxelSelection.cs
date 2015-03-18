@@ -8,22 +8,22 @@ public class GUI_VoxelSelection : MonoBehaviour {
     //public Color SelectedColor;
     public int boxWidth = 25;
     public int boxHeight = 25;
-	int numberOfBoxes = 5;
+	public int numberOfBoxes = 6;
    
 
 	int currentSelectedBox=1;
 
-    //CameraControls cc;
+    
 
 	void OnGUI()
 	{
-        for (int i = 1; i < numberOfBoxes; i++ )
+        for (int i = 1; i <= numberOfBoxes; i++ )
         {
             if (currentSelectedBox == i)
             { GUI.color = Color.yellow; }
             else GUI.color = Color.black;
 
-		    GUI.Box (new Rect (Screen.width*i/numberOfBoxes, Screen.height - Screen.height/10, boxWidth, boxHeight), i.ToString());
+		    GUI.Box (new Rect (Screen.width*i/(numberOfBoxes+1), Screen.height - Screen.height/9, boxWidth, boxHeight), i.ToString());
         }
        
 	}
@@ -33,10 +33,10 @@ public class GUI_VoxelSelection : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown (KeyCode.Alpha1)&&currentSelectedBox != 1){currentSelectedBox =1; VoxelEvents.VoxelSwitched(currentSelectedBox);}
-		if(Input.GetKeyDown (KeyCode.Alpha2)&&currentSelectedBox != 2){currentSelectedBox =2; VoxelEvents.VoxelSwitched(currentSelectedBox);}
-		if(Input.GetKeyDown (KeyCode.Alpha3)&&currentSelectedBox != 3){currentSelectedBox =3; VoxelEvents.VoxelSwitched(currentSelectedBox);}
-		if(Input.GetKeyDown (KeyCode.Alpha4)&&currentSelectedBox != 4){currentSelectedBox =4; VoxelEvents.VoxelSwitched(currentSelectedBox);}
+		for (int i = 0; i < numberOfBoxes; i++) {
+			if(Input.GetKeyDown (KeyCode.Alpha1 + i)&&currentSelectedBox != i+1){currentSelectedBox =i+1; VoxelEvents.VoxelSwitched(currentSelectedBox);}
+		}
+
         //if (Input.GetKeyDown(KeyCode.Space)) cc.CenterCamera();
 	}
 }

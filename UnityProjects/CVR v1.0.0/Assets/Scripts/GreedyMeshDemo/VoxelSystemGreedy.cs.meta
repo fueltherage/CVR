@@ -1,8 +1,18 @@
 fileFormatVersion: 2
 guid: dd36f8a23c584144abcd60ab10456426
+timeCreated: 1426282755
+licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - VoxelChunkGO: {fileID: 100000, guid: c7a5cee0c5fac034a88e4219309916ed, type: 2}
+  - EmptyChunk: {fileID: 100000, guid: caea1338ae965b2469d01c033189571f, type: 2}
+  - factory: {instanceID: 0}
+  - VSUM: {instanceID: 0}
+  - calc: {instanceID: 0}
+  - rigidBody: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 

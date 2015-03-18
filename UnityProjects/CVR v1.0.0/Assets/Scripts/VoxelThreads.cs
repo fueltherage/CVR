@@ -172,11 +172,10 @@ public class VoxelThreads : MonoBehaviour {
 			if(!chunksGenerating[i].Chunk.Generating && !chunksGenerating[i].Chunk.MeshBaking)
 			{
 				//Debug.Log ("Chunk "+ chunksGenerating[i].Chunk.gameObject.name +" finished");
-				lock(chunksGenerating[i].Chunk){
-					QueueOnMainThread(chunksGenerating[i].GenMeshN);
-				}
-				chunksGenerating[i].Chunk.queuedForUpdate = false;
-				
+				Profiler.BeginSample("Genmesh");
+				chunksGenerating[i].GenMeshN();
+				Profiler.EndSample();
+				chunksGenerating[i].Chunk.queuedForUpdate = false;				
 				chunksGenerating.Remove(chunksGenerating[i]);
 				ActiveThreads--;
 				i = i - 1;

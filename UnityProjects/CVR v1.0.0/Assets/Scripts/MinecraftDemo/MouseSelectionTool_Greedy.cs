@@ -5,6 +5,9 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
 	public float SelectRange = 100.0f;
     public bool DebugMode = false;
     public int radius=0;
+
+    int currentSelectVoxel;
+
 	// Use this for initialization
     Color rayColor;
 	RaycastHit hit;
@@ -13,8 +16,13 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
 	LayerMask mask;
 	void Start () {
 		mask =  LayerMask.GetMask(layerName);
-
+        VoxelEvents.onVoxelSwitch += SelectedVoxel;
 	}
+
+    void SelectedVoxel(int _current)
+    {
+        currentSelectVoxel = _current;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -79,71 +87,22 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
 	}
 	void AddVoxel (RaycastHit hitPos)
 	{
-        if(radius > 0){
-			if(hitPos.transform.gameObject.GetComponent<Rigidbody>())
-			{
-	    		if (hitPos.transform.gameObject.tag == "Chunk")
-	                hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxelAoE(hitPos, radius);
-				else if (hitPos.transform.gameObject.tag == "System")
-	                hitPos.transform.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxelAoE(hitPos, radius);
-	
-			}else
-			{
-				if (hitPos.transform.gameObject.tag == "Chunk")
-					hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxelAoE(hitPos, radius);
-				else if (hitPos.transform.gameObject.tag == "System")
-					hitPos.transform.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxelAoE(hitPos, radius);
-			}
-        }else 
-        {
-			if(hitPos.transform.gameObject.GetComponent<Rigidbody>())
-			{
-	            if (hitPos.transform.gameObject.tag == "Chunk")
-	                hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxel(hitPos, true);
-	            else if (hitPos.transform.gameObject.tag == "System")
-	                hitPos.transform.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxel(hitPos, true);
-			}else
-			{
-				if (hitPos.transform.gameObject.tag == "Chunk")
-					hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxel(hitPos, true);
-				else if (hitPos.transform.gameObject.tag == "System")
-					hitPos.transform.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxel(hitPos, true);
-			}
-        }
+        if(radius > 0) hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxelAoE(hitPos, radius, true, currentSelectVoxel);
+        else           hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().QuickAdd(hitPos, currentSelectVoxel, true);        
 	}
 	void RemoveVoxel(RaycastHit hitPos)
 	{
-		//This looks redundant but that's because UNITY WONT LET ME RAYCAST TO A NON CONCAVE MESH COLLIDER THAT'S CHILDED TO A RIDGIDBODY .. ERR
-        if(radius > 0)
-        {
-			if(hitPos.transform.gameObject.GetComponent<Rigidbody>())
-			{
-	    		if (hitPos.transform.gameObject.tag == "Chunk")
-					hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(hitPos,radius);
-	    		else if (hitPos.transform.gameObject.tag == "System")
-	                hitPos.transform.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(hitPos,radius);	
-			}else{
-				if (hitPos.transform.gameObject.tag == "Chunk")
-					hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(hitPos,radius);
-				else if (hitPos.transform.gameObject.tag == "System")
-					hitPos.transform.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(hitPos,radius);	
-			}
-        }
-        else 
-        {
-			if(hitPos.transform.gameObject.GetComponent<Rigidbody>())
-			{
-	            if (hitPos.transform.gameObject.tag == "Chunk")
-					hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxel(hitPos,true);
-	            else if (hitPos.transform.gameObject.tag == "System")
-	                hitPos.transform.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxel(hitPos,true);  
-			}else{
-				if (hitPos.transform.gameObject.tag == "Chunk")
-					hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxel(hitPos,true);
-				else if (hitPos.transform.gameObject.tag == "System")
-					hitPos.transform.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxel(hitPos,true);
-			}
-        }
+        if(radius > 0) hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(hitPos, radius, true);
+        else           hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().QuickRemove(hitPos, true);
+	}
+	public void ReduceRadius()
+	{
+		radius--;
+		if(radius < 0 ) radius = 0;
+	}
+	public void IncreaseRadius()
+	{
+		radius++;
 	}
 
 

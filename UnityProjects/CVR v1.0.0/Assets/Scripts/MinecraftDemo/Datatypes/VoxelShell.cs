@@ -14,9 +14,6 @@ public class VoxelShell {
 	{
 		parentChunk = _parentchunk;
 	}
-	public int GenerateMesh(int _faceCount)
-	{	
-		return voxel.meshData.GenerateMesh(_faceCount, vp);
-	}
+
 
 }

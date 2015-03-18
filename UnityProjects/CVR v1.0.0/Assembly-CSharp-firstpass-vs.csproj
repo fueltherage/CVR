@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{3595C95D-5A14-0743-87D9-06A4C417C6ED}</ProjectGuid>
+	<ProjectGuid>{0D64F13D-383D-839A-8D1C-3235CE8B0C77}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\plugins\SimpleJSON.cs" />
+     <None Include="Assets\SavedVoxels\Virus1.txt" />
+     <None Include="Assets\SavedVoxels\CellDude_1.txt" />
+     <None Include="Assets\SavedVoxels\RedBloodCell.txt" />
      <None Include="Assets\SavedVoxels\Test.txt" />
      <None Include="Assets\SavedVoxels\Enviro.txt" />
      <None Include="Assets\SavedVoxels\EnviroTest1.txt" />
@@ -57,7 +60,7 @@
  <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>C:/Users/FuelTR/Documents/Unity Projects/Voxel Versions/CVR v0.1.9 - Entity Design/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>C:/Users/FuelTR/Documents/Unity Projects/Voxel Versions/CVR v1.0.0/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

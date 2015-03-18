@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{8FBA6F1A-508C-5B98-AA3F-87EA038ECB59}</ProjectGuid>
+	<ProjectGuid>{FB62ACD0-F535-ECC5-8D47-B0092CC35C9D}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -46,22 +46,25 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\AmbientLightAnimation.cs" />
-     <Compile Include="Assets\DebugMesh.cs" />
-     <Compile Include="Assets\FillSystemRemoveCenter.cs" />
-     <Compile Include="Assets\FillWithLayers.cs" />
-     <Compile Include="Assets\FloorVox.cs" />
-     <Compile Include="Assets\Node.cs" />
-     <Compile Include="Assets\NodeManager.cs" />
-     <Compile Include="Assets\SaveLoadVoxels.cs" />
+     <Compile Include="Assets\BezCurve_Quad.cs" />
+     <Compile Include="Assets\BezPoint.cs" />
+     <Compile Include="Assets\CarveAlongBez_Quad.cs" />
+     <Compile Include="Assets\DebugLine.cs" />
+     <Compile Include="Assets\FillSystemWithCore.cs" />
+     <Compile Include="Assets\RoomSphere.cs" />
+     <Compile Include="Assets\Scripts\AmbientLightAnimation.cs" />
      <Compile Include="Assets\Scripts\CameraFollowMouse.cs" />
      <Compile Include="Assets\Scripts\CameraState.cs" />
      <Compile Include="Assets\Scripts\ClearAlphaSystem.cs" />
      <Compile Include="Assets\Scripts\ConvexColliderUtils.cs" />
      <Compile Include="Assets\Scripts\DebugLogCatcher.cs" />
+     <Compile Include="Assets\Scripts\DebugMesh.cs" />
      <Compile Include="Assets\Scripts\DisableOnStart.cs" />
      <Compile Include="Assets\Scripts\FillCenter.cs" />
+     <Compile Include="Assets\Scripts\FillSystemRemoveCenter.cs" />
      <Compile Include="Assets\Scripts\FillWholeSystem.cs" />
+     <Compile Include="Assets\Scripts\FillWithLayers.cs" />
+     <Compile Include="Assets\Scripts\FloorVox.cs" />
      <Compile Include="Assets\Scripts\FollowMousePos.cs" />
      <Compile Include="Assets\Scripts\FollowObject.cs" />
      <Compile Include="Assets\Scripts\FractalSystemControls.cs" />
@@ -106,24 +109,31 @@
      <Compile Include="Assets\Scripts\MovementDemo\RigidBodyController.cs" />
      <Compile Include="Assets\Scripts\MovementDemo\basicMovement.cs" />
      <Compile Include="Assets\Scripts\MovingTextures.cs" />
+     <Compile Include="Assets\Scripts\Node.cs" />
+     <Compile Include="Assets\Scripts\NodeManager.cs" />
      <Compile Include="Assets\Scripts\PauseToggle.cs" />
      <Compile Include="Assets\Scripts\PerlinScript.cs" />
      <Compile Include="Assets\Scripts\RandomFill.cs" />
+     <Compile Include="Assets\Scripts\SaveLoadVoxels.cs" />
      <Compile Include="Assets\Scripts\ShootBall.cs" />
+     <Compile Include="Assets\Scripts\ShootBallForward.cs" />
      <Compile Include="Assets\Scripts\SinWaveGen.cs" />
+     <Compile Include="Assets\Scripts\SphereRemoval.cs" />
      <Compile Include="Assets\Scripts\SphereWithLayers.cs" />
+     <Compile Include="Assets\Scripts\TextureOffsetZoom.cs" />
      <Compile Include="Assets\Scripts\VSG_ConvexCollider_Manager.cs" />
      <Compile Include="Assets\Scripts\VoxMaterialAnimator.cs" />
      <Compile Include="Assets\Scripts\VoxMaterialFactoryGenerator.cs" />
+     <Compile Include="Assets\Scripts\VoxRamp.cs" />
+     <Compile Include="Assets\Scripts\VoxRexAdd.cs" />
      <Compile Include="Assets\Scripts\VoxelSystemUpdateManager.cs" />
      <Compile Include="Assets\Scripts\VoxelThreads.cs" />
      <Compile Include="Assets\Scripts\voxList.cs" />
-     <Compile Include="Assets\ShootBallForward.cs" />
-     <Compile Include="Assets\SphereRemoval.cs" />
-     <Compile Include="Assets\TextureOffsetZoom.cs" />
-     <Compile Include="Assets\VoxRamp.cs" />
-     <Compile Include="Assets\VoxRexAdd.cs" />
-     <Compile Include="Assets\XMLSystem.cs" />
+     <Compile Include="Assets\SphereRoom.cs" />
+     <Compile Include="Assets\UI_BrushRadiusText.cs" />
+     <None Include="Assets\SavedVoxels\Virus1.txt" />
+     <None Include="Assets\SavedVoxels\CellDude_1.txt" />
+     <None Include="Assets\SavedVoxels\RedBloodCell.txt" />
      <None Include="Assets\SavedVoxels\Test.txt" />
      <None Include="Assets\SavedVoxels\Enviro.txt" />
      <None Include="Assets\SavedVoxels\EnviroTest1.txt" />
@@ -134,12 +144,12 @@
  <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>C:/Users/FuelTR/Documents/Unity Projects/Voxel Versions/CVR v0.1.9 - Entity Design/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>C:/Users/FuelTR/Documents/Unity Projects/Voxel Versions/CVR v1.0.0/Assets/plugins/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{3595C95D-5A14-0743-87D9-06A4C417C6ED}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
+      <Project>{0D64F13D-383D-839A-8D1C-3235CE8B0C77}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -13,11 +13,13 @@ public class VoxelSystemUpdateManager : MonoBehaviour {
 	public float P1Distance = 10;
 	public float P2Distance = 20;
 	public float P3Distance = 30;
+	Rigidbody rb;
 
 	VoxelThreads vt;
 	// Use this for initialization
 	void Start () {
 		vt = VoxelThreads.Current;
+		rb = GetComponent<Rigidbody>();
 	}
 	
 	// Update is called once per frame
@@ -28,8 +30,10 @@ public class VoxelSystemUpdateManager : MonoBehaviour {
 	{
 		if(!_chunk.queuedForUpdate)
 		{
+			if(rb!= null)rb.WakeUp();
+
 			Vector3 difference = PlayerPos.transform.position - _chunk.transform.position;
-			
+
 			if(difference.magnitude < P1Distance)
 			{
                 VoxelThreads.Current.QueueVoxMeshUpdate(ref _chunk,1);
@@ -49,6 +53,8 @@ public class VoxelSystemUpdateManager : MonoBehaviour {
 	{
         if(!_chunk.queuedForUpdate)
         {
+			if(rb!= null)rb.WakeUp();
+
     		Vector3 difference = PlayerPos.transform.position - _chunk.transform.position;
 
     		if(difference.magnitude < P1Distance)

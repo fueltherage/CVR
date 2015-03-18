@@ -6,7 +6,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 
 
 	public bool CreateConvexCollider = false;
-	public bool MeshBaked =false;
+	public bool MeshBaked = false;
 	public bool MeshBaking = false;
 	public bool UniqueSides = false;
 
@@ -14,6 +14,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 	public VoxelPos chunkPos = new VoxelPos(0,0,0);   
 	public VoxelSystemGreedy systemParent;
 	public Vector3 UVRatio;
+	public float chunkMass =0;
+	public Vector3 centerOfMass;
 
 	protected VoxelSystemChunkGreedy thisChunk;
 	protected voxList<JamQuad> Quads;
@@ -25,6 +27,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 	MeshCollider CC;
 	MeshCollider meshCollider;
 	MeshFilter meshFilter;
+
+
 
 	void Start()
 	{
@@ -103,10 +107,51 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     		bookmark = new VoxelPos();
 
 
-    		for (int x = 0; x < XSize; x++)
-    			for (int y = 0; y < YSize; y++)
-    				for (int z = 0; z < ZSize; z++)
-    					blocks[x, y, z].neighbours.ResetFlags();
+
+			if(systemParent.rigidBody!=null)
+			{
+				chunkMass = 0;
+				centerOfMass = Vector3.zero;
+
+				for (int x = 0; x < XSize; ++x)
+					for (int y = 0; y < YSize; ++y)
+						for (int z = 0; z < ZSize; ++z)
+					{
+	    							
+						if(blocks[x,y,z].filled)
+						{
+							blocks[x, y, z].neighbours.ResetFlags();	
+							chunkMass += blocks[x,y,x].voxel.Mass;
+						}
+
+					}
+
+				for (int x = 0; x < XSize; ++x)
+					for (int y = 0; y < YSize; ++y)
+						for (int z = 0; z < ZSize; ++z)
+					{
+						if(blocks[x,y,z].filled)
+						{
+							centerOfMass.x += (x + offset.x/2.0f) * blocks[x,y,z].voxel.Mass / chunkMass;
+							centerOfMass.y += (y + offset.y/2.0f) * blocks[x,y,z].voxel.Mass / chunkMass;
+							centerOfMass.z += (z + offset.z/2.0f) * blocks[x,y,z].voxel.Mass / chunkMass;
+						}
+					}
+			}else
+			{
+				for (int x = 0; x < XSize; ++x)
+					for (int y = 0; y < YSize; ++y)
+						for (int z = 0; z < ZSize; ++z)
+					{						
+						if(blocks[x,y,z].filled)
+						{
+							blocks[x, y, z].neighbours.ResetFlags();
+						}						
+					}
+			}
+
+
+
 
     		//Notes
     		/*
@@ -133,7 +178,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     				{
     					for (int z = 0; z < XSize; ++z)
     					{
-    						if (blocks[x, y, z].filled && !blocks[x, y, z].locked && !blocks[x, y, z].neighbours.xneg.filled)
+    						if (blocks[x, y, z].filled && !blocks[x, y, z].neighbours.xneg.filled)
     						{
     							if (!blocks[x, y, z].neighbours.xnegQuad)
     							{
@@ -236,7 +281,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     								
     								for (int w = z; w < z + width; w++){
     									for (int h = y; h < y + height; h++){
-    										if(!blocks[x, h, w].locked)
+    										//if(!blocks[x, h, w].locked)
     											blocks[x, h, w].neighbours.xnegQuad = true;
     									}
     								}
@@ -298,7 +343,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     			{
     				for (int z = 0; z < XSize; ++z)
     				{
-    					if (blocks[x, y, z].filled && !blocks[x, y, z].locked && !blocks[x, y, z].neighbours.xpos.filled)
+    					if (blocks[x, y, z].filled && !blocks[x, y, z].neighbours.xpos.filled)
     					{
     						if (!blocks[x, y, z].neighbours.xposQuad)
     						{
@@ -425,7 +470,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     							{
     								for (int h = y; h < y + height; h++)
     								{										
-    									if (!blocks[x, h, w].locked)
+    									//if (!blocks[x, h, w].locked)
     										blocks[x, h, w].neighbours.xposQuad = true;
     								}
     							}
@@ -475,7 +520,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     			}
     		}
     		
-    		#endregion    		
+    		#endregion
 			#region yposLoop
     		
     		ResetBookmark();
@@ -485,7 +530,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     			{
     				for (int z = 0; z < ZSize; ++z)
     				{
-    					if (blocks[x, y, z].filled && !blocks[x, y, z].locked && !blocks[x, y, z].neighbours.ypos.filled)
+    					if (blocks[x, y, z].filled  && !blocks[x, y, z].neighbours.ypos.filled)
     					{
     						if (!blocks[x, y, z].neighbours.yposQuad)
     						{
@@ -525,7 +570,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     										else
     										{
     											//Bookmark it when the type isnt the same
-    											ztemp++;
+    											++ztemp;
     											if (ztemp >= ZSize)
     											{
     												bookmark.z = 0;
@@ -609,7 +654,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     							{
     								for (int h = x; h < x + height; h++)
     								{										
-    									if (!blocks[h, y, w].locked)
+    									//if (!blocks[h, y, w].locked)
     										blocks[h, y, w].neighbours.yposQuad = true;
     									
     								}
@@ -669,7 +714,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     				{
     					for (int z = 0; z < ZSize ; ++z)
     					{
-    						if (blocks[x, y, z].filled && !blocks[x, y, z].locked && !blocks[x, y, z].neighbours.yneg.filled)
+    						if (blocks[x, y, z].filled  && !blocks[x, y, z].neighbours.yneg.filled)
     						{
     							if (!blocks[x, y, z].neighbours.ynegQuad)
     							{
@@ -796,7 +841,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     								{
     									for (int h = x; h < x + height; h++)
     									{
-    										if(!blocks[h, y, w].locked)
+    										//if(!blocks[h, y, w].locked)
     											blocks[h, y, w].neighbours.ynegQuad = true;
     									}
     								}
@@ -858,7 +903,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     				{
     					for (int y = 0; y < YSize; ++y)
     					{
-    						if (blocks[x, y, z].filled && !blocks[x, y, z].locked && !blocks[x, y, z].neighbours.zneg.filled)
+    						if (blocks[x, y, z].filled && !blocks[x, y, z].neighbours.zneg.filled)
     						{
     							if (!blocks[x, y, z].neighbours.znegQuad)
     							{
@@ -983,7 +1028,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     								{
     									for (int h = x; h < x + height; h++)
     									{
-    										if(!blocks[h, w, z].locked)
+    										//if(!blocks[h, w, z].locked)
     											blocks[h, w, z].neighbours.znegQuad = true;
     									}
     								}
@@ -1044,7 +1089,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     				{
     					for (int y = 0; y < YSize; ++y)
     					{
-    						if (blocks[x, y, z].filled && !blocks[x, y, z].locked && !blocks[x, y, z].neighbours.zpos.filled)
+    						if (blocks[x, y, z].filled  && !blocks[x, y, z].neighbours.zpos.filled)
     						{
     							if (!blocks[x, y, z].neighbours.zposQuad)
     							{
@@ -1168,7 +1213,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     								{
     									for (int h = x; h < x + height; h++)
     									{									
-    										if(!blocks[h, w, z].locked)
+    										//if(!blocks[h, w, z].locked)
     											blocks[h, w, z].neighbours.zposQuad = true;
     									}
     								}
@@ -1212,11 +1257,16 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     								z = bookmark.z;															    								
     							}
     						}
+							//Inertia Calculation
+							
+
+
     					}
     				}
     			}
     		
     		#endregion
+
     		
     		MeshBaked = true;
             Generating = false;
@@ -1231,11 +1281,11 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 	protected void InitShells()
 	{
 		blocks = new VoxelShell[XSize, YSize, ZSize];
-		for (int x = 0; x < XSize; x++)
+		for (int x = 0; x < XSize; ++x)
 		{
-			for (int y = 0; y < YSize; y++)
+			for (int y = 0; y < YSize; ++y)
 			{
-				for (int z = 0; z < ZSize; z++)
+				for (int z = 0; z < ZSize; ++z)
 				{
 					blocks[x, y, z] = new VoxelShell(ref thisChunk);
 					blocks[x, y, z].voxel = new Voxel();
@@ -1264,9 +1314,9 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 
     		vmesh.Clear();
 
-           for (int q = 0; q < Quads.vcount; q++) 
+           for (int q = 0; q < Quads.vcount; ++q) 
 			{
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; ++i)
                 {
 					Verts.Add(Quads.vList[q].verts[i]);
                     UVs.Add(Quads.vList[q].UVs[i]);
@@ -1279,20 +1329,20 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
   
             //Set each triangle for each submesh    		
 		
-            for (int i = 0; i < SubmeshCount; i++)
+            for (int i = 0; i < SubmeshCount; ++i)
             {    			
 				vmesh.SetTriangles(GetSubMeshTriangles(i, ref Triangles, ref TrIndex),i);
             }
     		
 
             //Build the chunks material array
-            List<Material> mat = new List<Material>();
-            for (int i = 0; i < SubmeshCount; i++)
+            Material[] mat = new Material[SubmeshCount];
+            for (int i = 0; i < SubmeshCount; ++i)
             {
-                mat.Add(factory.VoxelMats[MaterialIndex[i]]);
+                mat[i] = factory.VoxelMats[MaterialIndex[i]];
             }
 
-            GetComponent<Renderer>().materials = mat.ToArray();
+            GetComponent<Renderer>().materials = mat;
             vmesh.uv = UVs.ToArray();
             vmesh.RecalculateNormals();
 
@@ -1312,7 +1362,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                 CC.sharedMesh = vmesh;       
             }
 			//This stop the error leeking temporarily 
-			if(systemParent.gameObject.GetComponent<Rigidbody>() != null)
+			if(systemParent.rigidBody != null)
             systemParent.calc.CalcIntertia();
 
     		MeshBaking = false;
@@ -1385,7 +1435,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 					
 					blocks[x,y,z].neighbours = temp_neighbours;					
 					
-					blocks[x,y,z].locked = false;
+					//blocks[x,y,z].locked = false;
 				}				
 			}
 		}

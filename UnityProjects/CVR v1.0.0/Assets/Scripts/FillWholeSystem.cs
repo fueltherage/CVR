@@ -4,7 +4,7 @@ using System.Collections;
 public class FillWholeSystem : MonoBehaviour {
 	VoxelSystemGreedy vc;
 	VoxSystemChunkManager vsum;
-
+    public int type = 1;
 	bool init = false;
 	// Use this for initialization
 	void Start () {
@@ -31,8 +31,8 @@ public class FillWholeSystem : MonoBehaviour {
 						for (int yc = 0; yc < vc.ChunkSizeY; yc++){
 							for (int zc = 0; zc < vc.ChunkSizeZ; zc++){															
 								vsum.AddVoxel(new VoxelPos(x*vc.ChunkSizeX + xc, 
-								                           y*vc.ChunkSizeX + yc, 
-								                           z*vc.ChunkSizeX + zc),false,1);
+								                           y*vc.ChunkSizeX + yc,
+                                                           z * vc.ChunkSizeX + zc), false, type);
 							}
 						}
 					}

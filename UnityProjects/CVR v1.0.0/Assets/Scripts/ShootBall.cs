@@ -11,14 +11,14 @@ public class ShootBall : MonoBehaviour {
 	
 	}
 	
-	// Update is called once per frame
+	// Update is called once per frame	
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(Input.GetKeyDown(KeyCode.B))
 		{
 			GameObject newBall = Instantiate(ball, this.transform.position, transform.rotation) as GameObject;
 			newBall.GetComponent<Rigidbody>().velocity = this.transform.forward*force;
 		}
-        if(Input.GetKeyDown(KeyCode.Space) && Input.GetKey(KeyCode.LeftControl))
+        if(Input.GetKeyDown(KeyCode.B) && Input.GetKey(KeyCode.LeftControl))
         {
             GameObject newBall;
             Vector3 value = new Vector3();
