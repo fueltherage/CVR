@@ -13,7 +13,7 @@ public class SphereRemoval : MonoBehaviour {
 		node = GetComponent<Node>();
 		vs = node.vs;
 		vcm = node.vs.GetComponent<VoxSystemChunkManager>();
-		node.f_updateCalls += RemoveArea;
+		node.first_updateCalls += RemoveArea;
 	}
 	
 	// Update is called once per frame
@@ -29,7 +29,8 @@ public class SphereRemoval : MonoBehaviour {
 	}
 	void RemoveArea()
 	{
-        vcm.AddVoxelAoE(this.transform.position, radius + (int)(2 * vs.VoxelSpacing), 4, true);
-        vcm.RemoveVoxelAoE(this.transform.position, radius, true);
+        //vcm.AddVoxelAoE(this.transform.position, radius + (int)(2 * vs.VoxelSpacing), 4, true);
+        vcm.QuickRemoveVoxelAoE(this.transform.position, radius, true);
+        //vcm.RemoveVoxelAoE(this.transform.position, radius, true);
 	}
 }

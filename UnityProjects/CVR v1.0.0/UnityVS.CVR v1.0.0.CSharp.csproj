@@ -25,7 +25,7 @@
     <OutputPath>Temp\UnityVS_bin\Debug\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>DEBUG;TRACE;UNITY_5_0_0;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_5_0_0;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,7 +33,7 @@
     <OutputPath>Temp\UnityVS_bin\Release\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DefineConstants>TRACE;UNITY_5_0_0;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
+    <DefineConstants>TRACE;UNITY_5_0_0;UNITY_5_0;UNITY_5;ENABLE_LICENSE_RENAME;ENABLE_NEW_BUGREPORTER;ENABLE_2D_PHYSICS;ENABLE_4_6_FEATURES;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_DUCK_TYPING;ENABLE_FRAME_DEBUGGER;ENABLE_GENERICS;ENABLE_HOME_SCREEN;ENABLE_IMAGEEFFECTS;ENABLE_LIGHT_PROBES_LEGACY;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_NEW_HIERARCHY;ENABLE_PHYSICS;ENABLE_PHYSICS_PHYSX3;ENABLE_PLUGIN_INSPECTOR;ENABLE_SHADOWS;ENABLE_SINGLE_INSTANCE_BUILD_SETTING;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_UNITYEVENTS;ENABLE_WEBCAM;ENABLE_WWW;ENABLE_AUDIOMIXER_SUSPEND;ENABLE_NONPRO;INCLUDE_DYNAMIC_GI;INCLUDE_GI;INCLUDE_IL2CPP;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_SUBSTANCE;ENABLE_TEXTUREID_MAP;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_MONO;DEVELOPMENT_BUILD;ENABLE_PROFILER;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
@@ -63,27 +63,45 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BezCurve_Quad.cs" />
-    <Compile Include="Assets\BezPoint.cs" />
-    <Compile Include="Assets\CarveAlongBez_Quad.cs" />
-    <Compile Include="Assets\DebugLine.cs" />
-    <Compile Include="Assets\FillSystemWithCore.cs" />
-    <Compile Include="Assets\RoomSphere.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRCameraRig.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRCommon.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRDisplay.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRManager.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRPluginEvent.cs" />
+    <Compile Include="Assets\OVR\Scripts\OVRTracker.cs" />
+    <Compile Include="Assets\OVR\Scripts\OvrCapi.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRCrosshair.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRGUI.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRGamepadController.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRGridCube.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRMainMenu.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRPlayerController.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRUGUI.cs" />
+    <Compile Include="Assets\OVR\Scripts\Util\OVRVisionGuide.cs" />
     <Compile Include="Assets\Scripts\AmbientLightAnimation.cs" />
+    <Compile Include="Assets\Scripts\BezCurve_Quad.cs" />
+    <Compile Include="Assets\Scripts\BezPoint.cs" />
     <Compile Include="Assets\Scripts\CameraFollowMouse.cs" />
     <Compile Include="Assets\Scripts\CameraState.cs" />
+    <Compile Include="Assets\Scripts\CarveAlongBez_Quad.cs" />
     <Compile Include="Assets\Scripts\ClearAlphaSystem.cs" />
     <Compile Include="Assets\Scripts\ConvexColliderUtils.cs" />
+    <Compile Include="Assets\Scripts\DebugLine.cs" />
     <Compile Include="Assets\Scripts\DebugLogCatcher.cs" />
     <Compile Include="Assets\Scripts\DebugMesh.cs" />
     <Compile Include="Assets\Scripts\DisableOnStart.cs" />
+    <Compile Include="Assets\Scripts\EnergyManager.cs" />
     <Compile Include="Assets\Scripts\FillCenter.cs" />
     <Compile Include="Assets\Scripts\FillSystemRemoveCenter.cs" />
+    <Compile Include="Assets\Scripts\FillSystemWithCore.cs" />
     <Compile Include="Assets\Scripts\FillWholeSystem.cs" />
     <Compile Include="Assets\Scripts\FillWithLayers.cs" />
+    <Compile Include="Assets\Scripts\FlashLight.cs" />
     <Compile Include="Assets\Scripts\FloorVox.cs" />
     <Compile Include="Assets\Scripts\FollowMousePos.cs" />
     <Compile Include="Assets\Scripts\FollowObject.cs" />
+    <Compile Include="Assets\Scripts\FollowWaypoints.cs" />
     <Compile Include="Assets\Scripts\FractalSystemControls.cs" />
     <Compile Include="Assets\Scripts\GameState.cs" />
     <Compile Include="Assets\Scripts\GreedyMeshDemo\FractalControls.cs" />
@@ -96,6 +114,7 @@
     <Compile Include="Assets\Scripts\JamQuad.cs" />
     <Compile Include="Assets\Scripts\KillClock.cs" />
     <Compile Include="Assets\Scripts\KillOnImpact.cs" />
+    <Compile Include="Assets\Scripts\LaserEffect.cs" />
     <Compile Include="Assets\Scripts\Loom.cs" />
     <Compile Include="Assets\Scripts\MainMenu\Wobble.cs" />
     <Compile Include="Assets\Scripts\MinecraftDemo\CameraControls.cs" />
@@ -131,13 +150,19 @@
     <Compile Include="Assets\Scripts\PauseToggle.cs" />
     <Compile Include="Assets\Scripts\PerlinScript.cs" />
     <Compile Include="Assets\Scripts\RandomFill.cs" />
+    <Compile Include="Assets\Scripts\RoomSphere.cs" />
     <Compile Include="Assets\Scripts\SaveLoadVoxels.cs" />
     <Compile Include="Assets\Scripts\ShootBall.cs" />
     <Compile Include="Assets\Scripts\ShootBallForward.cs" />
+    <Compile Include="Assets\Scripts\ShootLaser.cs" />
     <Compile Include="Assets\Scripts\SinWaveGen.cs" />
     <Compile Include="Assets\Scripts\SphereRemoval.cs" />
+    <Compile Include="Assets\Scripts\SphereRoom.cs" />
     <Compile Include="Assets\Scripts\SphereWithLayers.cs" />
     <Compile Include="Assets\Scripts\TextureOffsetZoom.cs" />
+    <Compile Include="Assets\Scripts\UI_ATPEnergy.cs" />
+    <Compile Include="Assets\Scripts\UI_BrushRadiusText.cs" />
+    <Compile Include="Assets\Scripts\UI_SpeedText.cs" />
     <Compile Include="Assets\Scripts\VSG_ConvexCollider_Manager.cs" />
     <Compile Include="Assets\Scripts\VoxMaterialAnimator.cs" />
     <Compile Include="Assets\Scripts\VoxMaterialFactoryGenerator.cs" />
@@ -146,19 +171,26 @@
     <Compile Include="Assets\Scripts\VoxelSystemUpdateManager.cs" />
     <Compile Include="Assets\Scripts\VoxelThreads.cs" />
     <Compile Include="Assets\Scripts\voxList.cs" />
-    <Compile Include="Assets\SphereRoom.cs" />
-    <Compile Include="Assets\UI_BrushRadiusText.cs" />
+    <Compile Include="Assets\UI_Interface_Color_Energy.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\SavedVoxels\Cell.txt" />
-    <None Include="Assets\SavedVoxels\CellDude_1.txt" />
-    <None Include="Assets\SavedVoxels\Enviro.txt" />
-    <None Include="Assets\SavedVoxels\Environment.txt" />
-    <None Include="Assets\SavedVoxels\EnvironmentNew.txt" />
-    <None Include="Assets\SavedVoxels\EnviroTest1.txt" />
-    <None Include="Assets\SavedVoxels\RedBloodCell.txt" />
-    <None Include="Assets\SavedVoxels\Test.txt" />
-    <None Include="Assets\SavedVoxels\Virus1.txt" />
+    <None Include="Assets\Cell.txt" />
+    <None Include="Assets\CellDude_1.txt" />
+    <None Include="Assets\Enviro.txt" />
+    <None Include="Assets\Environment.txt" />
+    <None Include="Assets\EnvironmentNew.txt" />
+    <None Include="Assets\EnviroTest1.txt" />
+    <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
+    <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
+    <None Include="Assets\plugins\donotdelete.txt" />
+    <None Include="Assets\plugins\x86\donotdelete.txt" />
+    <None Include="Assets\plugins\x86_64\donotdelete.txt" />
+    <None Include="Assets\RedBloodCell.txt" />
+    <None Include="Assets\SavedVoxels\GoodOnes\Virus1_backup.txt" />
+    <None Include="Assets\Test.txt" />
+    <None Include="Assets\Virus1.txt" />
+    <None Include="Assets\Virus2.txt" />
+    <None Include="Assets\Virus2_Leg.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2012\UnityVS.CSharp.targets" />
 </Project>

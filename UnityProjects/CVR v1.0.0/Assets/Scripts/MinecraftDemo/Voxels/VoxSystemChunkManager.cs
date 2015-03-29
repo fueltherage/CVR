@@ -6,7 +6,8 @@ using System.Collections;
 public class VoxSystemChunkManager : MonoBehaviour {
 
 	VoxelSystemGreedy vSystem;
-    
+    Vector3 systemOffset;
+    bool init = false;
     
 	// Use this for initialization
 	void Start () {    
@@ -15,14 +16,24 @@ public class VoxSystemChunkManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(!init)
+        {
+            if (vSystem.Initialized)
+            { 
+                systemOffset = vSystem.offset;
+                if (vSystem.XSize == 1) systemOffset.x = 0;
+                if (vSystem.YSize == 1) systemOffset.y = 0;
+                if (vSystem.ZSize == 1) systemOffset.z = 0;
+            }
+        }
 	
 	}
     public Vector3 WorldToVoxelAdd(RaycastHit Pos)
     {
         Vector3 difference = Pos.point - vSystem.transform.position;
-        difference += Pos.normal /2.0f;
+        difference += Pos.normal /2.0f * vSystem.VoxelSpacing;
         difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= vSystem.offset;
+        difference -= systemOffset;
         difference -= vSystem.chunks_vcs[0, 0, 0].offset;
         difference /= vSystem.VoxelSpacing;
         return difference;
@@ -31,7 +42,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
     {
         Vector3 difference = Pos - vSystem.transform.position;       
         difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= vSystem.offset;
+        difference -= systemOffset;
         difference -= vSystem.chunks_vcs[0, 0, 0].offset;
         difference /= vSystem.VoxelSpacing;
         return difference;
@@ -39,9 +50,9 @@ public class VoxSystemChunkManager : MonoBehaviour {
     public Vector3 WorldToVoxelRemove(RaycastHit Pos)
     {
         Vector3 difference = Pos.point - vSystem.transform.position;
-        difference -= Pos.normal / 2.0f;
+        difference -= Pos.normal / 2.0f * vSystem.VoxelSpacing;
         difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= vSystem.offset;
+        difference -= systemOffset;
         difference -= vSystem.chunks_vcs[0, 0, 0].offset;
         difference /= vSystem.VoxelSpacing;
         return difference;
@@ -50,7 +61,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
     {
         Vector3 difference = Pos - vSystem.transform.position;
         difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= vSystem.offset;
+        difference -= systemOffset;
         difference -= vSystem.chunks_vcs[0, 0, 0].offset;
         difference /= vSystem.VoxelSpacing;
         return difference;
@@ -60,9 +71,25 @@ public class VoxSystemChunkManager : MonoBehaviour {
     {
         vSystem.QuickAdd(new VoxelPos(WorldToVoxelAdd(Pos)), type, update);
     }
+    public void QuickAdd(Vector3 Pos, int type, bool update)
+    {
+        vSystem.QuickAdd(new VoxelPos(WorldToVoxelAdd(Pos)), type, update);
+    }
+    public void QuickAdd(VoxelPos Pos, int type, bool update)
+    {
+        vSystem.QuickAdd(Pos, type, update);
+    }
     public void QuickRemove(RaycastHit Pos, bool update)
     { 
         vSystem.QuickRemove(new VoxelPos(WorldToVoxelRemove(Pos)), update);
+    }
+    public void QuickRemove(Vector3 Pos, bool update)
+    {
+        vSystem.QuickRemove(new VoxelPos(WorldToVoxelRemove(Pos)), update);
+    }
+    public void QuickRemove(VoxelPos Pos, bool update)
+    {
+        vSystem.QuickRemove(Pos, update);
     }
     public void AddVoxel(Vector3 Pos, bool update)
 	{
@@ -144,6 +171,59 @@ public class VoxSystemChunkManager : MonoBehaviour {
 					}
 				}   
             }   
+        }
+    }
+    public void QuickRemoveVoxelAoE(Vector3 Pos, int radius, bool PureVoxel)
+    {
+        Vector3 offset;
+        Vector3 difference = WorldToVoxelRemove(Pos);
+
+        if (PureVoxel)
+            radius = (int)(radius / vSystem.VoxelSpacing);
+
+
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                for (int z = -radius; z <= radius; z++)
+                {
+                    offset.x = x;
+                    offset.y = y;
+                    offset.z = z;
+                    if (offset.magnitude <= radius)
+                    {
+                        QuickRemove(new VoxelPos(difference + (offset / 1.42f)), true);
+                    }
+                }
+            }
+        }
+    }
+    public void QuickAddVoxelAoE(Vector3 Pos, int radius, int type, bool PureVoxel)
+    {
+        Vector3 offset;
+        Vector3 difference = WorldToVoxelAdd(Pos);
+
+        if (PureVoxel)
+            radius = (int)(radius / vSystem.VoxelSpacing);
+
+
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                for (int z = -radius; z <= radius; z++)
+                {
+                    offset.x = x;
+                    offset.y = y;
+                    offset.z = z;
+
+                    if (offset.magnitude <= radius)
+                    {
+                        QuickAdd(new VoxelPos(difference + (offset / 1.42f)), type, true);
+                    }
+                }
+            }
         }
     }
     public void AddVoxelAoE(Vector3 Pos, int radius,int type, bool PureVoxel)

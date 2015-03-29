@@ -34,11 +34,12 @@ public class KillOnImpact : MonoBehaviour {
 			Destroy(deffect, particle_deffect.duration);
 			if(rb!=null)
 			{
-				rb.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(rayhit, RadiusExplosion, false);
+                
+				rb.gameObject.GetComponentInChildren<VoxSystemChunkManager>().RemoveVoxelAoE(rayhit, RadiusExplosion, true);
 				rb.AddForceAtPosition(this_rb.velocity * this_rb.mass, rayhit.point);
 
 			}
-			else rayhit.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(rayhit, RadiusExplosion, false);
+			else rayhit.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(rayhit, RadiusExplosion, true);
 			
 			
 			

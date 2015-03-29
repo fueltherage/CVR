@@ -7,6 +7,8 @@ public class SaveLoadVoxels : MonoBehaviour {
 	public string voxName = "";
 	public bool ClearBeforeLoading = false;
 	public bool LoadOnStart = false;
+    public bool loaded = false;
+    public bool enableInput = false;
 	VoxelSystemGreedy vs; 
 	bool loading = false;
 	bool saving = false;
@@ -17,23 +19,23 @@ public class SaveLoadVoxels : MonoBehaviour {
 	void Start () {
 		vs = GetComponent<VoxelSystemGreedy>();	
 	}
-	void OnGUI()
-	{
-		Color col = new Color();
-		string message = "";
-		if(saving) 
-		{
-			col = Color.red;
-			message += " Saving.";
-		}
-		if(loading) 
-		{
-			col = Color.red;
-			message += " Loading.";
-		}
-		GUI.color = col;
-		GUI.TextField( new Rect(10, 40, 100, 25), "Status: " + message );
-	}
+    //void OnGUI()
+    //{
+    //    Color col = new Color();
+    //    string message = "";
+    //    if(saving) 
+    //    {
+    //        col = Color.red;
+    //        message += " Saving.";
+    //    }
+    //    if(loading) 
+    //    {
+    //        col = Color.red;
+    //        message += " Loading.";
+    //    }
+    //    GUI.color = col;
+    //    GUI.TextField( new Rect(10, 40, 100, 25), "Status: " + message );
+    //}
 
 	VoxelPos VoxelNum(VoxelPos c, VoxelPos s)
 	{
@@ -45,17 +47,21 @@ public class SaveLoadVoxels : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Y))
-		{
-			if(saving)
-			{
-				Debug.Log ("Saving Already");
-			}
-			else{
-				//VoxelThreads.RunAsync(SaveSystem);
-				SaveSystem();
-			}
-		}
+        if (enableInput)
+        {
+            if (Input.GetKeyDown(KeyCode.Y))
+            {
+                if (saving)
+                {
+                    Debug.Log("Saving Already");
+                }
+                else
+                {
+                    //VoxelThreads.RunAsync(SaveSystem);
+                    SaveSystem();
+                }
+            }
+        }
 		if(Input.GetKeyDown(KeyCode.T))
 		{
 			LoadSystem();
@@ -80,10 +86,11 @@ public class SaveLoadVoxels : MonoBehaviour {
 		string s = "";
 		try
 		{
-			s = System.IO.File.ReadAllText("./Assets/SavedVoxels/"+voxName+".txt");
+			//s = System.IO.File.ReadAllText("./Assets/SavedVoxels/"+voxName+".txt");
+            s = System.IO.File.ReadAllText(Application.dataPath +"\\"+ voxName + ".txt");
 		}catch(UnityException e)
 		{
-			Debug.LogError("<color=red>Error:</color> File not found at location: /Assets/SavedVoxels/"+voxName+".txt");
+			Debug.LogError("<color=red>Error:</color> File not found at location: "+Application.dataPath+@"\"+voxName+".txt");
 			return;
 		}
 
@@ -151,6 +158,7 @@ public class SaveLoadVoxels : MonoBehaviour {
 
 		Debug.Log ("<color=green>VoxSaveFile "+voxName+" loaded successfully. "+count+" voxels loaded.</color>");
 		loading = false;
+        loaded = true;
 	}
 	struct SaveGarbage
 	{
@@ -368,7 +376,6 @@ public class SaveLoadVoxels : MonoBehaviour {
 		}
 
 		System.IO.File.WriteAllText("./Assets/SavedVoxels/"+ voxName +".txt",node.ToString());
-        //Application.persistantDataPath
 		Debug.Log("String Char Count "+node.ToString().Length+" "+node.ToString());
 		saving = false;
 

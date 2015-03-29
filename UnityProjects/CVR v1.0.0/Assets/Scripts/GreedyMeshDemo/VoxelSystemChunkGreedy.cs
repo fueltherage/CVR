@@ -20,7 +20,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 	protected VoxelSystemChunkGreedy thisChunk;
 	protected voxList<JamQuad> Quads;
 
-
+    
 
 	VoxelPos bookmark;
 	GameObject ConvexCollider;
@@ -69,8 +69,13 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 		vmesh = new Mesh();
 		Quads = new voxList<JamQuad>();
 
-		float max = Mathf.Max (Mathf.Max(systemParent.XSize * XSize, systemParent.YSize * YSize), systemParent.ZSize * ZSize);
-		UVRatio = new Vector3(max / (systemParent.XSize * XSize), max /(systemParent.YSize * YSize), max / (systemParent.ZSize * ZSize));
+		
+        if (systemParent.UniqueSides) UVRatio = new Vector3(1.0f, 1.0f, 1.0f);
+        else
+        {
+            float max = Mathf.Max(Mathf.Max(systemParent.XSize * XSize, systemParent.YSize * YSize), systemParent.ZSize * ZSize);
+            UVRatio = new Vector3(max / (systemParent.XSize * XSize), max / (systemParent.YSize * YSize), max / (systemParent.ZSize * ZSize));
+        }
 		//needsUpdating = true;
 		Initialized = true;
 	}
@@ -132,9 +137,9 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 					{
 						if(blocks[x,y,z].filled)
 						{
-							centerOfMass.x += (x + offset.x/2.0f) * blocks[x,y,z].voxel.Mass / chunkMass;
-							centerOfMass.y += (y + offset.y/2.0f) * blocks[x,y,z].voxel.Mass / chunkMass;
-							centerOfMass.z += (z + offset.z/2.0f) * blocks[x,y,z].voxel.Mass / chunkMass;
+							centerOfMass.x += (x + offset.x) * blocks[x,y,z].voxel.Mass / chunkMass;
+							centerOfMass.y += (y + offset.y) * blocks[x,y,z].voxel.Mass / chunkMass;
+							centerOfMass.z += (z + offset.z) * blocks[x,y,z].voxel.Mass / chunkMass;
 						}
 					}
 			}else

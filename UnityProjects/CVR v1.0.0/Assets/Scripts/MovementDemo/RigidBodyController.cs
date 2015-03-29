@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class RigidBodyController : MonoBehaviour {
 
 	public float Force = 10;
@@ -22,10 +23,12 @@ public class RigidBodyController : MonoBehaviour {
 		velocity = GetComponent<Rigidbody>().velocity;
 
 
-		if(Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.LeftShift))
+		if(!Input.GetKey(KeyCode.Space) && Input.GetKey(KeyCode.LeftShift))
 		{
 			rigidbody.AddForce(-new Vector3(0,1,0) * Impulse, ForceMode.Impulse);			
-		}else if(Input.GetKey(KeyCode.Space))
+		}
+
+        if(Input.GetKey(KeyCode.Space))
 		{
 			rigidbody.AddForce(new Vector3(0,1,0) * Impulse, ForceMode.Impulse);
 		}
@@ -53,4 +56,12 @@ public class RigidBodyController : MonoBehaviour {
 		if(GetComponent<Rigidbody>().velocity.magnitude >= maxSpeed) GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * maxSpeed;
 
 	}
+    public void UpSpeed()
+    {
+        Impulse += 1;
+    }
+    public void DownSpeed()
+    {
+        Impulse -= 1;
+    }
 }

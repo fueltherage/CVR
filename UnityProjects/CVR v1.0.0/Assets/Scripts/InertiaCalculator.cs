@@ -15,6 +15,8 @@ public class InertiaCalculator : MonoBehaviour {
         
 		rb = GetComponent<Rigidbody>();
 		//rb.AddTorque(new Vector3(0,1,0));
+        rb.centerOfMass = CenterOfMass;
+        rb.inertiaTensor = Inertia;
 		vs = GetComponent<VoxelSystemGreedy>();
 	}
 	
@@ -23,43 +25,46 @@ public class InertiaCalculator : MonoBehaviour {
     {
         if(rb != null)
         {
-			float SystemMass=0;
+           
+                float SystemMass = 0;
 
-			int x,y,z;
-			Inertia = Vector3.zero;
-			CenterOfMass=Vector3.zero;
-			for(x = 0; x < vs.XSize; ++x)			
-				for(y = 0; y < vs.YSize; ++y)				
-					for(z = 0; z < vs.ZSize; ++z)
-				{
-					SystemMass += vs.chunks_vcs[x,y,z].chunkMass;
-				}
-			if(SystemMass!=0)
-				for(x = 0; x < vs.XSize; ++x)			
-					for(y = 0; y < vs.YSize; ++y)				
-						for(z = 0; z < vs.ZSize; ++z)
-					{
-						CenterOfMass += (vs.chunks_vcs[x,y,z].centerOfMass + vs.chunks_vcs[x,y,z].transform.localPosition ) * vs.chunks_vcs[x,y,z].chunkMass / SystemMass;
-					}
-			else CenterOfMass = Vector3.zero;
+                int x, y, z;
+                Inertia = Vector3.zero;
+                CenterOfMass = Vector3.zero;
+                for (x = 0; x < vs.XSize; ++x)
+                    for (y = 0; y < vs.YSize; ++y)
+                        for (z = 0; z < vs.ZSize; ++z)
+                        {
+                            SystemMass += vs.chunks_vcs[x, y, z].chunkMass;
+                        }
+                if (SystemMass != 0)
+                    for (x = 0; x < vs.XSize; ++x)
+                        for (y = 0; y < vs.YSize; ++y)
+                            for (z = 0; z < vs.ZSize; ++z)
+                            {
+                                CenterOfMass += (vs.chunks_vcs[x, y, z].centerOfMass + vs.chunks_vcs[x, y, z].transform.localPosition) * vs.chunks_vcs[x, y, z].chunkMass / SystemMass;
+                            }
+                else CenterOfMass = Vector3.zero;
+                if (vs.ChunkSizeX > 1 && vs.ChunkSizeY > 1 && vs.ChunkSizeZ > 1)
+                {
+                    for (x = 0; x < vs.XSize; ++x)
+                        for (y = 0; y < vs.YSize; ++y)
+                            for (z = 0; z < vs.ZSize; ++z)
+                            {
+                                Vector3 diff = (vs.chunks_vcs[x, y, z].centerOfMass + vs.chunks_vcs[x, y, z].transform.localPosition) - CenterOfMass;
 
-			for(x = 0; x < vs.XSize; ++x)			
-				for(y = 0; y < vs.YSize; ++y)				
-					for(z = 0; z < vs.ZSize; ++z)
-				{
-					Vector3 diff = (vs.chunks_vcs[x,y,z].centerOfMass + vs.chunks_vcs[x,y,z].transform.localPosition ) - CenterOfMass;
+                                Inertia.x += diff.x * diff.x * vs.chunks_vcs[x, y, z].chunkMass;
+                                Inertia.y += diff.y * diff.y * vs.chunks_vcs[x, y, z].chunkMass;
+                                Inertia.z += diff.z * diff.z * vs.chunks_vcs[x, y, z].chunkMass;
+                            }
+                } Inertia = new Vector3(1, 1, 1);
+                //transform.localPosition = new Vector3(transform.localPosition.x, , transform.localPosition.z);
 
-					Inertia.x += diff.x * diff.x * vs.chunks_vcs[x,y,z].chunkMass;
-					Inertia.y += diff.y * diff.y * vs.chunks_vcs[x,y,z].chunkMass;
-					Inertia.z += diff.z * diff.z * vs.chunks_vcs[x,y,z].chunkMass;
-				}
-
-			//transform.localPosition = new Vector3(transform.localPosition.x, , transform.localPosition.z);
-
-			rb.centerOfMass = CenterOfMass;
-			if(Inertia.x<0.01||Inertia.y<0.01||Inertia.z<0.01){Inertia = new Vector3(1,1,1);}
-			rb.inertiaTensor = Inertia;
-			rb.mass = SystemMass;
+                rb.centerOfMass = CenterOfMass;
+               
+                rb.inertiaTensor = Inertia;
+                rb.mass = SystemMass;
+            
         }
     }
 	void Update () {

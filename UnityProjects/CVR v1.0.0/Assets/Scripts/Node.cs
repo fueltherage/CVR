@@ -2,14 +2,17 @@
 using System.Collections;
 
 public class Node : MonoBehaviour {
-
+   
 	public VoxelSystemGreedy vs;
-	public System.Action f_updateCalls;
-	public System.Action s_updateCalls;
+	public System.Action first_updateCalls;
+	public System.Action second_updateCalls;
+    public System.Action third_updateCalls;
 	// Use this for initialization
 	void Start () {
-		f_updateCalls += go;
-		s_updateCalls += go;
+        first_updateCalls += go;
+        second_updateCalls += go;
+        third_updateCalls += go;
+
 	
 	}
 	
@@ -17,11 +20,7 @@ public class Node : MonoBehaviour {
 	void Update () {
 	
 	}
-	public void UpdateNode()
-	{
-		VoxelThreads.QueueOnMainThread(f_updateCalls);
-		VoxelThreads.QueueOnMainThread(s_updateCalls);
-	}
+	
 	void go()
 	{
 	}

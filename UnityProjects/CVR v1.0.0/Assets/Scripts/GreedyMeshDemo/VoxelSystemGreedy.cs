@@ -5,43 +5,35 @@ using System.Collections.Generic;
 [System.Serializable]
 [RequireComponent (typeof (VoxSystemChunkManager),typeof (VoxelSystemUpdateManager))]
 public class VoxelSystemGreedy : MonoBehaviour {
-	[SerializeField]
+
 	public  int XSize = 2;
-	[SerializeField]
-	public  int YSize = 2;
-	[SerializeField]
+	public  int YSize = 2;	
 	public  int ZSize = 2;
 
-	[SerializeField]
 	public float VoxelSpacing=1.0f;
-	[SerializeField]
-	public int ChunkSizeX = 16;
-	[SerializeField]
-	public int ChunkSizeY = 16;
-	[SerializeField]
+	public int ChunkSizeX = 16;	
+	public int ChunkSizeY = 16;	
 	public int ChunkSizeZ = 16;
 
-	[SerializeField]
 	public bool UniqueSides = false;
 	public GameObject[,,] chunks;
 	public VoxelSystemChunkGreedy[,,] chunks_vcs;
 	public GameObject VoxelChunkGO;
 	public GameObject EmptyChunk;
-	[SerializeField]
 	public bool IsEmptyFilled =false;
-	public Vector3 offset;
-	[SerializeField]
+	public Vector3 offset;	
 	public VoxMaterialFactory factory;
-	public bool Initialized = false;
-	bool CreateConvexColliders = false;
+	public bool Initialized = false;    
 	public VoxelSystemUpdateManager VSUM;
-    public InertiaCalculator calc;
+    public InertiaCalculator calc;  
+    public Rigidbody rigidBody;
 
-	public Rigidbody rigidBody;
+    VoxelChunkEmpty EmptyChunkSync;
+    
 	int currentSelectedVoxel=1;
 	GameObject KRB; //Unused RB only used to encapsulate the MeshColliders;
-	LayerMask chunkMask;
-	int chunkMaskI;
+    bool CreateConvexColliders = false;   
+	public int chunkMaskI;
 	void Start () {
         if(!Initialized)Init();
 		
@@ -59,7 +51,7 @@ public class VoxelSystemGreedy : MonoBehaviour {
 		if(rigidBody!= null)
 		calc = gameObject.AddComponent<InertiaCalculator>();
 
-        VoxelChunkEmpty EmptyChunkSync = EmptyChunk.GetComponent<VoxelChunkEmpty>();
+        EmptyChunkSync = EmptyChunk.GetComponent<VoxelChunkEmpty>();
         EmptyChunkSync.XSize = ChunkSizeX;
         EmptyChunkSync.YSize = ChunkSizeY;
         EmptyChunkSync.ZSize = ChunkSizeZ;
@@ -74,25 +66,28 @@ public class VoxelSystemGreedy : MonoBehaviour {
 		offset.x = -(XSize*ChunkSizeX*VoxelSpacing/2.0f);
 		offset.y = -(YSize*ChunkSizeY*VoxelSpacing/2.0f);
 		offset.z = -(ZSize*ChunkSizeZ*VoxelSpacing/2.0f);
+
+        
         
 		Transform chunksParent;
 		if(rigidBody == null)
 		{
-			chunksParent = this.transform;
-			chunkMask = LayerMask.GetMask("RaysConvex");
-			chunkMaskI = LayerMask.NameToLayer("RaysConvex");
+            chunksParent = this.transform;
+           // chunkMask = LayerMask.GetMask("Rays");
+            //chunkMaskI = LayerMask.NameToLayer("Rays");
 		}else
 		{ 
-			chunkMask = LayerMask.GetMask("Rays");
-			chunkMaskI = LayerMask.NameToLayer("Rays");
+            //chunkMask = LayerMask.
+            //chunkMaskI = LayerMask.NameToLayer("Rays");
             
             KRB = new GameObject();
 			KRB.name = "KRB";
 			KRB.transform.parent = this.transform;
-			KRB.layer = chunkMaskI;
+            KRB.layer = chunkMaskI;
 			KRB.tag = "Chunk";
 			Rigidbody r = KRB.AddComponent<Rigidbody>();
             KRB.transform.localPosition = Vector3.zero;
+            KRB.transform.localRotation = Quaternion.identity;
 			r.isKinematic = true;
 			r.useGravity = false;
 			//r.constraints = RigidbodyConstraints.FreezeAll;		
@@ -105,12 +100,17 @@ public class VoxelSystemGreedy : MonoBehaviour {
         for (int x =0; x < XSize; x++){
             for (int y =0; y < YSize; y++){
                 for (int z =0; z < ZSize; z++){
-                    chunks[x,y,z] = Instantiate(VoxelChunkGO, this.transform.position, Quaternion.identity) as GameObject;
-					chunks[x,y,z].layer = chunkMaskI;
+                    chunks[x,y,z] = Instantiate(VoxelChunkGO, this.transform.position, this.transform.rotation) as GameObject;
+                    chunks[x, y, z].layer = chunkMaskI;
 					chunks[x,y,z].transform.parent = chunksParent;
-					chunks[x,y,z].transform.Translate(new Vector3(offset.x  + x * ChunkSizeX * VoxelSpacing, 
-					                                              offset.y  + y * ChunkSizeY * VoxelSpacing,
-					                                              offset.z  + z * ChunkSizeZ * VoxelSpacing));
+                    Vector3 chunkOffset = new Vector3(offset.x + x * ChunkSizeX * VoxelSpacing,
+                                                      offset.y + y * ChunkSizeY * VoxelSpacing,
+                                                      offset.z + z * ChunkSizeZ * VoxelSpacing);
+                    if (XSize == 1) chunkOffset.x = 0;
+                    if (YSize == 1) chunkOffset.y = 0;
+                    if (ZSize == 1) chunkOffset.z = 0;
+
+					chunks[x,y,z].transform.Translate(chunkOffset);
                     
                     chunks[x,y,z].name = "Chunk "+x+" "+y+ " "+z;
                 }
@@ -244,39 +244,8 @@ public class VoxelSystemGreedy : MonoBehaviour {
                     //}
 				}
 			}
-
 		}
-
 	}
-    public void QuickRemove(VoxelPos voxel, bool update)
-    {
-        VoxelPos voxPos = new VoxelPos(voxel.x % ChunkSizeX,
-                                       voxel.y % ChunkSizeY,
-                                       voxel.z % ChunkSizeZ);
-
-        VoxelPos chunkPos = new VoxelPos(voxel.x / ChunkSizeX,
-                                         voxel.y / ChunkSizeY,
-                                         voxel.z / ChunkSizeZ);
-        VoxelFactory.GenerateVoxel(0, ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
-        if (update)
-        {
-
-            chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.UpdateNeighbours();
-            VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
-
-            ////An attempt at syncing up chunk updates
-            //if (!chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].Generating)
-            //{
-            //    System.Action up = go;
-            //    System.Action gen = go;
-            //    chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.GetNeighbourDelegate(ref up, ref gen);
-            //    if (up == null)
-            //        VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
-            //    else VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z], up, gen);
-            //}
-        }
-        
-    }
     public void QuickAdd(VoxelPos voxel, int type, bool update)
     {
         VoxelPos voxPos = new VoxelPos(voxel.x % ChunkSizeX,
@@ -306,6 +275,36 @@ public class VoxelSystemGreedy : MonoBehaviour {
             //}
         }
     }
+    public void QuickRemove(VoxelPos voxel, bool update)
+    {
+        VoxelPos voxPos = new VoxelPos(voxel.x % ChunkSizeX,
+                                       voxel.y % ChunkSizeY,
+                                       voxel.z % ChunkSizeZ);
+
+        VoxelPos chunkPos = new VoxelPos(voxel.x / ChunkSizeX,
+                                         voxel.y / ChunkSizeY,
+                                         voxel.z / ChunkSizeZ);
+        VoxelFactory.GenerateVoxel(0, ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
+        if (update)
+        {
+
+            chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.UpdateNeighbours();
+            VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
+
+            ////An attempt at syncing up chunk updates
+            //if (!chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].Generating)
+            //{
+            //    System.Action up = go;
+            //    System.Action gen = go;
+            //    chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.GetNeighbourDelegate(ref up, ref gen);
+            //    if (up == null)
+            //        VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
+            //    else VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z], up, gen);
+            //}
+        }
+        
+    }
+   
 	public void RemoveVoxel(VoxelPos voxel, bool update)
 	{
 		//Calculate the position
@@ -358,7 +357,107 @@ public class VoxelSystemGreedy : MonoBehaviour {
 				}
 			}
 		}
-	}	
+	}
+    public enum Direction { posX, negX, posY, negY, posZ, negZ};
+    VoxelPos vp;
+    VoxelPos cp;
+    public VoxelShell Neighbouring(ref VoxelShell _v, Direction _d)
+    {
+        vp.x = _v.vp.x;
+        vp.y = _v.vp.y;
+        vp.z = _v.vp.z;
+
+        cp.x = _v.parentChunk.chunkPos.x;
+        cp.y = _v.parentChunk.chunkPos.y;
+        cp.z = _v.parentChunk.chunkPos.z;
+
+        if (_d == Direction.posX)
+        {
+            ++vp.x;
+            if (vp.x == ChunkSizeX)
+            {
+                ++cp.x;
+                vp.x = 0;
+                if (cp.x == XSize)
+                {
+                    return EmptyChunkSync.emptyShell;
+                }                
+            }
+            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+        }
+        else if (_d == Direction.negX)
+        {
+            --vp.x;
+            if (vp.x <0)
+            {
+                --cp.x;
+                vp.x = ChunkSizeX - 1;
+                if (cp.x < 0)
+                {
+                    return EmptyChunkSync.emptyShell;
+                }
+            }
+            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+        }
+        else if (_d == Direction.posY)
+        {
+            ++vp.y;
+            if (vp.y == ChunkSizeY)
+            {
+                ++cp.y;
+                vp.y = 0;
+                if (cp.y == YSize)
+                {
+                    return EmptyChunkSync.emptyShell;
+                }
+            }
+            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+
+        }
+        else if (_d == Direction.negY)
+        {
+            --vp.y;
+            if (vp.y == 0)
+            {
+                --cp.y;
+                vp.y = ChunkSizeY - 1;
+                if (cp.y < 0)
+                {
+                    return EmptyChunkSync.emptyShell;
+                }
+            }
+            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+        }
+        else if (_d == Direction.posZ)
+        {
+            ++vp.z;
+            if (vp.z == ChunkSizeX)
+            {
+                ++cp.z;
+                vp.z = 0;
+                if (cp.z == ZSize)
+                {
+                    return EmptyChunkSync.emptyShell;
+                }
+            }
+            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+        }
+        else // (_d == Direction.negZ)
+        {
+            --vp.z;
+            if (vp.z < 0)
+            {
+                --cp.z;
+                vp.z = ChunkSizeZ - 1;
+                if (cp.z < 0)
+                {
+                    return EmptyChunkSync.emptyShell;
+                }
+            }
+            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+        }     
+
+    }
 	// Update is called once per frame
 	void Update () {
         

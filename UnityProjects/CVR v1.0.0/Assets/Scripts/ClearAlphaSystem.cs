@@ -72,9 +72,9 @@ public class ClearAlphaSystem : MonoBehaviour {
 				
 			}
 		}
-		for (int y = 0; y < Side.width/sheetLayout.x/spacing.y; y++) {
-			for (int z = 0; z < Side.height/sheetLayout.y/spacing.z; z++) {
-				Color pixColor = Side.GetPixel(y* spacing.y,z* spacing.z);
+		for (int z = 0; z < Side.width/sheetLayout.x/spacing.z; z++) {
+			for (int y = 0; y < Side.height/sheetLayout.y/spacing.y; y++) {
+				Color pixColor = Side.GetPixel(z* spacing.z,y* spacing.y);
 				
 				for (int x = 0; x < vs.ChunkSizeX * vs.XSize; x++)
 				{
@@ -86,20 +86,22 @@ public class ClearAlphaSystem : MonoBehaviour {
 				
 			}
 		}
-		for (int x = 0; x < Front.width/sheetLayout.x/spacing.x; x++) {
-			for (int y = 0; y < Front.height/sheetLayout.y/spacing.y; y++) {
-				Color pixColor = Front.GetPixel(x* spacing.x,y* spacing.y);
-				
-				for (int z = 0; z < vs.ChunkSizeZ * vs.ZSize; z++)
-				{
-					if(pixColor.a <= alphaCuttoff)
-					{
-						vs.RemoveVoxel(new VoxelPos(x,y,z), false);
-					}//else vs.AddVoxel(new VoxelPos(x,y,z), false);
-				}														
-				
-			}
-		}
+        for (int x = 0; x < Front.width / sheetLayout.x / spacing.x; x++)
+        {
+            for (int y = 0; y < Front.height / sheetLayout.y / spacing.y; y++)
+            {
+                Color pixColor = Front.GetPixel(x * spacing.x, y * spacing.y);
+
+                for (int z = 0; z < vs.ChunkSizeZ * vs.ZSize; z++)
+                {
+                    if (pixColor.a <= alphaCuttoff)
+                    {
+                        vs.RemoveVoxel(new VoxelPos(x, y, z), false);
+                    }//else vs.AddVoxel(new VoxelPos(x,y,z), false);
+                }
+
+            }
+        }
 		vs.UpdateMeshes();
 		init = true;
 	}

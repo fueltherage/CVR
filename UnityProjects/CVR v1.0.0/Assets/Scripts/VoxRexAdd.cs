@@ -3,8 +3,9 @@ using System.Collections;
 
 public class VoxRexAdd : MonoBehaviour {
 
-	VoxelSystemGreedy vs;
+	
 	VoxSystemChunkManager vcm;
+    public int order = 1;
 	bool init = false;
 	Node node;
 	public int xR,yR,zR;
@@ -13,9 +14,9 @@ public class VoxRexAdd : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		node = GetComponent<Node>();
-		vs = node.vs;
+		
 		vcm = node.vs.GetComponent<VoxSystemChunkManager>();
-		node.s_updateCalls += AddArea;
+		node.third_updateCalls += AddArea;
 	}
 	
 	// Update is called once per frame
@@ -35,7 +36,9 @@ public class VoxRexAdd : MonoBehaviour {
 			for(int y = -yR; y < yR; y++)
 				for(int z = -zR; z < zR; z++)
 			{
-				vcm.AddVoxel(this.transform.position + new Vector3(x,y,z),false,type);
+                
+				vcm.QuickAdd(this.transform.position + new Vector3(x,y,z),type,true);
+                //vcm.AddVoxel(this.transform.position + new Vector3(x, y, z), true, type);
 			}	
 	}
 }

@@ -31,8 +31,8 @@ public class FillWholeSystem : MonoBehaviour {
 						for (int yc = 0; yc < vc.ChunkSizeY; yc++){
 							for (int zc = 0; zc < vc.ChunkSizeZ; zc++){															
 								vsum.AddVoxel(new VoxelPos(x*vc.ChunkSizeX + xc, 
-								                           y*vc.ChunkSizeX + yc,
-                                                           z * vc.ChunkSizeX + zc), false, type);
+								                           y*vc.ChunkSizeY + yc,
+                                                           z * vc.ChunkSizeZ + zc), false, type);
 							}
 						}
 					}
@@ -40,6 +40,7 @@ public class FillWholeSystem : MonoBehaviour {
 			}
 		}
 		vc.UpdateMeshes();
+        Destroy(this);
 	}
 }
 

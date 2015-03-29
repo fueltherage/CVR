@@ -7,6 +7,7 @@ public class DebugMesh : MonoBehaviour {
 	void Start () {
 		Destroy(gameObject.GetComponent<MeshRenderer>());
 		Destroy(gameObject.GetComponent<MeshFilter>());
+        Destroy(this);
 	}
 	
 	// Update is called once per frame

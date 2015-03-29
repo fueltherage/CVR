@@ -22,8 +22,17 @@ public class NodeManager : MonoBehaviour {
 	{
 		for(int i =0; i<nodes.Length;i++)
 		{
-			nodes[i].UpdateNode();
+			nodes[i].first_updateCalls();
 		}
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            nodes[i].second_updateCalls();
+        }
+        for (int i = 0; i < nodes.Length; i++)
+        {
+            nodes[i].third_updateCalls();
+        }
+        vs.UpdateMeshes();
 	}
 
 	

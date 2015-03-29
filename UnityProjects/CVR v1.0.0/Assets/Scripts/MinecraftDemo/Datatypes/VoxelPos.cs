@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class VoxelPos {
+public struct VoxelPos {
 	public int x, y, z;
-	public VoxelPos()
-	{
-	}
+
 	public VoxelPos(int _x, int _y, int _z)
 	{
 		x = _x;

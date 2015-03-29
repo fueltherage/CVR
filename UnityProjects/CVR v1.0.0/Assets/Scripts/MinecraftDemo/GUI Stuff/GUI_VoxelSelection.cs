@@ -11,7 +11,7 @@ public class GUI_VoxelSelection : MonoBehaviour {
 	public int numberOfBoxes = 6;
    
 
-	int currentSelectedBox=1;
+	int currentSelectedBox = 1;
 
     
 
@@ -29,6 +29,7 @@ public class GUI_VoxelSelection : MonoBehaviour {
 	}
 	void Start () {
         //cc = CameraOrigin.GetComponent<CameraControls>();
+        VoxelEvents.VoxelSwitched(currentSelectedBox);
 	}
 	
 	// Update is called once per frame

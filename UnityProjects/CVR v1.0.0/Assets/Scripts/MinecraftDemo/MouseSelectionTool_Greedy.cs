@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MouseSelectionTool_Greedy : MonoBehaviour {
 	public float SelectRange = 100.0f;
@@ -40,7 +41,7 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
                     {
                         rayColor = Color.green;
 						//Debug.Log(hit.collider.gameObject.transform.parent.name);
-                        if (Input.GetKey(KeyCode.LeftShift))
+                        if (Input.GetKey(KeyCode.LeftAlt))
                         {
                             RemoveVoxel(hit);
                         }
@@ -87,13 +88,18 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
 	}
 	void AddVoxel (RaycastHit hitPos)
 	{
-        if(radius > 0) hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxelAoE(hitPos, radius, true, currentSelectVoxel);
-        else           hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().QuickAdd(hitPos, currentSelectVoxel, true);        
+        List<VoxSystemChunkManager> v = new List<VoxSystemChunkManager>();
+        hitPos.transform.parent.gameObject.GetComponentsInChildren<VoxSystemChunkManager>(v); 
+        if (radius > 0) foreach(VoxSystemChunkManager vs in v) vs.AddVoxelAoE(hitPos, radius, true, currentSelectVoxel);
+        else foreach(VoxSystemChunkManager vs in v) vs.QuickAdd(hitPos, currentSelectVoxel, true);        
 	}
 	void RemoveVoxel(RaycastHit hitPos)
 	{
-        if(radius > 0) hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(hitPos, radius, true);
-        else           hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().QuickRemove(hitPos, true);
+        List<VoxSystemChunkManager> v = new List<VoxSystemChunkManager>();
+        hitPos.transform.parent.gameObject.GetComponentsInChildren<VoxSystemChunkManager>(v);
+
+        if (radius > 0) foreach (VoxSystemChunkManager vs in v) vs.RemoveVoxelAoE(hitPos, radius, true);
+        else foreach (VoxSystemChunkManager vs in v) vs.QuickRemove(hitPos, true);     
 	}
 	public void ReduceRadius()
 	{

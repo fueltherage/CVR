@@ -16,9 +16,9 @@ public class FillCenter : MonoBehaviour {
 		if(!init)
 		if(vs.Initialized)
 		{
-			vcm.AddVoxel(new VoxelPos((vs.ChunkSizeX*vs.XSize)/2.0f,
-			                         (vs.ChunkSizeY*vs.YSize)/2.0f,
-						  			 (vs.ChunkSizeZ*vs.ZSize)/2.0f),true,1);
+			vcm.AddVoxel(new VoxelPos(System.Math.Round((vs.ChunkSizeX*vs.XSize)/2.0f,System.MidpointRounding.AwayFromZero),
+			                         System.Math.Round((vs.ChunkSizeY*vs.YSize)/2.0f,System.MidpointRounding.AwayFromZero),
+                                     System.Math.Round((vs.ChunkSizeZ * vs.ZSize) / 2.0f, System.MidpointRounding.AwayFromZero)), true, 1);
 			init = true;
 			//Destroy(this);
 		}
