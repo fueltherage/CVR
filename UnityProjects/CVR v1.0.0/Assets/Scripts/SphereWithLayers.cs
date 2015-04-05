@@ -10,7 +10,7 @@ public class SphereWithLayers : MonoBehaviour {
     VoxelSystemGreedy vc;
     Vector3 offset;
     bool init = false;
-
+    
 	void Start () {
         vc = GetComponent<VoxelSystemGreedy>();
         offset = new Vector3(vc.XSize*vc.ChunkSizeX,
@@ -38,14 +38,21 @@ public class SphereWithLayers : MonoBehaviour {
                                         int VoxType=0;
 										for(int i = 1; i<= layers; i++)
 										{
+
 											if(p.magnitude < LayerSize * i)
 											{
+                                                if (p.magnitude > radius /2.1f && p.magnitude < radius /1.25f)
+                                                {
+                                                   VoxType = 0;
+                                                   break;
+                                                }
 												VoxType = i;
 												break;
 											}
 										}
                                        
                                         if(p.magnitude < radius/vc.VoxelSpacing){
+
 											VoxelFactory.GenerateVoxel(VoxType, ref vc.chunks_vcs[x,y,z].blocks[xc, yc, zc]);
 
                                         }

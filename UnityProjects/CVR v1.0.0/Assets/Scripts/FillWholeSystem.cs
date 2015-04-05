@@ -6,6 +6,7 @@ public class FillWholeSystem : MonoBehaviour {
 	VoxSystemChunkManager vsum;
     public int type = 1;
 	bool init = false;
+    public bool update = true;
 	// Use this for initialization
 	void Start () {
 		vc = this.gameObject.GetComponent<VoxelSystemGreedy>();	
@@ -30,8 +31,8 @@ public class FillWholeSystem : MonoBehaviour {
 					for (int xc = 0; xc < vc.ChunkSizeX; xc++){
 						for (int yc = 0; yc < vc.ChunkSizeY; yc++){
 							for (int zc = 0; zc < vc.ChunkSizeZ; zc++){															
-								vsum.AddVoxel(new VoxelPos(x*vc.ChunkSizeX + xc, 
-								                           y*vc.ChunkSizeY + yc,
+								vsum.QuickAdd(new VoxelPos(x * vc.ChunkSizeX + xc, 
+								                           y * vc.ChunkSizeY + yc,
                                                            z * vc.ChunkSizeZ + zc), false, type);
 							}
 						}
@@ -39,6 +40,7 @@ public class FillWholeSystem : MonoBehaviour {
 				}
 			}
 		}
+        if (update)
 		vc.UpdateMeshes();
         Destroy(this);
 	}

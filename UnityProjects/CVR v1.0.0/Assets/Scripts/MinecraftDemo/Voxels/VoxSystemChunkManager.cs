@@ -21,6 +21,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
             if (vSystem.Initialized)
             { 
                 systemOffset = vSystem.offset;
+                
                 if (vSystem.XSize == 1) systemOffset.x = 0;
                 if (vSystem.YSize == 1) systemOffset.y = 0;
                 if (vSystem.ZSize == 1) systemOffset.z = 0;
@@ -31,7 +32,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
     public Vector3 WorldToVoxelAdd(RaycastHit Pos)
     {
         Vector3 difference = Pos.point - vSystem.transform.position;
-        difference += Pos.normal /2.0f * vSystem.VoxelSpacing;
+        difference += Pos.normal / 2.0f * vSystem.VoxelSpacing;
         difference = transform.worldToLocalMatrix.MultiplyVector(difference);
         difference -= systemOffset;
         difference -= vSystem.chunks_vcs[0, 0, 0].offset;
@@ -67,15 +68,15 @@ public class VoxSystemChunkManager : MonoBehaviour {
         return difference;
     }
 
-    public void QuickAdd(RaycastHit Pos, int type, bool update)
+    public void QuickAdd(RaycastHit Pos, bool update,int type)
     {
         vSystem.QuickAdd(new VoxelPos(WorldToVoxelAdd(Pos)), type, update);
     }
-    public void QuickAdd(Vector3 Pos, int type, bool update)
+    public void QuickAdd(Vector3 Pos, bool update, int type)
     {
         vSystem.QuickAdd(new VoxelPos(WorldToVoxelAdd(Pos)), type, update);
     }
-    public void QuickAdd(VoxelPos Pos, int type, bool update)
+    public void QuickAdd(VoxelPos Pos, bool update, int type)
     {
         vSystem.QuickAdd(Pos, type, update);
     }
@@ -91,18 +92,16 @@ public class VoxSystemChunkManager : MonoBehaviour {
     {
         vSystem.QuickRemove(Pos, update);
     }
+    //-------------------------------------------------------------------
     public void AddVoxel(Vector3 Pos, bool update)
 	{
         vSystem.AddVoxel(new VoxelPos(WorldToVoxelAdd(Pos)), update);
 	}
     public void AddVoxel(Vector3 Pos, bool update, int type)
     {        
-        vSystem.AddVoxel(new VoxelPos(WorldToVoxelAdd(Pos)), update, type);
+        vSystem.AddVoxel(new VoxelPos(WorldToVoxelAdd(Pos)), update, type);    
     }
-	public void RemoveVoxel(Vector3 Pos, bool update)
-    { 
-		vSystem.RemoveVoxel(new VoxelPos(WorldToVoxelRemove(Pos)), update);
-    }
+	
 	public void AddVoxel(VoxelPos Pos, bool update,int type)
 	{
 		vSystem.AddVoxel(Pos,update,type);
@@ -110,6 +109,12 @@ public class VoxSystemChunkManager : MonoBehaviour {
     public void AddVoxel(VoxelPos Pos, bool update)
     {
 		vSystem.AddVoxel(Pos,update);
+    }
+    //-------------------------------------------------------------------
+
+    public void RemoveVoxel(Vector3 Pos, bool update)
+    {
+        vSystem.RemoveVoxel(new VoxelPos(WorldToVoxelRemove(Pos)), update);
     }
 	public void RemoveVoxel(VoxelPos Pos, bool update)
     {
@@ -139,7 +144,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
                     offset.y =y;
                     offset.z =z;
 
-                    if (offset.magnitude <= radius)
+                    if (offset.magnitude < radius)
                     {
 						AddVoxel(new VoxelPos(difference + (offset  / 1.42f)), true, type);
 					}
@@ -165,7 +170,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
                     offset.x =x;
                     offset.y =y;
                     offset.z =z;
-                    if (offset.magnitude <= radius)
+                    if (offset.magnitude < radius)
                     {
                         RemoveVoxel(new VoxelPos(difference + (offset / 1.42f)), true);
 					}
@@ -191,7 +196,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
                     offset.x = x;
                     offset.y = y;
                     offset.z = z;
-                    if (offset.magnitude <= radius)
+                    if (offset.magnitude < radius)
                     {
                         QuickRemove(new VoxelPos(difference + (offset / 1.42f)), true);
                     }
@@ -218,9 +223,9 @@ public class VoxSystemChunkManager : MonoBehaviour {
                     offset.y = y;
                     offset.z = z;
 
-                    if (offset.magnitude <= radius)
+                    if (offset.magnitude < radius)
                     {
-                        QuickAdd(new VoxelPos(difference + (offset / 1.42f)), type, true);
+                        QuickAdd(new VoxelPos(difference + (offset / 1.42f)), true, type);
                     }
                 }
             }
@@ -254,9 +259,9 @@ public class VoxSystemChunkManager : MonoBehaviour {
         }
     }
 
-    public void AddVoxel(RaycastHit Pos, bool update)
+    public void AddVoxel(RaycastHit Pos, bool update, int type)
     {       
-		vSystem.AddVoxel(new VoxelPos(WorldToVoxelAdd(Pos)), update);
+		vSystem.AddVoxel(new VoxelPos(WorldToVoxelAdd(Pos)), update, type);
     }
 	public void RemoveVoxel(RaycastHit Pos, bool update)
     {

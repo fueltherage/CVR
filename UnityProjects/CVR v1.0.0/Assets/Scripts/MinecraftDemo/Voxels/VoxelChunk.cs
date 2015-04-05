@@ -52,7 +52,7 @@ public class VoxelChunk: MonoBehaviour {
         vmesh = new Mesh();
       
 		//Shift the game object so the center is always the origin.
-		this.transform.Translate (-VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f);
+		//this.transform.Translate (-VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f);
 	
 		offset.x = - XSize*VoxelSpacing/2.0f;//Starting position of vertices
 		offset.y = - YSize*VoxelSpacing/2.0f;
@@ -75,7 +75,7 @@ public class VoxelChunk: MonoBehaviour {
         InitDics();  
  
         //Give the voxelShells neighbour refrences
-        GenerateNeighbours();
+        //GenerateNeighbours();
 
 		//Center Voxel filled for testing
 		//VoxelFactory.GenerateVoxel(1,ref blocks[XSize/2,YSize/2,ZSize/2],offset,VoxelSpacing);
@@ -84,27 +84,27 @@ public class VoxelChunk: MonoBehaviour {
 
         Initialized = true;
 	}
-    protected void GenerateNeighbours()
-    {
-        for (int x = 0; x < XSize; ++x){
-            for (int y = 0; y < YSize; ++y){
-                for (int z = 0; z < ZSize; ++z) {
-                    if (x == 0 || y == 0 || z == 0 || x == XSize - 1 || y == YSize - 1 || z == ZSize - 1)
-                    {
-                        blocks[x, y, z].locked = true;
-                        blocks[x, y, z].filled = false;
-                        //Lock the outer layer
-                    }
-                    else{
-                        blocks[x, y, z].neighbours = new Neighbours(ref blocks[x + 1, y, z], ref blocks[x - 1, y, z], ref blocks[x , y + 1, z],
-                                                                    ref blocks[x, y - 1, z], ref blocks[x, y, z + 1], ref blocks[x, y, z - 1]);
-                        blocks[x, y, z].locked = false;
-                        //VoxelFactory.GenerateVoxel(1,ref blocks[x,y,z],offset,VoxelSpacing);
-                    }
-                }
-			}
-        }
-    }
+    //protected void GenerateNeighbours()
+    //{
+    //    for (int x = 0; x < XSize; ++x){
+    //        for (int y = 0; y < YSize; ++y){
+    //            for (int z = 0; z < ZSize; ++z) {
+    //                if (x == 0 || y == 0 || z == 0 || x == XSize - 1 || y == YSize - 1 || z == ZSize - 1)
+    //                {
+    //                    blocks[x, y, z].locked = true;
+    //                    blocks[x, y, z].filled = false;
+    //                    //Lock the outer layer
+    //                }
+    //                else{
+    //                    blocks[x, y, z].neighbours = new Neighbours(ref blocks[x + 1, y, z], ref blocks[x - 1, y, z], ref blocks[x , y + 1, z],
+    //                                                                ref blocks[x, y - 1, z], ref blocks[x, y, z + 1], ref blocks[x, y, z - 1]);
+    //                    blocks[x, y, z].locked = false;
+    //                    //VoxelFactory.GenerateVoxel(1,ref blocks[x,y,z],offset,VoxelSpacing);
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
     protected void SubscribeToVoxelEvents()
     {
         VoxelEvents.onVoxelAdded += AddVoxel;

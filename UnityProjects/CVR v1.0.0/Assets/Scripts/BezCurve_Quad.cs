@@ -10,6 +10,7 @@ public class BezCurve_Quad : MonoBehaviour {
     LineRenderer line;
     public float step;
     
+    
     public Vector3[] verts;
     bool init = false;
     public Vector3 At(float t)
@@ -25,6 +26,9 @@ public class BezCurve_Quad : MonoBehaviour {
     }
     public void UpdateLine()
     {
+        P1v = P1.position;
+        P2v = P2.position;
+        P0v = P0.position;
         verts = new Vector3[numPoints];
         step = 1.0f / (numPoints + 1);
         line.SetVertexCount(numPoints + 2);
@@ -36,11 +40,14 @@ public class BezCurve_Quad : MonoBehaviour {
             line.SetPosition(i, verts[i - 1]);
         }
     }
+    Vector3 P0v, P1v, P2v;
+
     void Update()
     {
 
         if (!init && Application.isPlaying)
         {
+            if (P1v != P1.position || P2v != P2.position || P0v != P0.position)
             UpdateLine();
             init = true;
             Destroy(this);

@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class VoxelShell {
-	public Voxel voxel;
-	public Neighbours neighbours;
+	public Voxel voxel;	
 	public VoxelPos vp;
 	public bool filled;
 	public bool locked;

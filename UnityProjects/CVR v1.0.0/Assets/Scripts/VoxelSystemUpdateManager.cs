@@ -30,13 +30,14 @@ public class VoxelSystemUpdateManager : MonoBehaviour {
 	{
 		if(!_chunk.queuedForUpdate)
 		{
+           
 			if(rb!= null)rb.WakeUp();
 
 			Vector3 difference = PlayerPos.transform.position - _chunk.transform.position;
 
 			if(difference.magnitude < P1Distance)
 			{
-                VoxelThreads.Current.QueueVoxMeshUpdate(ref _chunk,1);
+                VoxelThreads.Current.QueueVoxMeshUpdate(ref _chunk, 1);
 			}
 			else if(difference.magnitude < P2Distance)
 			{
@@ -53,6 +54,7 @@ public class VoxelSystemUpdateManager : MonoBehaviour {
 	{
         if(!_chunk.queuedForUpdate)
         {
+            
 			if(rb!= null)rb.WakeUp();
 
     		Vector3 difference = PlayerPos.transform.position - _chunk.transform.position;

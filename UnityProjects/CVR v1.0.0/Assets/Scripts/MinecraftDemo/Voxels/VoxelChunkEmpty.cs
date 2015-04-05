@@ -15,34 +15,26 @@ public class VoxelChunkEmpty: VoxelChunk {
 	public override void Init (){
 		//Shift the game oject over so the center is always the origin.
 		//thisChunk = gameObject.GetComponent<VoxelChunkEmpty>();
-		this.transform.Translate (-VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f);
+		//this.transform.Translate (-VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f, -VoxelSpacing / 2.0f);
 
 		emptyShell = new VoxelShell();
 		emptyShell.filled = false;
 		emptyShell.locked = true;
-		emptyShell.neighbours = new Neighbours();
-		emptyShell.neighbours.zpos = emptyShell;
-		emptyShell.neighbours.zneg = emptyShell;
-		emptyShell.neighbours.ypos = emptyShell;
-		emptyShell.neighbours.yneg = emptyShell;
-		emptyShell.neighbours.xpos = emptyShell;
-		emptyShell.neighbours.xneg = emptyShell;
 
 		//Initializing Voxel/VoxelShell array
-		blocks = new VoxelShell[XSize,YSize,ZSize];
-		for (int x =0; x < XSize; x++){
-			for (int y =0; y < YSize; y++){
-				for (int z =0; z < ZSize; z++){
-					if(x == 0 || x == XSize -1 ||
-					   y == 0 || y == YSize -1 ||
-					   z == 0 || z == ZSize -1)
-					{
-						blocks[x,y,z] = emptyShell;
-
-					}
-				}
-			}
-		}
+        //blocks = new VoxelShell[XSize,YSize,ZSize];
+        //for (int x =0; x < XSize; x++){
+        //    for (int y =0; y < YSize; y++){
+        //        for (int z =0; z < ZSize; z++){
+        //            if(x == 0 || x == XSize -1 ||
+        //               y == 0 || y == YSize -1 ||
+        //               z == 0 || z == ZSize -1)
+        //            {
+        //                blocks[x,y,z] = emptyShell;
+        //            }
+        //        }
+        //    }
+        //}
 	}
 	
 	// Update is called once per frame

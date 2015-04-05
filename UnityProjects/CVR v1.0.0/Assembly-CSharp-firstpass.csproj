@@ -47,23 +47,25 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\plugins\SimpleJSON.cs" />
+     <None Include="Assets\SavedVoxels\TinyVirus1.txt" />
      <None Include="Assets\plugins\donotdelete.txt" />
-     <None Include="Assets\Virus1.txt" />
+     <None Include="Assets\SavedVoxels\Virus1.txt" />
      <None Include="Assets\plugins\x86_64\donotdelete.txt" />
-     <None Include="Assets\Virus2_Leg.txt" />
-     <None Include="Assets\CellDude_1.txt" />
+     <None Include="Assets\SavedVoxels\Virus2_Leg.txt" />
+     <None Include="Assets\SavedVoxels\CellDude_1.txt" />
      <None Include="Assets\OVR\Shaders\TextShader3D.shader" />
-     <None Include="Assets\RedBloodCell.txt" />
+     <None Include="Assets\SavedVoxels\RedBloodCell.txt" />
      <None Include="Assets\SavedVoxels\GoodOnes\Virus1_backup.txt" />
-     <None Include="Assets\Virus2.txt" />
-     <None Include="Assets\Test.txt" />
-     <None Include="Assets\Enviro.txt" />
-     <None Include="Assets\EnviroTest1.txt" />
-     <None Include="Assets\EnvironmentNew.txt" />
+     <None Include="Assets\SavedVoxels\WhitebloodCell1.txt" />
+     <None Include="Assets\SavedVoxels\Virus2.txt" />
+     <None Include="Assets\SavedVoxels\Test.txt" />
+     <None Include="Assets\SavedVoxels\Enviro.txt" />
+     <None Include="Assets\SavedVoxels\EnviroTest1.txt" />
+     <None Include="Assets\SavedVoxels\EnvironmentNew.txt" />
      <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
-     <None Include="Assets\Environment.txt" />
+     <None Include="Assets\SavedVoxels\Environment.txt" />
      <None Include="Assets\plugins\x86\donotdelete.txt" />
-     <None Include="Assets\Cell.txt" />
+     <None Include="Assets\SavedVoxels\Cell.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity5/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

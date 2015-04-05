@@ -86,8 +86,8 @@ public class SaveLoadVoxels : MonoBehaviour {
 		string s = "";
 		try
 		{
-			//s = System.IO.File.ReadAllText("./Assets/SavedVoxels/"+voxName+".txt");
-            s = System.IO.File.ReadAllText(Application.dataPath +"\\"+ voxName + ".txt");
+			//s = System.IO.File.ReadAllText("./Assets/SavedVoxels/"+voxName+".txt");            
+            s = System.IO.File.ReadAllText(Application.dataPath +"\\SavedVoxels\\"+ voxName + ".txt");
 		}catch(UnityException e)
 		{
 			Debug.LogError("<color=red>Error:</color> File not found at location: "+Application.dataPath+@"\"+voxName+".txt");
@@ -230,7 +230,7 @@ public class SaveLoadVoxels : MonoBehaviour {
 							}
 
 
-		int xtemp, ytemp, ztemp, type, x_length, y_length, z_length; 
+		int xtemp, ytemp, ztemp, x_length, y_length, z_length; 
 		VoxelPos Bookmark = new VoxelPos();
 		List<SaveArea> saveStreamArea = new List<SaveArea>();
 		List<SaveSingle> saveStreamSingle = new List<SaveSingle>();

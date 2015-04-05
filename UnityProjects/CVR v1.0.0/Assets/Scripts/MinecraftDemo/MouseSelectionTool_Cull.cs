@@ -73,7 +73,7 @@ public class MouseSelectionTool_MultiChunk : MonoBehaviour {
         if (hitPos.transform.gameObject.tag == "VoxelChunk")
             hitPos.transform.gameObject.GetComponent<VoxChunkManager>().AddVoxel(hitPos,true);
         else if (hitPos.transform.gameObject.tag == "VoxelSystemChunk")
-			hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxel(hitPos, true);
+			hitPos.transform.parent.gameObject.GetComponent<VoxSystemChunkManager>().AddVoxel(hitPos, true,1 );
 	}
 	void RemoveVoxel(RaycastHit hitPos)
 	{

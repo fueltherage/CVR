@@ -37,7 +37,7 @@ public class VoxRexAdd : MonoBehaviour {
 				for(int z = -zR; z < zR; z++)
 			{
                 
-				vcm.QuickAdd(this.transform.position + new Vector3(x,y,z),type,true);
+				vcm.QuickAdd(this.transform.position + new Vector3(x,y,z),true,type);
                 //vcm.AddVoxel(this.transform.position + new Vector3(x, y, z), true, type);
 			}	
 	}

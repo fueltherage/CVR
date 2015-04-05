@@ -177,13 +177,13 @@ public class VoxelSystemGreedy : MonoBehaviour {
         }
         //All the chunks needs to be completely initialized
         //before neighbours are calculated to avoid nulls value refrences.
-        for (int x =0; x < XSize; x++){
-            for (int y =0; y < YSize; y++){
-                for (int z =0; z < ZSize; z++){
-                    chunks_vcs[x,y,z].CalculateNeighbours();
-                }
-            }
-        }
+        //for (int x =0; x < XSize; x++){
+        //    for (int y =0; y < YSize; y++){
+        //        for (int z =0; z < ZSize; z++){
+        //            chunks_vcs[x,y,z].CalculateNeighbours();
+        //        }
+        //    }
+        //}
 
        
         Initialized = true;
@@ -231,7 +231,8 @@ public class VoxelSystemGreedy : MonoBehaviour {
 
 				if(update)
 				{
-                    chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.UpdateNeighbours();
+                    //chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.UpdateNeighbours();
+                    UpdateNeightbours(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
                     VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
                     //if(!chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].Generating)
                     //{
@@ -255,12 +256,15 @@ public class VoxelSystemGreedy : MonoBehaviour {
         VoxelPos chunkPos = new VoxelPos(voxel.x / ChunkSizeX,
                                          voxel.y / ChunkSizeY,
                                          voxel.z / ChunkSizeZ);
+
+
         VoxelFactory.GenerateVoxel(type, ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
 
         if (update)
         {
 
-            chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.UpdateNeighbours();
+            //chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.UpdateNeighbours();
+            UpdateNeightbours(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
             VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
 
             //An attempt at syncing up chunk updates
@@ -284,11 +288,14 @@ public class VoxelSystemGreedy : MonoBehaviour {
         VoxelPos chunkPos = new VoxelPos(voxel.x / ChunkSizeX,
                                          voxel.y / ChunkSizeY,
                                          voxel.z / ChunkSizeZ);
+
+
         VoxelFactory.GenerateVoxel(0, ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
         if (update)
         {
 
-            chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.UpdateNeighbours();
+            UpdateNeightbours(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
+
             VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
 
             ////An attempt at syncing up chunk updates
@@ -303,7 +310,7 @@ public class VoxelSystemGreedy : MonoBehaviour {
             //}
         }
         
-    }
+    }   
    
 	public void RemoveVoxel(VoxelPos voxel, bool update)
 	{
@@ -325,8 +332,8 @@ public class VoxelSystemGreedy : MonoBehaviour {
                 VoxelFactory.GenerateVoxel(0, ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
 				if(update)
 				{
-
-	                chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x,voxPos.y,voxPos.z].neighbours.UpdateNeighbours();
+                    UpdateNeightbours(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
+	                //chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x,voxPos.y,voxPos.z].neighbours.UpdateNeighbours();
 	                VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
 
 					//An attempt at syncing up chunk updates
@@ -343,7 +350,34 @@ public class VoxelSystemGreedy : MonoBehaviour {
 			}
 		}
 	}
-   
+    public void UpdateNeightbours(ref VoxelShell _v)
+    {
+        VoxelShell v = Neighbouring(ref _v, Direction.negX);
+        if( v.parentChunk != null)
+        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+        v = Neighbouring(ref _v, Direction.posX);
+        if (v.parentChunk != null)
+        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+
+        v = Neighbouring(ref _v, Direction.negY);
+        if (v.parentChunk != null)
+        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+        v = Neighbouring(ref _v, Direction.posY);
+        if (v.parentChunk != null)
+        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+
+        v = Neighbouring(ref _v, Direction.negZ);
+        if (v.parentChunk != null)
+        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+        v = Neighbouring(ref _v, Direction.posZ);
+        if (v.parentChunk != null)
+        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+    }
 	void go(){}
 	public void UpdateMeshes()
 	{
@@ -359,10 +393,11 @@ public class VoxelSystemGreedy : MonoBehaviour {
 		}
 	}
     public enum Direction { posX, negX, posY, negY, posZ, negZ};
-    VoxelPos vp;
-    VoxelPos cp;
+    
     public VoxelShell Neighbouring(ref VoxelShell _v, Direction _d)
     {
+        VoxelPos vp;
+        VoxelPos cp;
         vp.x = _v.vp.x;
         vp.y = _v.vp.y;
         vp.z = _v.vp.z;
@@ -370,96 +405,107 @@ public class VoxelSystemGreedy : MonoBehaviour {
         cp.x = _v.parentChunk.chunkPos.x;
         cp.y = _v.parentChunk.chunkPos.y;
         cp.z = _v.parentChunk.chunkPos.z;
+        try
+        {
 
-        if (_d == Direction.posX)
-        {
-            ++vp.x;
-            if (vp.x == ChunkSizeX)
+            if (_d == Direction.posX)
             {
-                ++cp.x;
-                vp.x = 0;
-                if (cp.x == XSize)
+                ++vp.x;
+                if (vp.x >= ChunkSizeX)
                 {
-                    return EmptyChunkSync.emptyShell;
-                }                
-            }
-            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
-        }
-        else if (_d == Direction.negX)
-        {
-            --vp.x;
-            if (vp.x <0)
-            {
-                --cp.x;
-                vp.x = ChunkSizeX - 1;
-                if (cp.x < 0)
-                {
-                    return EmptyChunkSync.emptyShell;
+                    ++cp.x;
+                    vp.x = 0;
+                    if (cp.x >= XSize)
+                    {
+                        return EmptyChunkSync.emptyShell;
+                    }
                 }
+                return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
             }
-            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
-        }
-        else if (_d == Direction.posY)
-        {
-            ++vp.y;
-            if (vp.y == ChunkSizeY)
+            else if (_d == Direction.negX)
             {
-                ++cp.y;
-                vp.y = 0;
-                if (cp.y == YSize)
+                --vp.x;
+                if (vp.x < 0)
                 {
-                    return EmptyChunkSync.emptyShell;
+                    --cp.x;
+                    vp.x = ChunkSizeX - 1;
+                    if (cp.x < 0)
+                    {
+                        return EmptyChunkSync.emptyShell;
+                    }
                 }
+                return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
             }
-            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+            else if (_d == Direction.posY)
+            {
+                ++vp.y;
+                if (vp.y >= ChunkSizeY)
+                {
+                    ++cp.y;
+                    vp.y = 0;
+                    if (cp.y >= YSize)
+                    {
+                        return EmptyChunkSync.emptyShell;
+                    }
+                }
+                return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
 
-        }
-        else if (_d == Direction.negY)
-        {
-            --vp.y;
-            if (vp.y == 0)
-            {
-                --cp.y;
-                vp.y = ChunkSizeY - 1;
-                if (cp.y < 0)
-                {
-                    return EmptyChunkSync.emptyShell;
-                }
             }
+            else if (_d == Direction.negY)
+            {
+                --vp.y;
+                if (vp.y < 0)
+                {
+                    --cp.y;
+                    vp.y = ChunkSizeY - 1;
+                    if (cp.y < 0)
+                    {
+                        return EmptyChunkSync.emptyShell;
+                    }
+                }
+                return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+            }
+            else if (_d == Direction.posZ)
+            {
+                ++vp.z;
+                if (vp.z >= ChunkSizeZ)
+                {
+                    ++cp.z;
+                    vp.z = 0;
+                    if (cp.z >= ZSize)
+                    {
+                        return EmptyChunkSync.emptyShell;
+                    }
+                }
+                return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+            }
+            else // (_d == Direction.negZ)
+            {
+                --vp.z;
+                if (vp.z < 0)
+                {
+                    --cp.z;
+                    vp.z = ChunkSizeZ - 1;
+                    if (cp.z < 0)
+                    {
+                        return EmptyChunkSync.emptyShell;
+                    }
+                }
+                return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
+            }
+        }
+        catch (System.IndexOutOfRangeException e)
+        {
             return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
         }
-        else if (_d == Direction.posZ)
-        {
-            ++vp.z;
-            if (vp.z == ChunkSizeX)
-            {
-                ++cp.z;
-                vp.z = 0;
-                if (cp.z == ZSize)
-                {
-                    return EmptyChunkSync.emptyShell;
-                }
-            }
-            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
-        }
-        else // (_d == Direction.negZ)
-        {
-            --vp.z;
-            if (vp.z < 0)
-            {
-                --cp.z;
-                vp.z = ChunkSizeZ - 1;
-                if (cp.z < 0)
-                {
-                    return EmptyChunkSync.emptyShell;
-                }
-            }
-            return chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z];
-        }     
 
     }
 	// Update is called once per frame
 	void Update () {
-        
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            UpdateMeshes();
+
+        }
 	}
 }

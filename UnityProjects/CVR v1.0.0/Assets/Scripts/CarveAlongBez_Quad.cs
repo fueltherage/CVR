@@ -6,6 +6,7 @@ public class CarveAlongBez_Quad : MonoBehaviour {
     VoxelSystemGreedy vs;
 	// Use this for initialization
     public int radius = 4;
+    public bool pureVoxel = true;
     BezCurve_Quad line;
     VoxSystemChunkManager vscm;
     Node node;
@@ -22,7 +23,7 @@ public class CarveAlongBez_Quad : MonoBehaviour {
     {
         for (int i = 0; i < line.verts.Length; i++)
         {
-            vscm.QuickRemoveVoxelAoE(line.verts[i], radius, true);
+            vscm.QuickRemoveVoxelAoE(line.verts[i], radius, pureVoxel);
             //vscm.RemoveVoxelAoE(line.verts[i], radius, true);
         }
     }

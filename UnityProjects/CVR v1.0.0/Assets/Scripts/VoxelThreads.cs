@@ -158,12 +158,7 @@ public class VoxelThreads : MonoBehaviour {
 	}	
 	readonly Action[] _toRun = new Action[4000];	
 
-	struct QueuedChunk{
-		public bool Active;
-
-		public VoxelSystemChunkGreedy chunk;
-	}
-	QueuedChunk[] qChunks = new QueuedChunk[MaxVoxelMeshUpdateThreads];
+	
   
 	void Update()
 	{
@@ -300,66 +295,69 @@ public class VoxelThreads : MonoBehaviour {
 	
 	public void QueueVoxMeshUpdate(ref VoxelSystemChunkGreedy chunk,System.Action nUpdateMesh, System.Action nGenerateMesh,  int priority)
 	{
-		if(!chunk.queuedForUpdate)
-		{
-			chunk.queuedForUpdate = true;
-
-			QeueuItem q = new QeueuItem();
-			q.GenMeshN += nGenerateMesh;
-			q.UpdateN += nUpdateMesh;	
-			q.Chunk = chunk;
-			q.UpdateN += chunk.UpdateMesh;
-			q.GenMeshN += chunk.GenerateThisMesh;
-			switch(priority)
-			{
-				case 1:
-					//if(!p1Chunks.Contains(chunk))
-					p1Chunks.Enqueue(q);
-					//else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
-					break;
-				case 2:
-					//if(!p2Chunks.Contains(chunk))
-					p2Chunks.Enqueue(q);
-					//else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
-					break;
-				case 3:
-					//if(!p3Chunks.Contains(chunk))
-					p3Chunks.Enqueue(q);
-					//else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
-					break;
-			}
-		}
+        if (!chunk.queuedForUpdate)
+        {
+            chunk.queuedForUpdate = true;
+            QeueuItem q = new QeueuItem();
+            q.GenMeshN += nGenerateMesh;
+            q.UpdateN += nUpdateMesh;
+            q.Chunk = chunk;
+            q.UpdateN += chunk.UpdateMesh;
+            q.GenMeshN += chunk.GenerateThisMesh;
+            switch (priority)
+            {
+                case 1:
+                    //if(!p1Chunks.Contains(chunk))
+                    p1Chunks.Enqueue(q);
+                    //else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
+                    break;
+                case 2:
+                    //if(!p2Chunks.Contains(chunk))
+                    p2Chunks.Enqueue(q);
+                    //else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
+                    break;
+                case 3:
+                    //if(!p3Chunks.Contains(chunk))
+                    p3Chunks.Enqueue(q);
+                    //else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
+                    break;
+            }
+        }
+		
 
 	}
 
 	public void QueueVoxMeshUpdate(ref VoxelSystemChunkGreedy chunk, int priority)
 	{
-		if(!chunk.queuedForUpdate)
-		{
-			chunk.queuedForUpdate = true;
-			QeueuItem q = new QeueuItem();
-			q.Chunk = chunk;
-			q.GenMeshN = q.Chunk.GenerateThisMesh;
-			q.UpdateN = q.Chunk.UpdateMesh;
-			switch(priority)
-			{
-				case 1:
-					//if(!p1Chunks.Contains(chunk))
-					p1Chunks.Enqueue(q);
-					//else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
-					break;
-				case 2:
-					//if(!p2Chunks.Contains(chunk))
-					p2Chunks.Enqueue(q);
-					//else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
-					break;
-				case 3:
-					//if(!p3Chunks.Contains(chunk))
-					p3Chunks.Enqueue(q);
-					//else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
-					break;
-			}
-		}else Debug.Log("Chunk Update Rejected");	
+
+        if (!chunk.queuedForUpdate)
+        {
+            chunk.queuedForUpdate = true;
+            QeueuItem q = new QeueuItem();
+            q.Chunk = chunk;
+            q.GenMeshN = q.Chunk.GenerateThisMesh;
+            q.UpdateN = q.Chunk.UpdateMesh;
+            switch (priority)
+            {
+                case 1:
+                    //if(!p1Chunks.Contains(chunk))
+                    p1Chunks.Enqueue(q);
+                    //else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
+                    break;
+                case 2:
+                    //if(!p2Chunks.Contains(chunk))
+                    p2Chunks.Enqueue(q);
+                    //else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
+                    break;
+                case 3:
+                    //if(!p3Chunks.Contains(chunk))
+                    p3Chunks.Enqueue(q);
+                    //else Debug.Log("Threading Warning: Chunk - "+chunk.chunkPos.ToString() + " attempted to queue itself more then once.");
+                    break;
+            }
+        }
+        
+		
 	}
 
 }

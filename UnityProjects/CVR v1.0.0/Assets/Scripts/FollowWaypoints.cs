@@ -16,7 +16,7 @@ public class FollowWaypoints : MonoBehaviour {
     Rigidbody rb;
     float delay = 2.0f;
     
-    float range = 10;
+    float range = 6.0f;
     
 
 	// Use this for initialization
