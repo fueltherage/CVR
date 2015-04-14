@@ -156,7 +156,7 @@ public class SaveLoadVoxels : MonoBehaviour {
 		vs.UpdateMeshes();
 
 
-		Debug.Log ("<color=green>VoxSaveFile "+voxName+" loaded successfully. "+count+" voxels loaded.</color>");
+		//Debug.Log ("<color=green>VoxSaveFile "+voxName+" loaded successfully. "+count+" voxels loaded.</color>");
 		loading = false;
         loaded = true;
 	}
@@ -376,7 +376,7 @@ public class SaveLoadVoxels : MonoBehaviour {
 		}
 
 		System.IO.File.WriteAllText("./Assets/SavedVoxels/"+ voxName +".txt",node.ToString());
-		Debug.Log("String Char Count "+node.ToString().Length+" "+node.ToString());
+		//Debug.Log("String Char Count "+node.ToString().Length+" "+node.ToString());
 		saving = false;
 
 	}

@@ -5,10 +5,11 @@ public class PauseToggle : MonoBehaviour {
 
     public KeyCode PauseKey;
     public GameObject PauseMenu;
+    public bool startPaused;
 
 	// Use this for initialization
 	void Start () {
-	
+        GameState.gamePaused = startPaused;
 	}
 	
 	// Update is called once per frame

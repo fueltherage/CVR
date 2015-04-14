@@ -6,7 +6,6 @@ public class VoxelEvents : MonoBehaviour {
 
 	public delegate void VoxelEventHandler(VoxelPos voxel, bool update);
 	public delegate void VoxelSelectionEventHandler(int currentSelectedVoxel);
-
 	public static event VoxelSelectionEventHandler onVoxelSwitch;
 	public static event VoxelEventHandler onVoxelAdded;
 	public static event VoxelEventHandler onVoxelRemoved;

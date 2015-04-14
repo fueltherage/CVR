@@ -85,8 +85,10 @@
     <Compile Include="Assets\Scripts\CameraFollowMouse.cs" />
     <Compile Include="Assets\Scripts\CameraState.cs" />
     <Compile Include="Assets\Scripts\CarveAlongBez_Quad.cs" />
+    <Compile Include="Assets\Scripts\CellStats.cs" />
     <Compile Include="Assets\Scripts\ClearAlphaSystem.cs" />
     <Compile Include="Assets\Scripts\ConvexColliderUtils.cs" />
+    <Compile Include="Assets\Scripts\CubeSpawner.cs" />
     <Compile Include="Assets\Scripts\DebugLine.cs" />
     <Compile Include="Assets\Scripts\DebugLogCatcher.cs" />
     <Compile Include="Assets\Scripts\DebugMesh.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="Assets\Scripts\FollowObject.cs" />
     <Compile Include="Assets\Scripts\FollowWaypoints.cs" />
     <Compile Include="Assets\Scripts\FractalSystemControls.cs" />
+    <Compile Include="Assets\Scripts\GameGod.cs" />
     <Compile Include="Assets\Scripts\GameState.cs" />
     <Compile Include="Assets\Scripts\GreedyMeshDemo\FractalControls.cs" />
     <Compile Include="Assets\Scripts\GreedyMeshDemo\Quad.cs" />
@@ -140,6 +143,7 @@
     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelChunkEmpty.cs" />
     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelEvents.cs" />
     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxelFactory.cs" />
+    <Compile Include="Assets\Scripts\MoveToTarget.cs" />
     <Compile Include="Assets\Scripts\MovementDemo\FaceForward.cs" />
     <Compile Include="Assets\Scripts\MovementDemo\RigidBodyController.cs" />
     <Compile Include="Assets\Scripts\MovementDemo\basicMovement.cs" />
@@ -147,11 +151,14 @@
     <Compile Include="Assets\Scripts\Node.cs" />
     <Compile Include="Assets\Scripts\NodeManager.cs" />
     <Compile Include="Assets\Scripts\PauseToggle.cs" />
-    <Compile Include="Assets\Scripts\PercentInfected.cs" />
     <Compile Include="Assets\Scripts\PerlinScript.cs" />
+    <Compile Include="Assets\Scripts\PlayerIcon.cs" />
     <Compile Include="Assets\Scripts\RandomFill.cs" />
+    <Compile Include="Assets\Scripts\RedBloodCellBehaviour.cs" />
+    <Compile Include="Assets\Scripts\ReloadLevel.cs" />
     <Compile Include="Assets\Scripts\RoomSphere.cs" />
     <Compile Include="Assets\Scripts\SaveLoadVoxels.cs" />
+    <Compile Include="Assets\Scripts\SceneManager.cs" />
     <Compile Include="Assets\Scripts\ShootBall.cs" />
     <Compile Include="Assets\Scripts\ShootBallForward.cs" />
     <Compile Include="Assets\Scripts\ShootLaser.cs" />
@@ -165,12 +172,16 @@
     <Compile Include="Assets\Scripts\UI_Interface_Color_Energy.cs" />
     <Compile Include="Assets\Scripts\UI_SpeedText.cs" />
     <Compile Include="Assets\Scripts\VSG_ConvexCollider_Manager.cs" />
+    <Compile Include="Assets\Scripts\VirusBehaviour.cs" />
+    <Compile Include="Assets\Scripts\VirusPool.cs" />
     <Compile Include="Assets\Scripts\VoxMaterialAnimator.cs" />
     <Compile Include="Assets\Scripts\VoxMaterialFactoryGenerator.cs" />
     <Compile Include="Assets\Scripts\VoxRamp.cs" />
     <Compile Include="Assets\Scripts\VoxRexAdd.cs" />
     <Compile Include="Assets\Scripts\VoxelSystemUpdateManager.cs" />
     <Compile Include="Assets\Scripts\VoxelThreads.cs" />
+    <Compile Include="Assets\Scripts\Waypoint.cs" />
+    <Compile Include="Assets\Scripts\WhiteBloodCellBehaviour.cs" />
     <Compile Include="Assets\Scripts\voxList.cs" />
   </ItemGroup>
   <ItemGroup>

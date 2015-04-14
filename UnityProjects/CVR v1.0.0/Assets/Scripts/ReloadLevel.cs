@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PercentInfected : MonoBehaviour {
+public class ReloadLevel : MonoBehaviour {
 
+    public KeyCode key;
 	// Use this for initialization
 	void Start () {
 	
@@ -10,6 +11,9 @@ public class PercentInfected : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if(Input.GetKeyDown(key))
+        {
+            Application.LoadLevel(0);
+        }
 	}
 }

@@ -15,7 +15,7 @@ public class VoxelThreads : MonoBehaviour {
     private static Queue<QeueuItem> p1Chunks = new Queue<QeueuItem>();
     private static Queue<QeueuItem> p2Chunks = new Queue<QeueuItem>();
     private static Queue<QeueuItem> p3Chunks = new Queue<QeueuItem>();
-    public static int MaxVoxelMeshUpdateThreads = 6;
+    public static int MaxVoxelMeshUpdateThreads = 10;
 
     public int ActiveThreads =0;
 

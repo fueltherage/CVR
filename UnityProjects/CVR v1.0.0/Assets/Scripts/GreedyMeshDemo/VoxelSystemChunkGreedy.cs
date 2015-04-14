@@ -171,12 +171,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 
 
             //Notes
-            /*
-             * In reguards to the two different ways of checking adjacent voxel values
-             * ill be using neighbours when checking if an object is filled because it'll allow me to check adjacent chunks    
-             */
-
-
+  
             //Greedy JamQuad Mesh Generation
             /*Greedy meshing  works by checking ajacent voxels to for similar states and uses this info to generate a quad for the combined
              * 1. If the side is empty

@@ -5,7 +5,7 @@ using System.Collections;
 
 public class VoxSystemChunkManager : MonoBehaviour {
 
-	VoxelSystemGreedy vSystem;
+	public VoxelSystemGreedy vSystem;
     Vector3 systemOffset;
     bool init = false;
     

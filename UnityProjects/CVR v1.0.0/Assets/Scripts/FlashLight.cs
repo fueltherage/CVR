@@ -45,13 +45,29 @@ public class FlashLight : MonoBehaviour {
             transVals[i] = Mathf.PerlinNoise(i/2.0f, 0.0f);
         }          
 	}
-	
+    float xB = 0, xB_lastState = 0; //xB_lastState is last update state for X_Button
 	// Update is called once per frame
 	void Update () {
-        if(Input.GetKeyDown(LightToggle))
-        {
-            inUse = !inUse;
+
+        if (GameState.ControllerEnabled)
+        {            
+            xB = Input.GetAxis("X_Button");
+            if (xB > 0.9f && xB_lastState < 0.1f)
+            {
+                inUse = !inUse;
+            }
+            xB_lastState = xB;
         }
+        else
+        {
+
+            if (Input.GetKeyDown(LightToggle))
+            {
+                inUse = !inUse;
+            }
+        }
+
+
         if (inUse)
         {
             light.enabled = true;

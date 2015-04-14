@@ -10,6 +10,8 @@ public class NodeManager : MonoBehaviour {
 	void Start () {
 		nodes = GetComponentsInChildren<Node>();
 		UpdateNodeSystemRefs();
+      
+
 	}
 	public void UpdateNodeSystemRefs()
 	{
@@ -38,9 +40,10 @@ public class NodeManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.N))
+		if(VoxelThreads.Current.ActiveThreads == 0)
 		{
 			UpdateNodes ();
+            Destroy(this);
 		}
 	}
 }

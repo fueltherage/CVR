@@ -20,6 +20,7 @@ public class VoxelSystemUpdateManager : MonoBehaviour {
 	void Start () {
 		vt = VoxelThreads.Current;
 		rb = GetComponent<Rigidbody>();
+        if (PlayerPos == null) PlayerPos = GameObject.FindGameObjectWithTag("Player");
 	}
 	
 	// Update is called once per frame

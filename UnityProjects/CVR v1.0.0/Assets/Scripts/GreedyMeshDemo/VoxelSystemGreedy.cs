@@ -57,8 +57,8 @@ public class VoxelSystemGreedy : MonoBehaviour {
         EmptyChunkSync.ZSize = ChunkSizeZ;
 
 
-//        VoxelEvents.onVoxelAdded += AddVoxel;
-//        VoxelEvents.onVoxelRemoved += RemoveVoxel;
+//      VoxelEvents.onVoxelAdded += AddVoxel;
+//      VoxelEvents.onVoxelRemoved += RemoveVoxel;
         VoxelEvents.onVoxelSwitch += SelectedVoxelType;
         
         chunks = new GameObject[XSize, YSize, ZSize];
