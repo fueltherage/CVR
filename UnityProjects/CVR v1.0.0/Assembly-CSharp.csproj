@@ -62,6 +62,7 @@
      <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRUGUI.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRVisionGuide.cs" />
+     <Compile Include="Assets\PauseDeltaTime.cs" />
      <Compile Include="Assets\Scripts\AmbientLightAnimation.cs" />
      <Compile Include="Assets\Scripts\BezCurve_Quad.cs" />
      <Compile Include="Assets\Scripts\BezPoint.cs" />
@@ -133,7 +134,6 @@
      <Compile Include="Assets\Scripts\NodeManager.cs" />
      <Compile Include="Assets\Scripts\OculusStateChange.cs" />
      <Compile Include="Assets\Scripts\OculusToggle.cs" />
-     <Compile Include="Assets\Scripts\PauseDeltaTime.cs" />
      <Compile Include="Assets\Scripts\PauseToggle.cs" />
      <Compile Include="Assets\Scripts\PerlinScript.cs" />
      <Compile Include="Assets\Scripts\PlayerIcon.cs" />
