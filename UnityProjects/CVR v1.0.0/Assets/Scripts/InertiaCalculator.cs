@@ -45,7 +45,7 @@ public class InertiaCalculator : MonoBehaviour {
                                 CenterOfMass += (vs.chunks_vcs[x, y, z].centerOfMass + vs.chunks_vcs[x, y, z].transform.localPosition) * vs.chunks_vcs[x, y, z].chunkMass / SystemMass;
                             }
                 else CenterOfMass = Vector3.zero;
-                if (vs.ChunkSizeX > 1 && vs.ChunkSizeY > 1 && vs.ChunkSizeZ > 1)
+                if (vs.XSize > 1 && vs.YSize > 1 && vs.ZSize > 1)
                 {
                     for (x = 0; x < vs.XSize; ++x)
                         for (y = 0; y < vs.YSize; ++y)
@@ -57,8 +57,15 @@ public class InertiaCalculator : MonoBehaviour {
                                 Inertia.y += diff.y * diff.y * vs.chunks_vcs[x, y, z].chunkMass;
                                 Inertia.z += diff.z * diff.z * vs.chunks_vcs[x, y, z].chunkMass;
                             }
-                } Inertia = new Vector3(1, 1, 1);
+                } 
+				else 
+				{ 
+				  Inertia = new Vector3(1, 1, 1);
+				  CenterOfMass = Vector2.zero;
+				}
                 //transform.localPosition = new Vector3(transform.localPosition.x, , transform.localPosition.z);
+				
+				
 
                 rb.centerOfMass = CenterOfMass;
                

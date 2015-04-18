@@ -13,20 +13,24 @@ public class ShootLaser : MonoBehaviour {
     public int LaserDamage = 100;
     public bool worldSpace = true;
     Camera cam; 
+	float reloadCooldown = 0.75f;
 
     Vector3 laserOffset = new Vector3(0.0f, 1.0f, 0.0f);
 	// Use this for initialization
 	void Start () {
         en = GameObject.FindGameObjectWithTag("Player").GetComponent<EnergyManager>();
-        if (GameState.ControllerEnabled)
+        if (GameState.OculusEnabled)
         {
             cam = transform.parent.GetComponent<Camera>();
         }else cam = GetComponent<Camera>();
         
 	}
-	
+
+	float elapsedTime=0;
 	// Update is called once per frame
 	void Update () {
+		elapsedTime += Time.deltaTime;
+		if(elapsedTime >= reloadCooldown)
         if (!GameState.ControllerEnabled)
         {
             if (Input.GetMouseButtonDown(0))
@@ -45,8 +49,10 @@ public class ShootLaser : MonoBehaviour {
 	}
     void shoot()
     {
+
         if (en.UseEnergy(cost))
         {
+			elapsedTime =0;
             Ray laserRay;
             if (!GameState.ControllerEnabled)
             {
@@ -58,7 +64,9 @@ public class ShootLaser : MonoBehaviour {
             }
             Vector3 localPos = laserRay.GetPoint(Range) - this.transform.position;
             RaycastHit[] hit;
+			RaycastHit[] s_hit; 
             hit = Physics.RaycastAll(laserRay, Range, mask);
+			s_hit = Physics.SphereCastAll(laserRay, 2.0f, Range, mask);
             bool hitwall = false;
             for (int i = 0; i < hit.Length; i++)
             {
@@ -80,6 +88,16 @@ public class ShootLaser : MonoBehaviour {
                         else effect.go(((-cam.transform.up + cam.transform.right) * 2), hit[i].point - this.transform.position);
                     }
             }
+			for (int i = 0; i < s_hit.Length; i++)
+			{
+				
+				RemoveVoxel(s_hit[i]);
+				if (s_hit[i].transform.parent != null)
+				{
+					Rigidbody rb = s_hit[i].transform.parent.GetComponent<Rigidbody>();
+					if (rb != null) rb.AddForceAtPosition(this.transform.forward * 1000, s_hit[i].point);
+				}
+			}
             if (!hitwall)
             {
                 if (worldSpace)

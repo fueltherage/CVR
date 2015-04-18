@@ -62,7 +62,6 @@
      <Compile Include="Assets\OVR\Scripts\Util\OVRScreenFade.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRUGUI.cs" />
      <Compile Include="Assets\OVR\Scripts\Util\OVRVisionGuide.cs" />
-     <Compile Include="Assets\PauseDeltaTime.cs" />
      <Compile Include="Assets\Scripts\AmbientLightAnimation.cs" />
      <Compile Include="Assets\Scripts\BezCurve_Quad.cs" />
      <Compile Include="Assets\Scripts\BezPoint.cs" />
@@ -111,8 +110,6 @@
      <Compile Include="Assets\Scripts\MinecraftDemo\Datatypes\VoxelPos.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Datatypes\VoxelShell.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Editor_MouseControl_SingleChunk.cs" />
-     <Compile Include="Assets\Scripts\MinecraftDemo\GUI Stuff\GUI_EditorInfo.cs" />
-     <Compile Include="Assets\Scripts\MinecraftDemo\GUI Stuff\GUI_VoxelSelection.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Mesh Generation\CubeMesh_Vox.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Mesh Generation\MeshData_Vox.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\MouseSelectionTool_Cull.cs" />
@@ -134,6 +131,9 @@
      <Compile Include="Assets\Scripts\MovingTextures.cs" />
      <Compile Include="Assets\Scripts\Node.cs" />
      <Compile Include="Assets\Scripts\NodeManager.cs" />
+     <Compile Include="Assets\Scripts\OculusStateChange.cs" />
+     <Compile Include="Assets\Scripts\OculusToggle.cs" />
+     <Compile Include="Assets\Scripts\PauseDeltaTime.cs" />
      <Compile Include="Assets\Scripts\PauseToggle.cs" />
      <Compile Include="Assets\Scripts\PerlinScript.cs" />
      <Compile Include="Assets\Scripts\PlayerIcon.cs" />
@@ -151,10 +151,12 @@
      <Compile Include="Assets\Scripts\SphereRoom.cs" />
      <Compile Include="Assets\Scripts\SphereWithLayers.cs" />
      <Compile Include="Assets\Scripts\TextureOffsetZoom.cs" />
-     <Compile Include="Assets\Scripts\UI_ATPEnergy.cs" />
-     <Compile Include="Assets\Scripts\UI_BrushRadiusText.cs" />
-     <Compile Include="Assets\Scripts\UI_Interface_Color_Energy.cs" />
-     <Compile Include="Assets\Scripts\UI_SpeedText.cs" />
+     <Compile Include="Assets\Scripts\UI\GUI_EditorInfo.cs" />
+     <Compile Include="Assets\Scripts\UI\GUI_VoxelSelection.cs" />
+     <Compile Include="Assets\Scripts\UI\UI_ATPEnergy.cs" />
+     <Compile Include="Assets\Scripts\UI\UI_BrushRadiusText.cs" />
+     <Compile Include="Assets\Scripts\UI\UI_Interface_Color_Energy.cs" />
+     <Compile Include="Assets\Scripts\UI\UI_SpeedText.cs" />
      <Compile Include="Assets\Scripts\VSG_ConvexCollider_Manager.cs" />
      <Compile Include="Assets\Scripts\VirusBehaviour.cs" />
      <Compile Include="Assets\Scripts\VirusPool.cs" />
@@ -167,6 +169,8 @@
      <Compile Include="Assets\Scripts\Waypoint.cs" />
      <Compile Include="Assets\Scripts\WhiteBloodCellBehaviour.cs" />
      <Compile Include="Assets\Scripts\voxList.cs" />
+     <Compile Include="Assets\UI_HostHealth.cs" />
+     <Compile Include="Assets\UI_VirusCount.cs" />
      <None Include="Assets\SavedVoxels\TinyVirus1.txt" />
      <None Include="Assets\plugins\donotdelete.txt" />
      <None Include="Assets\SavedVoxels\Virus1.txt" />
@@ -185,6 +189,7 @@
      <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
      <None Include="Assets\SavedVoxels\Environment.txt" />
      <None Include="Assets\plugins\x86\donotdelete.txt" />
+     <None Include="Assets\SavedVoxels\EnvironmentPhysicsTest.txt" />
      <None Include="Assets\SavedVoxels\Cell.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

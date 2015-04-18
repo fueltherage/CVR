@@ -15,8 +15,8 @@ public class PlayerIcon : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        transform.localPosition = new Vector3( 100* (100 / ((player.position.x+offset.x) * multiplier))
-                                         , 100* (100  /((player.position.z+offset.y) * multiplier)), 0);
+        transform.localPosition = new Vector3((player.position.x+offset.x) * multiplier,
+											  (player.position.z+offset.y) * multiplier, 0);
 	
 	}
 }

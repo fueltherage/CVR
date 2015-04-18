@@ -10,11 +10,16 @@ public class RedBloodCellBehaviour : MonoBehaviour {
         mtt = GetComponent<MoveToTarget>();
         FW = GetComponent<FollowWaypoints>();
         mtt.moving = true;
+		GameState.BloodCellCount++;
 	}
 	
 	// Update is called once per frame
 	void Update () {
         mtt.vecTarget = FW.WpTarget_v3;
 	
+	}
+	void OnDisable()
+	{
+		GameState.BloodCellCount--;
 	}
 }

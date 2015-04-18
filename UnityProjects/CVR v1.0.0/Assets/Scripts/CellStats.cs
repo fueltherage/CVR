@@ -60,7 +60,14 @@ public class CellStats : MonoBehaviour {
                 }
             }
         }
-        if (health <= 0) this.gameObject.SetActive(false);
+
+		//Return to pool
+        if (health <= 0) 
+		{
+			if(Viral) GameState.VirusCount--;
+
+			this.gameObject.SetActive(false);
+		}
         Profiler.EndSample();
 	
 	}
