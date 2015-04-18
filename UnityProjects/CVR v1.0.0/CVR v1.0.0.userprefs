@@ -1,23 +1,26 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GreedyMeshDemo\VoxelSystemChunkGreedy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\RedBloodCellBehaviour.cs">
     <Files>
-      <File FileName="Assets\Scripts\InertiaCalculator.cs" Line="30" Column="30" />
-      <File FileName="Assets\Scripts\MinecraftDemo\Voxels\VoxelFactory.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\VoxelSystemUpdateManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\PlayerIcon.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ShootLaser.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\GameState.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\VoxelThreads.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MinecraftDemo\MouseSelectionTool_Greedy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\GreedyMeshDemo\VoxelSystemChunkGreedy.cs" Line="2" Column="2" />
-      <File FileName="Assets\Scripts\GreedyMeshDemo\VoxelSystemGreedy.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MinecraftDemo\Datatypes\Neighbours.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\SphereWithLayers.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MinecraftDemo\Voxels\VoxSystemChunkManager.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MinecraftDemo\Datatypes\VoxelShell.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\MinecraftDemo\Voxels\Voxel.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\MovementDemo\RigidBodyController.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CameraState.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\VirusBehaviour.cs" Line="16" Column="26" />
+      <File FileName="Assets\Scripts\SceneManager.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\CellStats.cs" Line="67" Column="33" />
+      <File FileName="Assets\Scripts\InertiaCalculator.cs" Line="1" Column="1" />
+      <File FileName="Assets\UI_VirusCount.cs" Line="7" Column="2" />
+      <File FileName="Assets\UI_HostHealth.cs" Line="11" Column="3" />
+      <File FileName="Assets\Scripts\RedBloodCellBehaviour.cs" Line="23" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="C:\Users\Wesley\Documents\Repos\CVR\UnityProjects\CVR v1.0.0\Assets\PauseDeltaTime.cs" line="20" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

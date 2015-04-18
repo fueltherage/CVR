@@ -1,20 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-public class SceneManager : MonoBehaviour {
+public class UI_HostHealth : MonoBehaviour {
 
-    
-	public KeyCode Exitkey = KeyCode.Escape;
+	Text text;
 	// Use this for initialization
 	void Start () {
-	
+		text = GetComponent<Text>();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	if(Input.GetKeyDown(Exitkey))
-		{
-			Application.Quit();
-		}
+		text.text = GameState.BloodCellCount.ToString();
 	}
 }
