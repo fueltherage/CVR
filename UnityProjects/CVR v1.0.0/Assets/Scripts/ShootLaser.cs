@@ -12,6 +12,7 @@ public class ShootLaser : MonoBehaviour {
     public CellStats playerStats;
     public int LaserDamage = 100;
     public bool worldSpace = true;
+	public int ThreatGained = 5;
     Camera cam; 
 	float reloadCooldown = 0.75f;
 
@@ -119,8 +120,8 @@ public class ShootLaser : MonoBehaviour {
             {
                 CellStats cs = vs.transform.parent.parent.gameObject.GetComponent<CellStats>();
                 if (cs != null)
-                    if (!cs.Viral) playerStats.threat += 10;
-
+                    if (!cs.Viral) playerStats.threat += ThreatGained;
+				if(!cs.passive)
                 cs.health -= LaserDamage;
             }
 

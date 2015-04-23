@@ -8,7 +8,8 @@ public class MoveToTarget : MonoBehaviour {
     public MovementType moveType = MovementType.Transform;
     public Transform transTarget;
     public Vector3 vecTarget;
-    public float force;
+    public float force =0;
+	public static float forceMultiplier = 1.0f;
     public bool moving= false;
 
     SaveLoadVoxels slv;
@@ -23,15 +24,19 @@ public class MoveToTarget : MonoBehaviour {
 	void FixedUpdate () {
        if(moving)
        {
+
             if (moveType == MovementType.Transform)
             {
-                Vector3 direction = transTarget.position - this.transform.position;
-                rb.AddForce(direction.normalized * force);
+				if(transTarget != null)
+				{
+	                Vector3 direction = transTarget.position - this.transform.position;
+					rb.AddForce(direction.normalized * force * forceMultiplier);
+				}
             }
             else
             {
                 Vector3 direction = vecTarget - this.transform.position;
-                rb.AddForce(direction.normalized * force);
+				rb.AddForce(direction.normalized * force * forceMultiplier);
             }
             //rb.AddTorque(RotationAxis * rotationForce);
             

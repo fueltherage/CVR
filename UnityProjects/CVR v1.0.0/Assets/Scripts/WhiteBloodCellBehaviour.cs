@@ -70,6 +70,7 @@ public class WhiteBloodCellBehaviour : MonoBehaviour {
             Collider[] cols = Physics.OverlapSphere(gameObject.transform.position, _OverLapSphereRadius,sphereCastMask);
             float _threat = 0;
             int _tar = 0;
+			bool playerTarget = false;
             if (cols.Length > 0)
             {
                 
@@ -79,17 +80,38 @@ public class WhiteBloodCellBehaviour : MonoBehaviour {
                     {
                         CellStats _stat = cols[i].transform.parent.parent.gameObject.GetComponent<CellStats>();
                         if (_stat != null)
-                            if (_stat.threat > _threat)
+                            if (_stat.threat > _threat && _stat.Viral)
                             {
+
+								playerTarget = false;
                                 _tar = i;
                                 _threat = _stat.threat;
                             }
                     }
+					if(cols[i].tag == "Player")
+					{
+						CellStats _stat = cols[i].transform.gameObject.GetComponent<CellStats>();
+						if (_stat != null)
+							if (_stat.threat > _threat && _stat.threat > 100.0f)
+						{
+							playerTarget = true;
+							_tar = i;
+							_threat = _stat.threat;
+						}
+					}
                 }
                 if (_threat > 0)
                 {
-                    Target = cols[_tar].transform.parent.parent.gameObject;
-                    return true;
+					if(playerTarget)
+					{
+						Target = cols[_tar].transform.gameObject;
+						return true;
+					}
+					else{
+						Target = cols[_tar].transform.parent.parent.gameObject;
+						return true;
+					}
+                    
                 }
             }
         }
@@ -108,7 +130,16 @@ public class WhiteBloodCellBehaviour : MonoBehaviour {
     }
     void Seek()
     {
-        
+        if(Target==null)
+		{
+			current = WhiteBloodState.FollowWaypoints;
+			return;
+		}
+		else if((Target.transform.position - this.transform.position).magnitude > 60) 
+		{
+			current = WhiteBloodState.FollowWaypoints;
+			return;
+		}
         if (TargetStats == null) TargetStats = Target.GetComponent<CellStats>();
         else if (Target.gameObject != TargetStats.gameObject) TargetStats = Target.GetComponentInChildren<CellStats>();
 
@@ -130,8 +161,12 @@ public class WhiteBloodCellBehaviour : MonoBehaviour {
     Transform targetTrans;
     void Consuming()
     {
-
-        if (TargetStats.Viral)
+		if(Target == null)
+		{
+			current = WhiteBloodState.FollowWaypoints;
+			return;
+		}
+        if (TargetStats.Viral && TargetStats.health >= 0)
         {
 
             mtt.moving = false;
@@ -151,6 +186,7 @@ public class WhiteBloodCellBehaviour : MonoBehaviour {
             {
                 current = WhiteBloodState.FollowWaypoints;
                 Target.SetActive(false);
+				Destroy(Target, 2.0f);
             }
             //Child the virus to the white blood cell
             //turn off the virus' movement
@@ -160,6 +196,11 @@ public class WhiteBloodCellBehaviour : MonoBehaviour {
         }
         else if (Target.gameObject.tag == "Player")
         {
+			if (pastTime + _ThinkRate < Time.timeSinceLevelLoad)
+			{
+				pastTime = Time.timeSinceLevelLoad;
+				TargetStats.DealDamage(_Damage);
+			}
             //Deal damage to player per think rate
             //If player's threat goes below another then switch to seek
         }

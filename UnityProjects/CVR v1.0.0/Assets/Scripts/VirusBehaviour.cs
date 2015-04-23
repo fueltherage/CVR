@@ -38,6 +38,7 @@ public class VirusBehaviour : MonoBehaviour {
                 stats.Viral = true;
                 mtt.enabled = false;                
                 FW.enabled = false;
+				GetComponent<CellStats>().passive = true;
                 DisableCollision();
             }
         }

@@ -6,13 +6,13 @@ public class CellStats : MonoBehaviour {
     public float health = 100.0f;
     public float infectionPercent = 0.0f;
     public float atp_DropedOnDeath = 10.0f;
-    public int threat = 0;
+    public float threat = 0;
     public bool Viral = false;
     float elapsedTime = 0;
     float infectionDeathTime = 20.0f;
     public GameObject VirusOnDeath;
     public Transform VirusLoc;
-    
+	public bool passive = false;
     // Use this for initialization
 
 	void Start () {
@@ -51,11 +51,11 @@ public class CellStats : MonoBehaviour {
                         g = Instantiate(VirusOnDeath, this.transform.position, Quaternion.AngleAxis(Random.Range(0.0f, 360.0f),new Vector3(Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f),Random.Range(-1.0f, 1.0f))))  as GameObject;
                         g.transform.parent = VirusLoc;
                         temp = g.GetComponent<FollowWaypoints>();
-                        temp.waypoints = fw.waypoints;
-                        temp.StartingIndex = fw.current;
-                        temp.current = fw.current;
+                        temp.StartingWaypoint = fw.currentTarget;
+                        
                     }
                     gameObject.SetActive(false);
+					Destroy(gameObject,10.0f);
                     Profiler.EndSample();
                 }
             }
@@ -65,10 +65,18 @@ public class CellStats : MonoBehaviour {
         if (health <= 0) 
 		{
 			if(Viral) GameState.VirusCount--;
-
-			this.gameObject.SetActive(false);
+			if(gameObject.tag == "Player")
+			{
+				GameOverFadeIn.FadeIn();
+			}else 
+			{
+				this.gameObject.SetActive(false);
+				Destroy(gameObject,10.0f);
+			}
 		}
         Profiler.EndSample();
+
+		if(!Viral) threat -= Mathf.Min(0, threat - Time.deltaTime);
 	
 	}
     public void DealDamage(float _damage)

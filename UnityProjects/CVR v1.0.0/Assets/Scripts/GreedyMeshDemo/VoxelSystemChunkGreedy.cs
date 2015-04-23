@@ -1420,7 +1420,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                 mat[i] = factory.VoxelMats[MaterialIndex[i]];
             }
             Profiler.EndSample();
-
+			if(gameObject != null)
             GetComponent<Renderer>().materials = mat;
             vmesh.uv = UVs.ToArray();
             vmesh.RecalculateNormals();
