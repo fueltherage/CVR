@@ -174,8 +174,10 @@
      <Compile Include="Assets\Scripts\voxList.cs" />
      <Compile Include="Assets\UI_HostHealth.cs" />
      <Compile Include="Assets\UI_VirusCount.cs" />
+     <Compile Include="Assets\WooglieAPI\Plugins\WoogliePiracyProtection.cs" />
      <None Include="Assets\SavedVoxels\TinyVirus1.txt" />
      <None Include="Assets\plugins\donotdelete.txt" />
+     <None Include="Assets\WooglieAPI\Settings\settings.txt" />
      <None Include="Assets\SavedVoxels\Virus1.txt" />
      <None Include="Assets\plugins\x86_64\donotdelete.txt" />
      <None Include="Assets\SavedVoxels\Virus2_Leg.txt" />
@@ -186,6 +188,7 @@
      <None Include="Assets\SavedVoxels\WhitebloodCell1.txt" />
      <None Include="Assets\SavedVoxels\Virus2.txt" />
      <None Include="Assets\SavedVoxels\Test.txt" />
+     <None Include="Assets\Tesse.shader" />
      <None Include="Assets\SavedVoxels\Enviro.txt" />
      <None Include="Assets\SavedVoxels\EnviroTest1.txt" />
      <None Include="Assets\SavedVoxels\EnvironmentNew.txt" />
@@ -194,6 +197,7 @@
      <None Include="Assets\plugins\x86\donotdelete.txt" />
      <None Include="Assets\SavedVoxels\EnvironmentPhysicsTest.txt" />
      <None Include="Assets\SavedVoxels\Cell.txt" />
+     <None Include="Assets\WooglieAPI\README.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
