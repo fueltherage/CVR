@@ -26,11 +26,11 @@ public class VoxelGeneratorEditorWindow : EditorWindow
         //objField = Resources.Load("Assets/Prefabs/Resources/VoxelSystemGreedy.prefab",typeof(Object));
 	}
 
-    [MenuItem ("Voxel Generator/Generate Voxel System Prefab",true)]
-	private static bool showEditorValidator()
-	{
-		return true;
-	}
+    //[MenuItem ("Voxel Generator/Generate Voxel System Prefab",true)]
+    //private static bool showEditorValidator()
+    //{
+    //    return true;
+    //}
 
 
 	void OnGUI()
