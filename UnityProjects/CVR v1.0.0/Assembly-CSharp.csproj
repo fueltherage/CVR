@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CubeDebris_UVGenerator.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCameraRig.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCommon.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRDisplay.cs" />
@@ -106,6 +107,7 @@
      <Compile Include="Assets\Scripts\LaserEffect.cs" />
      <Compile Include="Assets\Scripts\Loom.cs" />
      <Compile Include="Assets\Scripts\MainMenu\Wobble.cs" />
+     <Compile Include="Assets\Scripts\MeshUtils.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\CameraControls.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\CameraZoom.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Datatypes\ChunkNeighbours.cs" />
@@ -115,11 +117,9 @@
      <Compile Include="Assets\Scripts\MinecraftDemo\Editor_MouseControl_SingleChunk.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Mesh Generation\CubeMesh_Vox.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Mesh Generation\MeshData_Vox.cs" />
-     <Compile Include="Assets\Scripts\MinecraftDemo\MouseSelectionTool_Cull.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\MouseSelectionTool_Greedy.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\NoiseMapGenerator.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\TurretVoxel.cs" />
-     <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxChunkManager.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxMaterialFactory.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\VoxSystemChunkManager.cs" />
      <Compile Include="Assets\Scripts\MinecraftDemo\Voxels\Voxel.cs" />
@@ -134,6 +134,7 @@
      <Compile Include="Assets\Scripts\MovingTextures.cs" />
      <Compile Include="Assets\Scripts\Node.cs" />
      <Compile Include="Assets\Scripts\NodeManager.cs" />
+     <Compile Include="Assets\Scripts\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\OculusStateChange.cs" />
      <Compile Include="Assets\Scripts\OculusToggle.cs" />
      <Compile Include="Assets\Scripts\PauseDeltaTime.cs" />
@@ -174,6 +175,7 @@
      <Compile Include="Assets\Scripts\Waypoint.cs" />
      <Compile Include="Assets\Scripts\WhiteBloodCellBehaviour.cs" />
      <Compile Include="Assets\Scripts\voxList.cs" />
+     <Compile Include="Assets\SpawningCubes_TestScript.cs" />
      <None Include="Assets\SavedVoxels\TinyVirus1.txt" />
      <None Include="Assets\plugins\donotdelete.txt" />
      <None Include="Assets\SavedVoxels\Virus1.txt" />

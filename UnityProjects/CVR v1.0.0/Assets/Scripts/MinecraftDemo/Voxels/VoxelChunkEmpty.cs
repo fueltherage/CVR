@@ -41,8 +41,5 @@ public class VoxelChunkEmpty: VoxelChunk {
 	void Update () {
 	
 	}
-	public override void UpdateMesh()
-	{
-
-	}
+	
 }

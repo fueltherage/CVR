@@ -180,36 +180,7 @@ public struct JamQuad {
 			
 			
 		}
-		else if(normDirection.z == -1)
-		{
-			verts[0] = _position;
-			verts[1] = new Vector3(_position.x, 						  _position.y + _Width * _VoxelSpacing, _position.z );
-			verts[2] = new Vector3(_position.x + _Height * _VoxelSpacing, _position.y + _Width * _VoxelSpacing, _position.z );
-			verts[3] = new Vector3(_position.x + _Height * _VoxelSpacing, _position.y , _position.z);
-			
-			triangles[0] = 0 + _faceCount*4;
-			triangles[1] = 1 + _faceCount*4;
-			triangles[2] = 2 + _faceCount*4;
-			triangles[3] = 0 + _faceCount*4;
-			triangles[4] = 2 + _faceCount*4;					
-			triangles[5] = 3 + _faceCount*4;
-			
-			UVs[0].x = ((_StartPos.x + cPos.x * ChunkSize.x * VSpace)/(ChunkSize.x * SystemSize.x * VSpace)/Xnum + Ximage*2)/ UVRatio.x;			  //0.0
-            UVs[0].y = ((_StartPos.y + cPos.y * ChunkSize.y * VSpace) / (ChunkSize.y * SystemSize.y * VSpace) / Ynum ) / UVRatio.y;           //0.0
-
-            UVs[1].x = ((_StartPos.x + cPos.x * ChunkSize.x * VSpace) / (ChunkSize.x * SystemSize.x * VSpace) / Xnum + Ximage*2) / UVRatio.x;			  //0.0	
-            UVs[1].y = ((_StartPos.y + _Width + cPos.y * ChunkSize.y * VSpace) / (ChunkSize.y * SystemSize.y * VSpace) / Ynum ) / UVRatio.y;  //1.0			
-
-            UVs[2].x = ((_StartPos.x + _Height + cPos.x * ChunkSize.x * VSpace) / (ChunkSize.x * SystemSize.x * VSpace) / Xnum + Ximage*2) / UVRatio.x; //1.0
-            UVs[2].y = ((_StartPos.y + _Width + cPos.y * ChunkSize.y * VSpace) / (ChunkSize.y * SystemSize.y * VSpace) / Ynum  ) / UVRatio.y;  //1.0
-
-            UVs[3].x = ((_StartPos.x + _Height + cPos.x * ChunkSize.x * VSpace) / (ChunkSize.x * SystemSize.x * VSpace) / Xnum + Ximage*2) / UVRatio.x;  //1.0
-            UVs[3].y = ((_StartPos.y + cPos.y * ChunkSize.y * VSpace) / (ChunkSize.y * SystemSize.y * VSpace) / Ynum) / UVRatio.y;           //0.0
-			
-			
-			
-			
-		}else if(normDirection.z == 1)
+		else if(normDirection.z == 1)
 		{
 			verts[0] = _position;
 			verts[1] = new Vector3(_position.x, 						  _position.y + _Width * _VoxelSpacing, _position.z );
@@ -234,8 +205,38 @@ public struct JamQuad {
 			
 			UVs[3].x = ((_StartPos.x + _Height + cPos.x * ChunkSize.x * VSpace)/(ChunkSize.x * SystemSize.x * VSpace)/Xnum + Ximage*3)/ UVRatio.x;  //1.0
 			UVs[3].y = ((_StartPos.y + cPos.y * ChunkSize.y * VSpace)/(ChunkSize.y * SystemSize.y * VSpace)/Ynum)/ UVRatio.y;           //0.0		
-			
-		}
+
+        }
+        else if (normDirection.z == -1)
+        {
+            verts[0] = _position;
+            verts[1] = new Vector3(_position.x, _position.y + _Width * _VoxelSpacing, _position.z);
+            verts[2] = new Vector3(_position.x + _Height * _VoxelSpacing, _position.y + _Width * _VoxelSpacing, _position.z);
+            verts[3] = new Vector3(_position.x + _Height * _VoxelSpacing, _position.y, _position.z);
+
+            triangles[0] = 0 + _faceCount * 4;
+            triangles[1] = 1 + _faceCount * 4;
+            triangles[2] = 2 + _faceCount * 4;
+            triangles[3] = 0 + _faceCount * 4;
+            triangles[4] = 2 + _faceCount * 4;
+            triangles[5] = 3 + _faceCount * 4;
+
+            UVs[0].x = ((_StartPos.x + cPos.x * ChunkSize.x * VSpace) / (ChunkSize.x * SystemSize.x * VSpace) / Xnum + Ximage * 2) / UVRatio.x;			  //0.0
+            UVs[0].y = ((_StartPos.y + cPos.y * ChunkSize.y * VSpace) / (ChunkSize.y * SystemSize.y * VSpace) / Ynum) / UVRatio.y;           //0.0
+
+            UVs[1].x = ((_StartPos.x + cPos.x * ChunkSize.x * VSpace) / (ChunkSize.x * SystemSize.x * VSpace) / Xnum + Ximage * 2) / UVRatio.x;			  //0.0	
+            UVs[1].y = ((_StartPos.y + _Width + cPos.y * ChunkSize.y * VSpace) / (ChunkSize.y * SystemSize.y * VSpace) / Ynum) / UVRatio.y;  //1.0			
+
+            UVs[2].x = ((_StartPos.x + _Height + cPos.x * ChunkSize.x * VSpace) / (ChunkSize.x * SystemSize.x * VSpace) / Xnum + Ximage * 2) / UVRatio.x; //1.0
+            UVs[2].y = ((_StartPos.y + _Width + cPos.y * ChunkSize.y * VSpace) / (ChunkSize.y * SystemSize.y * VSpace) / Ynum) / UVRatio.y;  //1.0
+
+            UVs[3].x = ((_StartPos.x + _Height + cPos.x * ChunkSize.x * VSpace) / (ChunkSize.x * SystemSize.x * VSpace) / Xnum + Ximage * 2) / UVRatio.x;  //1.0
+            UVs[3].y = ((_StartPos.y + cPos.y * ChunkSize.y * VSpace) / (ChunkSize.y * SystemSize.y * VSpace) / Ynum) / UVRatio.y;           //0.0
+
+
+
+
+        }
 		_faceCount++;	
 
 

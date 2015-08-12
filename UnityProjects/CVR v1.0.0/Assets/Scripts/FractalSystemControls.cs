@@ -90,10 +90,10 @@ public class FractalSystemControls : MonoBehaviour {
 			
 			if (Physics.Raycast(mouseRay, out hit, 200))
 			{
-				VoxelPos pos = hit.transform.gameObject.GetComponent<VoxChunkManager>().RayCastHitToVoxelSpace(hit);
-				zoomLocation.x = (pos.x + vc.offset.x / 2.0f);
-				zoomLocation.y = (pos.y + vc.offset.y / 2.0f);
-				zoomLocation.z = (pos.z + vc.offset.z / 2.0f);
+				//VoxelPos pos = hit.transform.gameObject.GetComponent<VoxSystemChunkManager>().RayCastHitToVoxelSpace(hit);
+                //zoomLocation.x = (pos.x + vc.offset.x / 2.0f);
+                //zoomLocation.y = (pos.y + vc.offset.y / 2.0f);
+                //zoomLocation.z = (pos.z + vc.offset.z / 2.0f);
 				Fractalize();
 			}
 		}

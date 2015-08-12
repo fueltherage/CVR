@@ -8,7 +8,8 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
     public int radius=0;
 
     int currentSelectVoxel;
-
+    public static Vector3 MouseClickNormal = Vector3.zero;
+    public static Vector3 MouseClickWorldPos = Vector3.zero;
 	// Use this for initialization
     Color rayColor;
 	RaycastHit hit;
@@ -87,19 +88,24 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
             }	
         }
 	}
+    
 	void AddVoxel (RaycastHit hitPos)
 	{
+        //MouseClickNormal = hit.normal;
+        //MouseClickWorldPos = hit.point;
         List<VoxSystemChunkManager> v = new List<VoxSystemChunkManager>();
         hitPos.transform.parent.gameObject.GetComponentsInChildren<VoxSystemChunkManager>(v); 
         if (radius > 0) foreach(VoxSystemChunkManager vs in v) vs.AddVoxelAoE(hitPos.point, radius, currentSelectVoxel, true);
         else foreach(VoxSystemChunkManager vs in v) vs.AddVoxel(hitPos, true, currentSelectVoxel);        
-	}
+	}    
 	void RemoveVoxel(RaycastHit hitPos)
 	{
+        MouseClickNormal = hit.normal;
+        MouseClickWorldPos = hit.point;
         List<VoxSystemChunkManager> v = new List<VoxSystemChunkManager>();
         hitPos.transform.parent.gameObject.GetComponentsInChildren<VoxSystemChunkManager>(v);
 
-        if (radius > 0) foreach (VoxSystemChunkManager vs in v) vs.RemoveVoxelAoE(hitPos.point, radius, true);
+        if (radius > 0) foreach (VoxSystemChunkManager vs in v) vs.RemoveVoxelAoE(hitPos.point, radius, false);
         else foreach (VoxSystemChunkManager vs in v) vs.RemoveVoxel(hitPos, true);     
 	}
 	public void ReduceRadius()

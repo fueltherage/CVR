@@ -9,6 +9,7 @@ public class VoxSystemChunkManager : MonoBehaviour {
     Vector3 systemOffset;
     bool init = false;
     
+    
 	// Use this for initialization
 	void Start () {    
         vSystem = GetComponent<VoxelSystemGreedy>();        
@@ -30,42 +31,38 @@ public class VoxSystemChunkManager : MonoBehaviour {
 	
 	}
     public Vector3 WorldToVoxelAdd(RaycastHit Pos)
-    {
+    {       
+
         Vector3 difference = Pos.point - vSystem.transform.position;
         difference += Pos.normal / 2.0f * vSystem.VoxelSpacing;
-        difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= systemOffset;
-        difference -= vSystem.chunks_vcs[0, 0, 0].offset;
-        difference /= vSystem.VoxelSpacing;
+        WorldToVoxel(ref difference);        
         return difference;
     }
     public Vector3 WorldToVoxelAdd(Vector3 Pos)
     {
-        Vector3 difference = Pos - vSystem.transform.position;       
-        difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= systemOffset;
-        difference -= vSystem.chunks_vcs[0, 0, 0].offset;
-        difference /= vSystem.VoxelSpacing;
+        Vector3 difference = Pos - vSystem.transform.position;
+        WorldToVoxel(ref difference);
         return difference;
     }
     public Vector3 WorldToVoxelRemove(RaycastHit Pos)
-    {
+    {       
         Vector3 difference = Pos.point - vSystem.transform.position;
         difference -= Pos.normal / 2.0f * vSystem.VoxelSpacing;
-        difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= systemOffset;
-        difference -= vSystem.chunks_vcs[0, 0, 0].offset;
-        difference /= vSystem.VoxelSpacing;
+        WorldToVoxel(ref difference);        
         return difference;
     }
     public Vector3 WorldToVoxelRemove(Vector3 Pos)
-    {
+    {        
         Vector3 difference = Pos - vSystem.transform.position;
-        difference = transform.worldToLocalMatrix.MultiplyVector(difference);
-        difference -= systemOffset;
-        difference -= vSystem.chunks_vcs[0, 0, 0].offset;
-        difference /= vSystem.VoxelSpacing;
+        WorldToVoxel(ref difference);
         return difference;
+    }
+    void WorldToVoxel(ref Vector3 point)
+    {
+        point = transform.worldToLocalMatrix.MultiplyVector(point);
+        point -= systemOffset;
+        point -= vSystem.chunks_vcs[0, 0, 0].offset;
+        point /= vSystem.VoxelSpacing;
     }
 
     public void QuickAdd(RaycastHit Pos, bool update,int type)

@@ -64,9 +64,9 @@ public class InertiaCalculator : MonoBehaviour {
 				  CenterOfMass = Vector2.zero;
 				}
                 //transform.localPosition = new Vector3(transform.localPosition.x, , transform.localPosition.z);
-				
-				
 
+
+                CenterOfMass = Vector2.zero;
                 rb.centerOfMass = CenterOfMass;
                
                 rb.inertiaTensor = Inertia;

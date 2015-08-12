@@ -24,7 +24,7 @@ public static class VoxelFactory {
 			break;
 		case 3:
 			_voxelShell.filled = true;
-            _voxelShell.locked = true;
+            _voxelShell.locked = false;
 			_voxelShell.voxel.Mass = 3;
 			break;
 		case 4:

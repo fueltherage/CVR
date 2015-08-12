@@ -13,12 +13,13 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 	public ChunkNeighbours neighbours;
 	public VoxelPos chunkPos = new VoxelPos(0,0,0);   
 	public VoxelSystemGreedy systemParent;
-	public Vector3 UVRatio;
+
 	public float chunkMass =0;
 	public Vector3 centerOfMass;
 
 	protected VoxelSystemChunkGreedy thisChunk;
 	protected voxList<JamQuad> Quads;
+
 
     
 
@@ -74,6 +75,13 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 
 		InitShells();
 		InitDics();
+        for (int i = 1; i <= 1; i++)
+        {
+            SubmeshIndexChecker(i);
+        }
+        
+
+        
 
 		Triangles = new voxList<int[]>();
 		UVs = new voxList<Vector2>();
@@ -83,17 +91,12 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 		Quads = new voxList<JamQuad>();
         genFlags = new byte[XSize, YSize, ZSize];
 		
-        if (systemParent.UniqueSides) UVRatio = new Vector3(1.0f, 1.0f, 1.0f);
-        else
-        {
-            float max = Mathf.Max(Mathf.Max(systemParent.XSize * XSize, systemParent.YSize * YSize), systemParent.ZSize * ZSize);
-            UVRatio = new Vector3(max / (systemParent.XSize * XSize), max / (systemParent.YSize * YSize), max / (systemParent.ZSize * ZSize));
-        }
+        
 		//needsUpdating = true;
 		Initialized = true;
 	}
 
-	public override void UpdateMesh()
+	public void UpdateMesh()
 	{
 		GenerateQuad();
 	}
@@ -104,10 +107,11 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 		Verts.Clear();
 		UVs.Clear();
 		TrIndex.Clear();
-		Quads.Clear();	
-		MaterialIndex.Clear();
-		SubmeshCount=0;
-		SubmeshIndex.Clear();
+		Quads.Clear();
+
+        MaterialIndex.Clear();
+        SubmeshCount = 0;
+        SubmeshIndex.Clear();
 
 	}
     private void ResetGenFlags()
@@ -337,7 +341,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                        ref faceCount,
                                                        new VoxelPos(x, y, z),
                                                        ref thisChunk,
-                                                      UVRatio,
+                                                      systemParent.UVRatio,
                                                       UniqueSides));
                                 }
                                 else
@@ -353,7 +357,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                                            ref faceCount,
                                                                            new VoxelPos(x, y, z),
                                                                            ref thisChunk,
-                                                                           UVRatio,
+                                                                           systemParent.UVRatio,
                                                                            UniqueSides);
                                     Quads.vcount++;
                                 }
@@ -530,7 +534,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                        ref faceCount,
                                                        new VoxelPos(x, y, z),
                                                        ref thisChunk,
-                                                      UVRatio,
+                                                      systemParent.UVRatio,
                                                       UniqueSides));
                                 }
                                 else
@@ -546,7 +550,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                                            ref faceCount,
                                                                            new VoxelPos(x, y, z),
                                                                            ref thisChunk,
-                                                                           UVRatio,
+                                                                           systemParent.UVRatio,
                                                                            UniqueSides);
                                     Quads.vcount++;
                                 }
@@ -723,7 +727,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                        ref faceCount,
                                                        new VoxelPos(x, y, z),
                                                           ref thisChunk,
-                                                      UVRatio,
+                                                      systemParent.UVRatio,
                                                       UniqueSides));
                                 }
                                 else
@@ -739,7 +743,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                                            ref faceCount,
                                                                            new VoxelPos(x, y, z),
                                                                            ref thisChunk,
-                                                                       UVRatio,
+                                                                       systemParent.UVRatio,
                                                                        UniqueSides);
                                     Quads.vcount++;
                                 }
@@ -917,7 +921,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                        ref faceCount,
                                                        new VoxelPos(x, y, z),
                                                        ref thisChunk,
-                                                          UVRatio,
+                                                          systemParent.UVRatio,
                                                           UniqueSides));
                                 }
                                 else
@@ -933,7 +937,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                                            ref faceCount,
                                                                            new VoxelPos(x, y, z),
                                                                            ref thisChunk,
-                                                                           UVRatio,
+                                                                           systemParent.UVRatio,
                                                                            UniqueSides);
                                     Quads.vcount++;
                                 }
@@ -1108,7 +1112,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                        ref faceCount,
                                                        new VoxelPos(x, y, z),
                                                           ref thisChunk,
-                                                      UVRatio,
+                                                      systemParent.UVRatio,
                                                       UniqueSides));
                                 }
                                 else
@@ -1124,7 +1128,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                                            ref faceCount,
                                                                            new VoxelPos(x, y, z),
                                                                            ref thisChunk,
-                                                                       UVRatio,
+                                                                       systemParent.UVRatio,
                                                                        UniqueSides);
                                     Quads.vcount++;
                                 }
@@ -1305,7 +1309,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                        ref faceCount,
                                                        new VoxelPos(x, y, z),
                                                           ref thisChunk,
-                                                      UVRatio,
+                                                      systemParent.UVRatio,
                                                       UniqueSides));
                                 }
                                 else
@@ -1321,7 +1325,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                                                            ref faceCount,
                                                                            new VoxelPos(x, y, z),
                                                                            ref thisChunk,
-                                                                       UVRatio,
+                                                                       systemParent.UVRatio,
                                                                        UniqueSides);
                                     Quads.vcount++;
                                 }
@@ -1408,6 +1412,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
             Profiler.BeginSample("Triangle Assignement");
             for (int i = 0; i < SubmeshCount; ++i)
             {
+
                 vmesh.SetTriangles(GetSubMeshTriangles(i, ref Triangles, ref TrIndex), i);
             }
             Profiler.EndSample();
@@ -1427,9 +1432,9 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 
             Profiler.BeginSample("Tangent Solver");
             //Use TangentSolver if shader requires it
-            TangentSolver(vmesh);
+            MeshUtils.TangentSolver(vmesh);
             Profiler.EndSample();
-            Profiler.BeginSample("rest");
+            Profiler.BeginSample("Assignments");
             //vmesh.Optimize();
             meshFilter.mesh = vmesh;
 

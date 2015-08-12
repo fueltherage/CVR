@@ -21,6 +21,7 @@ public class VoxelSystemGreedy : MonoBehaviour {
 	public GameObject VoxelChunkGO;
 	public GameObject EmptyChunk;
 	public bool IsEmptyFilled =false;
+    public bool SpawnPhysicsCubes = false;
 	public Vector3 offset;	
 	public VoxMaterialFactory factory;
 	public bool Initialized = false;    
@@ -28,6 +29,7 @@ public class VoxelSystemGreedy : MonoBehaviour {
     public InertiaCalculator calc;  
     public Rigidbody rigidBody;
 
+    public Vector3 UVRatio;
     VoxelChunkEmpty EmptyChunkSync;
     
 	int currentSelectedVoxel=1;
@@ -184,7 +186,12 @@ public class VoxelSystemGreedy : MonoBehaviour {
         //        }
         //    }
         //}
-
+        if (UniqueSides) UVRatio = new Vector3(1.0f, 1.0f, 1.0f);
+        else
+        {
+            float max = Mathf.Max(Mathf.Max(XSize * XSize, YSize * YSize), ZSize * ZSize);
+            UVRatio = new Vector3(max / (XSize * XSize), max / (YSize * YSize), max / (ZSize * ZSize));
+        }
        
         Initialized = true;
     }
@@ -312,16 +319,16 @@ public class VoxelSystemGreedy : MonoBehaviour {
         
     }   
    
-	public void RemoveVoxel(VoxelPos voxel, bool update)
+	public void RemoveVoxel(VoxelPos _voxel, bool update)
 	{
 		//Calculate the position
-		VoxelPos voxPos = new VoxelPos(voxel.x % ChunkSizeX,
-									   voxel.y % ChunkSizeY,
-									   voxel.z % ChunkSizeZ);
+		VoxelPos voxPos = new VoxelPos(_voxel.x % ChunkSizeX,
+									   _voxel.y % ChunkSizeY,
+									   _voxel.z % ChunkSizeZ);
 
-		VoxelPos chunkPos = new VoxelPos(voxel.x / ChunkSizeX,
-										 voxel.y / ChunkSizeY,
-										 voxel.z / ChunkSizeZ);
+		VoxelPos chunkPos = new VoxelPos(_voxel.x / ChunkSizeX,
+										 _voxel.y / ChunkSizeY,
+										 _voxel.z / ChunkSizeZ);
 
 		if(voxPos.x >=0 && voxPos.y >=0 && voxPos.z >=0)		
 		if((chunkPos.x < XSize && chunkPos.y < YSize && chunkPos.z < ZSize)
@@ -329,7 +336,20 @@ public class VoxelSystemGreedy : MonoBehaviour {
 		{
 			if(!chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x,voxPos.y,voxPos.z].locked){
 
+                
+
+                if (SpawnPhysicsCubes && chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].voxel.VoxelType != 0)
+                {
+                    Vector3 worldPos = new Vector3(offset.x + chunks_vcs[0, 0, 0].offset.x + VoxelSpacing/2.0f + ( voxPos.x + chunkPos.x * ChunkSizeX) * VoxelSpacing,
+                                                   offset.y + chunks_vcs[0, 0, 0].offset.y + VoxelSpacing/2.0f + ( voxPos.y + chunkPos.y * ChunkSizeY) * VoxelSpacing,
+                                                   offset.z + chunks_vcs[0, 0, 0].offset.z + VoxelSpacing/2.0f + ( voxPos.z + chunkPos.z * ChunkSizeZ) * VoxelSpacing);
+                    //Debug.Log(worldPos.ToString());
+                    worldPos = transform.localToWorldMatrix.MultiplyPoint3x4(worldPos);
+                    //Debug.Log("After   "+worldPos.ToString());
+                    CubePool.SpawnCubeAtLocation(worldPos, this, _voxel, chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].voxel.VoxelType);
+                }
                 VoxelFactory.GenerateVoxel(0, ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
+
 				if(update)
 				{
                     UpdateNeightbours(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);

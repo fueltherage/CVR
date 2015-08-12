@@ -62,47 +62,38 @@ public class SaveLoadVoxels : MonoBehaviour {
 
 	
 	}
-	public void LoadSystem()
-	{
-		loading = true;
-		if(voxName == "")
-		{
-			Debug.LogError("<color=red>Error:</color> Missing voxName, please provide voxName in script inspector.");
-			return;
-		}
-		string s = "";
-		try
-		{
-			//s = System.IO.File.ReadAllText("./Assets/SavedVoxels/"+voxName+".txt");            
-            s = System.IO.File.ReadAllText(Application.dataPath +"\\SavedVoxels\\"+ voxName + ".txt");
-		}catch(UnityException e)
-		{
-			Debug.LogError("<color=red>Error:</color> File not found at location: "+Application.dataPath+@"\"+voxName+".txt");
-			return;
-		}
+    public void LoadSystem()
+    {
+        loading = true;
+        if (voxName == "")
+        {
+            Debug.LogError("<color=red>Error:</color> Missing voxName, please provide voxName in script inspector.");
+            return;
+        }
+        string s = "";
+        try
+        {
+            //s = System.IO.File.ReadAllText("./Assets/SavedVoxels/"+voxName+".txt");            
+            s = System.IO.File.ReadAllText(Application.dataPath + "\\SavedVoxels\\" + voxName + ".txt");
+        }
+        catch (UnityException e)
+        {
+            Debug.LogError("<color=red>Error:</color> File not found at location: " + Application.dataPath + @"\" + voxName + ".txt");
+            return;
+        }
 
-		//JSONNode node = JSONNode.Parse(s);
-
-		
-        //vs.XSize = node[voxName]["i"][0].AsInt;
-        //vs.YSize = node[voxName]["i"][1].AsInt;
-        //vs.ZSize = node[voxName]["i"][2].AsInt;
-        //vs.ChunkSizeX = node[voxName]["i"][3].AsInt;
-        //vs.ChunkSizeY = node[voxName]["i"][4].AsInt;
-        //vs.ChunkSizeZ = node[voxName]["i"][5].AsInt;
-        //vs.VoxelSpacing = node[voxName]["i"][6].AsFloat;
         List<SaveArea> areaSaves = new List<SaveArea>();
         List<SaveSingle> singleSaves = new List<SaveSingle>();
-        int c = 0;
-        string buf="";
+        int c = 0; // c is index of the string
+        string buf = "";//Buffer for processing the string
         int index = 0;
         while (true)//Initialiation info loaded
         {
             if (s[c] == 'a' || s[c] == 's')
-            {                
+            {
                 break;
             }
-            while(true)
+            while (true)
             {
                 if (s[c] != '~')
                 {
@@ -118,29 +109,39 @@ public class SaveLoadVoxels : MonoBehaviour {
                 }
                 else
                 { //When we reach a ~ , process the buffered info then switch to the next index.
+                    int parsed = 0;
+                    try
+                    {
+
+                        parsed = int.Parse(buf, NumberStyles.Integer);
+                    }
+                    catch (System.Exception e)
+                    {
+
+                    }
                     switch (index)
                     {
                         case 0:
-                            vs.XSize = int.Parse(buf, NumberStyles.Integer);
+                            vs.XSize = parsed;
                             break;
                         case 1:
-                            vs.YSize = int.Parse(buf, NumberStyles.Integer);
+                            vs.YSize = parsed;
                             break;
                         case 2:
-                            vs.ZSize = int.Parse(buf, NumberStyles.Integer);
+                            vs.ZSize = parsed;
                             break;
                         case 3:
-                            vs.ChunkSizeX = int.Parse(buf, NumberStyles.Integer);
+                            vs.ChunkSizeX = parsed;
                             break;
                         case 4:
-                            vs.ChunkSizeY = int.Parse(buf, NumberStyles.Integer);
+                            vs.ChunkSizeY = parsed;
                             break;
                         case 5:
-                            vs.ChunkSizeZ = int.Parse(buf, NumberStyles.Integer);
+                            vs.ChunkSizeZ = parsed;
                             break;
-                        case 6:                            
+                        case 6:
                             vs.VoxelSpacing = float.Parse(buf, CultureInfo.CurrentCulture);
-                            break;                            
+                            break;
                     }
                     c++;
                     index++;
@@ -156,87 +157,104 @@ public class SaveLoadVoxels : MonoBehaviour {
         if (s[c] == 'a')//area blocks
         {
             c++;
-            saveArea = true;            
+            saveArea = true;
         }
-        
-        while (true)
+
+        while (true)//Read until |        
         {
-            if (s[c] != '|')
+            if (c < s.Length)
             {
-                buf += s[c];
-                c++;
+                if (s[c] != '|')
+                {
+                    buf += s[c];
+                    c++;
+
+                }
+                else break;
             }
             else break;
+
         }
-        count = int.Parse(buf, NumberStyles.Integer);
+
+        count = int.Parse(buf, NumberStyles.Integer);//How many voxel areas 
         buf = "";
         index = 0;
         SaveArea a;
         if (saveArea)
         {
-            
+
             for (int i = 0; i < count; i++)
             {
                 a = new SaveArea();
                 if (s[c] == '|')//Skip the delimiter and reset the index;
                 {
-                    c++;                                      
+                    c++;
+                    index = 0;
                 }
-                index = 0;  
+
                 while (true)
                 {
-                    if (s[c] != '~' && s[c] != 's' && s[c] != '|')                    
-                    {                        
-                        buf += s[c];
-                        c++;
+                    if (s[c] == 's')
+                    {
+                        break;
                     }
-                    else
-                    { 
-                        switch (index)
+                    if (s[c] != '~')
+                        if (s[c] != '|')
+                        
                         {
-                            case 0:
-                                a.pos1.x = int.Parse(buf, NumberStyles.Integer);
-                                break;
-                            case 1:
-                                a.pos1.y = int.Parse(buf, NumberStyles.Integer);
-                                break;
-                            case 2:
-                                a.pos1.z = int.Parse(buf, NumberStyles.Integer);
-                                break;
-                            case 3:
-                                a.pos2.x = int.Parse(buf, NumberStyles.Integer);
-                                break;
-                            case 4:
-                                a.pos2.y = int.Parse(buf, NumberStyles.Integer);
-                                break;
-                            case 5:
-                                a.pos2.z = int.Parse(buf, NumberStyles.Integer);
-                                break;
-                            case 6:
-                                a.type = int.Parse(buf, NumberStyles.Integer);
-                                areaSaves.Add(a);
-                                break;
-                        }
-                        c++;
-                        index++;
-                        buf = "";
-                        if (index == 7)
+                            {
+                                buf += s[c];
+                                c++;
+                            }
+                        }                        
+                        else
                         {
-                            break;
+                            int parsed = int.Parse(buf, NumberStyles.Integer);
+                            switch (index)
+                            {
+                                case 0:
+                                    a.pos1.x = parsed;
+                                    break;
+                                case 1:
+                                    a.pos1.y = parsed;
+                                    break;
+                                case 2:
+                                    a.pos1.z = parsed;
+                                    break;
+                                case 3:
+                                    a.pos2.x = parsed;
+                                    break;
+                                case 4:
+                                    a.pos2.y = parsed;
+                                    break;
+                                case 5:
+                                    a.pos2.z = parsed;
+                                    break;
+                                case 6:
+                                    a.type = parsed;
+                                    areaSaves.Add(a);
+                                    break;
+                            }
+                            c++;
+                            index++;
+                            buf = "";
+                            if (index == 7)
+                            {
+                                break;
+                            }
                         }
-                    }                    
                 }
 
             }
         }
         index = 0;
         count = 0;
-        buf="";
+        buf = "";
         if (s[c] == 's')
         {
             c++;
             while (true)
-            {
+            {//Read until |
                 if (s[c] != '|') buf += s[c];
                 else { break; }
             }
@@ -246,7 +264,7 @@ public class SaveLoadVoxels : MonoBehaviour {
         SaveSingle ss;
         if (count > 0)
         {
-            
+
             for (int i = 0; i < count; i++)
             {
                 ss = new SaveSingle();
@@ -258,27 +276,28 @@ public class SaveLoadVoxels : MonoBehaviour {
                 while (true)
                 {
                     if (s[c] != '~')
-                    {
+                    {//Read until ~
                         buf += s[c];
                         c++;
                     }
                     else
                     {
+                        int parsed = int.Parse(buf, NumberStyles.Integer);
                         switch (index)
                         {
                             case 0:
-                                ss.pos1.x = int.Parse(buf, NumberStyles.Integer);
+                                ss.pos1.x = parsed;
                                 break;
                             case 1:
-                                ss.pos1.y = int.Parse(buf, NumberStyles.Integer);
+                                ss.pos1.y = parsed;
                                 break;
                             case 2:
-                                ss.pos1.z = int.Parse(buf, NumberStyles.Integer);
+                                ss.pos1.z = parsed;
                                 break;
                             case 3:
-                                ss.type = int.Parse(buf, NumberStyles.Integer);
+                                ss.type = parsed;
                                 singleSaves.Add(ss);
-                                break;                            
+                                break;
                         }
                         c++;
                         index++;
@@ -306,12 +325,13 @@ public class SaveLoadVoxels : MonoBehaviour {
 
         foreach (SaveArea sa in areaSaves)
         {
-            for (int x =  sa.pos1.x; x < sa.pos1.x + sa.pos2.x; x++) {
+            for (int x = sa.pos1.x; x < sa.pos1.x + sa.pos2.x; x++)
+            {
                 for (int y = sa.pos1.y; y < sa.pos1.y + sa.pos2.y; y++)
                 {
                     for (int z = sa.pos1.z; z < sa.pos1.z + sa.pos2.z; z++)
                     {
-                        vs.AddVoxel(new VoxelPos(x, y, z), false, sa.type);                        
+                        vs.AddVoxel(new VoxelPos(x, y, z), false, sa.type);
                     }
                 }
             }
@@ -326,7 +346,7 @@ public class SaveLoadVoxels : MonoBehaviour {
 
 
 
-		//Areas JSON loading
+        //Areas JSON loading
         //count = 0;
         //for (int i = 0; i < node[voxName]["c"]["a"].AsArray.Count; i++) {
         //    int xStart =    node[voxName]["c"]["a"][i][0].AsInt;
@@ -356,13 +376,14 @@ public class SaveLoadVoxels : MonoBehaviour {
         //}
 
 
-		vs.UpdateMeshes();
+        vs.UpdateMeshes();
 
 
-		//Debug.Log ("<color=green>VoxSaveFile "+voxName+" loaded successfully. "+count+" voxels loaded.</color>");
-		loading = false;
+        //Debug.Log ("<color=green>VoxSaveFile "+voxName+" loaded successfully. "+count+" voxels loaded.</color>");
+        loading = false;
         loaded = true;
-	}
+    }
+    
 	struct SaveGarbage
 	{
 		public int type;
@@ -386,19 +407,19 @@ public class SaveLoadVoxels : MonoBehaviour {
 	public void SaveSystem()//(bool SaveWorldSpace)
 	{	
 		saving = true;
-		JSONClass node = new JSONClass();
+        //JSONClass node = new JSONClass();
 
 
 		//if(voxName == "") voxName = vs.voxName;
 
 
-		node[voxName]["i"][0].AsInt = vs.XSize;
-		node[voxName]["i"][1].AsInt = vs.YSize;
-		node[voxName]["i"][2].AsInt = vs.ZSize;
-		node[voxName]["i"][3].AsInt = vs.ChunkSizeX;
-		node[voxName]["i"][4].AsInt = vs.ChunkSizeY;
-		node[voxName]["i"][5].AsInt = vs.ChunkSizeZ;
-		node[voxName]["i"][6].AsFloat = vs.VoxelSpacing;
+        //node[voxName]["i"][0].AsInt = vs.XSize;
+        //node[voxName]["i"][1].AsInt = vs.YSize;
+        //node[voxName]["i"][2].AsInt = vs.ZSize;
+        //node[voxName]["i"][3].AsInt = vs.ChunkSizeX;
+        //node[voxName]["i"][4].AsInt = vs.ChunkSizeY;
+        //node[voxName]["i"][5].AsInt = vs.ChunkSizeZ;
+        //node[voxName]["i"][6].AsFloat = vs.VoxelSpacing;
 
         string initLine = vs.XSize.ToString() + "~" + vs.YSize.ToString() + "~" + vs.ZSize.ToString()
                         + "~" + vs.ChunkSizeX.ToString() + "~" + vs.ChunkSizeY.ToString() + "~" + vs.ChunkSizeZ.ToString()
