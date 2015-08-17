@@ -53,17 +53,21 @@ public class CubePool : MonoBehaviour {
 	void Update () {
         s_DifNormalRandom_ForceMultiplier = DifNormalRandom_ForceMultiplier;
         SpawnEvery = s_spawnEvery;
-        if (DeathTimers.Count < PoolSize / 3)
+        if (DeathTimers.Count < PoolSize / 0.25f)
         {
             s_spawnEvery = 1;
         }
-        else if (DeathTimers.Count < PoolSize * 2 / 3)
+        else if (DeathTimers.Count < PoolSize * 0.5f)
         {
             s_spawnEvery = 2;
         }
-        else 
+        else if (DeathTimers.Count < PoolSize * 0.75f)
         {
             s_spawnEvery = 3;
+        }
+        else
+        {
+            s_spawnEvery = 4;
         }
 	}
 
@@ -216,7 +220,10 @@ public class CubePool : MonoBehaviour {
         tris[35] = 3 + _faceCount * 4;
 
 
-
+        for (int i = 0; i < cubeVerts.Length; i++)
+        {
+            cubeVerts[i] *= 0.95f;
+        }
         cubeMesh.vertices = cubeVerts;
         cubeMesh.triangles = tris;
         cubeMesh.RecalculateNormals();
@@ -304,9 +311,9 @@ public class CubePool : MonoBehaviour {
 			
 			Xnum = 4.0f;
 			Ximage = 1.0f / Xnum;
-			Ynum = 2.0f;
+			Ynum = 4.0f;
 			Yimage = 1.0f / Ynum;
-            ImageManip = new Vector3(1.0f,2.0f,1.0f);
+            ImageManip = new Vector3(1.0f,1.0f,1.0f);
 
 		}
 		else 
@@ -325,91 +332,91 @@ public class CubePool : MonoBehaviour {
         ////////////////////////////////////////////////
         //+x 
         ////////////////////////////////////////////////        
-        UVs[0].x = pos.z / SystemSize.z / Xnum / system.UVRatio.z; //0.0
-        UVs[0].y = pos.y / SystemSize.y / Ynum / system.UVRatio.y; //0.0
+        UVs[0].x = pos.z / SystemSize.z / Xnum/ system.UVRatio.z; //0.0
+        UVs[0].y = (pos.y / SystemSize.y / Ynum + Yimage)/ system.UVRatio.y; //0.0
         
         UVs[1].x = pos.z / SystemSize.z / Xnum / system.UVRatio.z;		//0.0 
-        UVs[1].y = (pos.y + 1.0f) / SystemSize.y / Ynum / system.UVRatio.y; //1.0
+        UVs[1].y = ((pos.y + 1.0f) / SystemSize.y / Ynum + Yimage)/ system.UVRatio.y; //1.0
 
         UVs[2].x = (pos.z + 1.0f) / SystemSize.z / Xnum / system.UVRatio.z; //1.0		     
-        UVs[2].y = (pos.y + 1.0f) / SystemSize.y / Ynum / system.UVRatio.y; //1.0
+        UVs[2].y = ((pos.y + 1.0f) / SystemSize.y / Ynum + Yimage) / system.UVRatio.y; //1.0
 
         UVs[3].x = (pos.z + 1.0f) / SystemSize.z / Xnum / system.UVRatio.z;//1.0;		
-        UVs[3].y = pos.y / SystemSize.y / Ynum / system.UVRatio.y; 	     //0.0  
+        UVs[3].y = (pos.y / SystemSize.y / Ynum + Yimage)/ system.UVRatio.y; 	     //0.0  
         ////////////////////////////////////////////////
         // -x 
         ////////////////////////////////////////////////
-        UVs[4].x = pos.z / SystemSize.z / (Xnum + Ximage) / system.UVRatio.z;           //0.0    
-        UVs[4].y = pos.y / SystemSize.y / Ynum / system.UVRatio.y;			 //0.0
+        UVs[4].x = (pos.z / SystemSize.z / Xnum + Ximage) / system.UVRatio.z;           //0.0    
+        UVs[4].y = (pos.y / SystemSize.y / Ynum + Yimage) / system.UVRatio.y;			 //0.0
 
         UVs[5].x = (pos.z / SystemSize.z / Xnum + Ximage) / system.UVRatio.z;           //0.0 
-        UVs[5].y = (pos.y + 1.0f) / SystemSize.y / Ynum / system.UVRatio.y;  //1.0           
+        UVs[5].y = ((pos.y + 1.0f) / SystemSize.y / Ynum+ Yimage) / system.UVRatio.y;  //1.0           
 
         UVs[6].x = ((pos.z + 1.0f) / SystemSize.z / Xnum + Ximage) / system.UVRatio.z;  //1.0	 
-        UVs[6].y = (pos.y + 1.0f) / SystemSize.y / Ynum / system.UVRatio.y; //1.0
+        UVs[6].y = ((pos.y + 1.0f) / SystemSize.y / Ynum+ Yimage) / system.UVRatio.y; //1.0
 
         UVs[7].x = ((pos.z + 1.0f) / SystemSize.z / Xnum + Ximage) / system.UVRatio.z;  //1.0	
-        UVs[7].y = pos.y / SystemSize.y / Ynum / system.UVRatio.y;			 //0.0	         
+        UVs[7].y = (pos.y / SystemSize.y / Ynum + Yimage) / system.UVRatio.y;			 //0.0	         
         ////////////////////////////////////////////////
         //+y 
         ////////////////////////////////////////////////
         UVs[8].x = (pos.x / SystemSize.x / Xnum + Ximage) / system.UVRatio.x;			  //0.0
-        UVs[8].y = (pos.z / SystemSize.z / Ynum * ImageManip.y + Yimage) / system.UVRatio.z;            //0.0   
+        UVs[8].y = (pos.z / SystemSize.z / Ynum * ImageManip.y + Yimage * 3) / system.UVRatio.z;            //0.0   
 
         UVs[9].x = (pos.x / SystemSize.x / Xnum + Ximage) / system.UVRatio.x;			  //0.0	
-        UVs[9].y = ((pos.z + 1.0f) / SystemSize.z / Ynum * ImageManip.y + Yimage) / system.UVRatio.z;  //1.0  
+        UVs[9].y = ((pos.z + 1.0f) / SystemSize.z / Ynum * ImageManip.y + Yimage * 3) / system.UVRatio.z;  //1.0  
 
         UVs[10].x = ((pos.x + 1.0f) / SystemSize.x / Xnum + Ximage) / system.UVRatio.x; //1.0
-        UVs[10].y = ((pos.z + 1.0f) / SystemSize.z / Ynum * ImageManip.y + Yimage) / system.UVRatio.z;  //1.0
+        UVs[10].y = ((pos.z + 1.0f) / SystemSize.z / Ynum * ImageManip.y + Yimage * 3) / system.UVRatio.z;  //1.0
 
         UVs[11].x = ((pos.x + 1.0f) / SystemSize.x / Xnum + Ximage) / system.UVRatio.x;  //1.0
-        UVs[11].y = (pos.z / SystemSize.z / Ynum * ImageManip.y + Yimage) / system.UVRatio.z;           //0.0   
+        UVs[11].y = (pos.z / SystemSize.z / Ynum * ImageManip.y + Yimage * 3) / system.UVRatio.z;           //0.0   
         ////////////////////////////////////////////////
         //-y
         ////////////////////////////////////////////////
-        UVs[12].x = (pos.x / SystemSize.x / Xnum + Ximage) / system.UVRatio.x;			  //0.0
-        UVs[12].y = (pos.z / SystemSize.z / Ynum * ImageManip.y + Yimage) / system.UVRatio.z;            //0.0  
+        UVs[12].x = (pos.x / SystemSize.x / Xnum ) / system.UVRatio.x;			  //0.0
+        UVs[12].y = (pos.z / SystemSize.z / Ynum * ImageManip.y + Yimage * 3) / system.UVRatio.z;            //0.0  
 
-        UVs[13].x = (pos.x / SystemSize.x / Xnum + Ximage) / system.UVRatio.x;			  //0.0	
-        UVs[13].y = ((pos.z + 1.0f) / SystemSize.z / Ynum * ImageManip.y + Yimage) / system.UVRatio.z;  //1.0   
+        UVs[13].x = (pos.x / SystemSize.x / Xnum ) / system.UVRatio.x;			  //0.0	
+        UVs[13].y = ((pos.z + 1.0f) / SystemSize.z / Ynum * ImageManip.y + Yimage * 3) / system.UVRatio.z;  //1.0   
 
-        UVs[14].x = ((pos.x + 1.0f) / SystemSize.x / Xnum + Ximage) / system.UVRatio.x; //1.0
-        UVs[14].y = ((pos.z + 1.0f) / SystemSize.z / Ynum * ImageManip.y + Yimage) / system.UVRatio.z;  //1.0
+        UVs[14].x = ((pos.x + 1.0f) / SystemSize.x / Xnum ) / system.UVRatio.x; //1.0
+        UVs[14].y = ((pos.z + 1.0f) / SystemSize.z / Ynum * ImageManip.y + Yimage * 3) / system.UVRatio.z;  //1.0
 
-        UVs[15].x = ((pos.x + 1.0f) / SystemSize.x / Xnum + Ximage) / system.UVRatio.x;  //1.0
-        UVs[15].y = (pos.z / SystemSize.z / Ynum * ImageManip.y + Yimage) / system.UVRatio.z;           //0.0  
+        UVs[15].x = ((pos.x + 1.0f) / SystemSize.x / Xnum ) / system.UVRatio.x;  //1.0
+        UVs[15].y = (pos.z / SystemSize.z / Ynum * ImageManip.y + Yimage * 3) / system.UVRatio.z;           //0.0  
 
         ////////////////////////////////////////////////
         //+z
         ////////////////////////////////////////////////
-        UVs[16].x = (pos.x / SystemSize.x / Xnum + Ximage * 3) / system.UVRatio.x;//0.0
-        UVs[16].y = (pos.y / SystemSize.y / Ynum) / system.UVRatio.y;  //0.0
+        UVs[16].x = (pos.x / SystemSize.x / Xnum + Ximage) / system.UVRatio.x;//0.0
+        UVs[16].y = (pos.y / SystemSize.y / Ynum + Yimage * 2) / system.UVRatio.y;  //0.0
 
-        UVs[17].x = (pos.x / SystemSize.x / Xnum + Ximage * 3) / system.UVRatio.x; //0.0	
-        UVs[17].y = ((pos.y + 1) / SystemSize.y / Ynum) / system.UVRatio.y;  //1.0	
+        UVs[17].x = (pos.x / SystemSize.x / Xnum + Ximage) / system.UVRatio.x; //0.0	
+        UVs[17].y = ((pos.y + 1) / SystemSize.y / Ynum + Yimage * 2) / system.UVRatio.y;  //1.0	
 
-        UVs[18].x = ((pos.x + 1) / SystemSize.x / Xnum + Ximage * 3) / system.UVRatio.x; //1.0
-        UVs[18].y = ((pos.y + 1) / SystemSize.y / Ynum) / system.UVRatio.y;  //1.0     
+        UVs[18].x = ((pos.x + 1) / SystemSize.x / Xnum + Ximage) / system.UVRatio.x; //1.0
+        UVs[18].y = ((pos.y + 1) / SystemSize.y / Ynum + Yimage * 2) / system.UVRatio.y;  //1.0     
 
-        UVs[19].x = ((pos.x + 1) / SystemSize.x / Xnum + Ximage * 2) / system.UVRatio.x;  //1.0
-        UVs[19].y = (pos.y / SystemSize.y / Ynum) / system.UVRatio.y; //0.0  
+        UVs[19].x = ((pos.x + 1) / SystemSize.x / Xnum + Ximage) / system.UVRatio.x;  //1.0
+        UVs[19].y = (pos.y / SystemSize.y / Ynum + Yimage * 2) / system.UVRatio.y; //0.0  
         ////////////////////////////////////////////////
         //-z
         ////////////////////////////////////////////////
-        UVs[20].x = (pos.x / SystemSize.x / Xnum + Ximage * 2) / system.UVRatio.x;//0.0
-        UVs[20].y = (pos.y / SystemSize.y / Ynum) / system.UVRatio.y;  //0.0        
+        UVs[20].x = (pos.x / SystemSize.x / Xnum ) / system.UVRatio.x;//0.0
+        UVs[20].y = (pos.y / SystemSize.y / Ynum + Yimage * 2) / system.UVRatio.y;  //0.0        
 
-        UVs[21].x = (pos.x / SystemSize.x / Xnum + Ximage * 2) / system.UVRatio.x; //0.0	
-        UVs[21].y = ((pos.y + 1) / SystemSize.y / Ynum) / system.UVRatio.y;  //1.0	        
+        UVs[21].x = (pos.x / SystemSize.x / Xnum ) / system.UVRatio.x; //0.0	
+        UVs[21].y = ((pos.y + 1) / SystemSize.y / Ynum + Yimage * 2) / system.UVRatio.y;  //1.0	        
 
-        UVs[22].x = ((pos.x + 1) / SystemSize.x / Xnum + Ximage * 2) / system.UVRatio.x; //1.0
-        UVs[22].y = ((pos.y + 1) / SystemSize.y / Ynum) / system.UVRatio.y;  //1.0     
+        UVs[22].x = ((pos.x + 1) / SystemSize.x / Xnum ) / system.UVRatio.x; //1.0
+        UVs[22].y = ((pos.y + 1) / SystemSize.y / Ynum + Yimage * 2) / system.UVRatio.y;  //1.0     
 
-        UVs[23].x = ((pos.x + 1) / SystemSize.x / Xnum + Ximage * 2) / system.UVRatio.x;  //1.0
-        UVs[23].y = (pos.y / SystemSize.y / Ynum) / system.UVRatio.y; //0.0
+        UVs[23].x = ((pos.x + 1) / SystemSize.x / Xnum ) / system.UVRatio.x;  //1.0
+        UVs[23].y = (pos.y / SystemSize.y / Ynum + Yimage * 2) / system.UVRatio.y; //0.0
 
-       
 
+        
         _meshF.mesh.uv = UVs;
         _meshF.gameObject.GetComponent<Renderer>().material = mat;
     }
@@ -428,7 +435,7 @@ public class CubePool : MonoBehaviour {
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        Vector3 randomForce = new Vector3(Random.Range(0.5f, 1.5f) * norm.x, Random.Range(1f, 3f) * norm.y, Random.Range(0.5f, 1.5f)*norm.z);
+        Vector3 randomForce = new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f), Random.Range(-1.0f, 1.0f));
 
         //Applies a force to the cubed based on position in respect to where the ray hit the voxel system, the normal of the surface, and a random force with bias agaist gravity(y value is higher)
         rb.AddForce(((dif * s_DifNormalRandom_ForceMultiplier.x) + (norm * s_DifNormalRandom_ForceMultiplier.y) + randomForce * s_DifNormalRandom_ForceMultiplier.z) * 100);

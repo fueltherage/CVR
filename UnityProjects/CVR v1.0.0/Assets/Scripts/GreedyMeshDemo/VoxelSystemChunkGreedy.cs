@@ -1367,7 +1367,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 				{
 					blocks[x, y, z] = new VoxelShell(ref thisChunk);
 					blocks[x, y, z].voxel = new Voxel();
-					blocks[x, y, z].vp = new VoxelPos(x, y, z);
+					//blocks[x, y, z].vp = new VoxelPos(x, y, z);
 				}
 			}
 		}

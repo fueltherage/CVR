@@ -8,10 +8,11 @@ public class SinWaveGen : MonoBehaviour {
 	public bool Multicolor = false;
 	public float w=0.1f;
 	public float shift=0.0f;
+    VoxSystemChunkManager vscm;
 	// Use this for initialization
 	void Start () {
-		vc = this.gameObject.GetComponent<VoxelSystemGreedy>();	
-
+		vc = this.gameObject.GetComponent<VoxelSystemGreedy>();
+        vscm = GetComponent<VoxSystemChunkManager>();
 
 	}
 	
@@ -56,6 +57,7 @@ public class SinWaveGen : MonoBehaviour {
 	{
 
 		numberOfFilledVoxels=0;
+        VoxelPos pos = new VoxelPos();
 		for (int x = 0; x < vc.XSize; x++){
 			for (int y = 0; y < vc.YSize; y++){
 				for (int z = 0; z < vc.ZSize; z++){
@@ -78,8 +80,10 @@ public class SinWaveGen : MonoBehaviour {
 									VoxType = Mathf.RoundToInt(value/3.0f*(vc.factory.VoxelMats.Count-1));
 									numberOfFilledVoxels++;
 								}
-								VoxelFactory.GenerateVoxel(VoxType, ref vc.chunks_vcs[x,y,z].blocks[xc, yc, zc]);
-
+								pos.x = xc + x * vc.ChunkSizeX;
+                                pos.y = yc + y * vc.ChunkSizeY;
+                                pos.z = zc + z * vc.ChunkSizeZ;
+                                vscm.AddVoxel(pos, false, VoxType);
 							}
 						}
 					}

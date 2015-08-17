@@ -48,11 +48,12 @@ public class SaveLoadVoxels : MonoBehaviour {
                     SaveSystem();
                 }
             }
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                LoadSystem();
+            }
         }
-		if(Input.GetKeyDown(KeyCode.T))
-		{
-			LoadSystem();
-		}
+		
 		if(!initLoad)
 		if(vs.Initialized && LoadOnStart)
 		{
@@ -109,16 +110,8 @@ public class SaveLoadVoxels : MonoBehaviour {
                 }
                 else
                 { //When we reach a ~ , process the buffered info then switch to the next index.
-                    int parsed = 0;
-                    try
-                    {
-
-                        parsed = int.Parse(buf, NumberStyles.Integer);
-                    }
-                    catch (System.Exception e)
-                    {
-
-                    }
+                    int parsed = int.Parse(buf, NumberStyles.Integer); 
+                    
                     switch (index)
                     {
                         case 0:
@@ -193,58 +186,63 @@ public class SaveLoadVoxels : MonoBehaviour {
                 }
 
                 while (true)
-                {
-                    if (s[c] == 's')
+                {  
+                    
+                    if (s[c] != '|' && s[c] != '~' && s[c] != 's')
                     {
-                        break;
+                        buf += s[c];
+                        c++;
                     }
-                    if (s[c] != '~')
-                        if (s[c] != '|')
-                        
+                    else
+                    {
+                        int parsed = 0;
+                        try
                         {
-                            {
-                                buf += s[c];
-                                c++;
-                            }
-                        }                        
-                        else
-                        {
-                            int parsed = int.Parse(buf, NumberStyles.Integer);
-                            switch (index)
-                            {
-                                case 0:
-                                    a.pos1.x = parsed;
-                                    break;
-                                case 1:
-                                    a.pos1.y = parsed;
-                                    break;
-                                case 2:
-                                    a.pos1.z = parsed;
-                                    break;
-                                case 3:
-                                    a.pos2.x = parsed;
-                                    break;
-                                case 4:
-                                    a.pos2.y = parsed;
-                                    break;
-                                case 5:
-                                    a.pos2.z = parsed;
-                                    break;
-                                case 6:
-                                    a.type = parsed;
-                                    areaSaves.Add(a);
-                                    break;
-                            }
-                            c++;
-                            index++;
-                            buf = "";
-                            if (index == 7)
-                            {
-                                break;
-                            }
+                            parsed = int.Parse(buf, NumberStyles.Integer);
                         }
+                        catch (System.FormatException e)
+                        {
+                            Debug.Log(buf);
+                        }
+                        switch (index)
+                        {
+                            case 0:
+                                a.pos1.x = parsed;
+                                break;
+                            case 1:
+                                a.pos1.y = parsed;
+                                break;
+                            case 2:
+                                a.pos1.z = parsed;
+                                break;
+                            case 3:
+                                a.pos2.x = parsed;
+                                break;
+                            case 4:
+                                a.pos2.y = parsed;
+                                break;
+                            case 5:
+                                a.pos2.z = parsed;
+                                break;
+                            case 6:
+                                a.type = parsed;
+                                areaSaves.Add(a);
+                                break;
+                        }
+                        if (s[c] == 's')
+                        {
+                            break;
+                        }
+                        c++;
+                        index++;
+                        buf = "";
+                        if (index >= 7)
+                        {
+                            index = 0;
+                            break;
+                        }
+                    }                    
                 }
-
             }
         }
         index = 0;
@@ -255,7 +253,11 @@ public class SaveLoadVoxels : MonoBehaviour {
             c++;
             while (true)
             {//Read until |
-                if (s[c] != '|') buf += s[c];
+                if (s[c] != '|')
+                {
+                    buf += s[c];
+                    c++;
+                }
                 else { break; }
             }
             count = int.Parse(buf, NumberStyles.Integer);
@@ -275,7 +277,18 @@ public class SaveLoadVoxels : MonoBehaviour {
                 }
                 while (true)
                 {
-                    if (s[c] != '~')
+
+                    //This end of file check is just a fix to keep from going outside of the array during if statements
+                    if (c >= s.Length)
+                    {//Im assuming the last number has finished buffering
+                        int parsed = int.Parse(buf, NumberStyles.Integer);
+                        ss.type = parsed;
+                        singleSaves.Add(ss);
+                        break;
+                    }
+
+
+                    if (s[c] != '|' && s[c] != '~')
                     {//Read until ~
                         buf += s[c];
                         c++;
@@ -302,8 +315,13 @@ public class SaveLoadVoxels : MonoBehaviour {
                         c++;
                         index++;
                         buf = "";
-                        break;
+                        if (index == 4)
+                        {
+                            index = 0;
+                            break;
+                        }
                     }
+                    
                 }
             }
         }
@@ -343,41 +361,8 @@ public class SaveLoadVoxels : MonoBehaviour {
                 vs.AddVoxel(new VoxelPos(singleS.pos1.x, singleS.pos1.y, singleS.pos1.z), false, singleS.type);
             }
         }
-
-
-
-        //Areas JSON loading
-        //count = 0;
-        //for (int i = 0; i < node[voxName]["c"]["a"].AsArray.Count; i++) {
-        //    int xStart =    node[voxName]["c"]["a"][i][0].AsInt;
-        //    int yStart =    node[voxName]["c"]["a"][i][1].AsInt;
-        //    int zStart =    node[voxName]["c"]["a"][i][2].AsInt;
-        //    int xLength =   node[voxName]["c"]["a"][i][3].AsInt;
-        //    int yLength =   node[voxName]["c"]["a"][i][4].AsInt;
-        //    int zLength =   node[voxName]["c"]["a"][i][5].AsInt;
-        //    int type =      node[voxName]["c"]["a"][i][6].AsInt;
-        //    for (int x =  xStart; x < xStart + xLength; x++) {
-        //        for (int y = yStart; y < yStart + yLength; y++) {
-        //            for (int z = zStart; z < zStart + zLength; z++) {
-        //                vs.AddVoxel(new VoxelPos(x, y, z), false, type);
-        //                ++count;
-        //            }
-        //        }
-        //    }
-        //}
-        ////Singles
-
-        //for (int i = 0; i < node[voxName]["c"]["s"].AsArray.Count; i++) {
-        //    vs.AddVoxel(new VoxelPos(node[voxName]["c"]["s"][i][0].AsInt
-        //                             ,node[voxName]["c"]["s"][i][1].AsInt
-        //                             ,node[voxName]["c"]["s"][i][2].AsInt)
-        //                ,false, node[voxName]["c"]["s"][i][3].AsInt);
-        //    ++count;
-        //}
-
-
+        
         vs.UpdateMeshes();
-
 
         //Debug.Log ("<color=green>VoxSaveFile "+voxName+" loaded successfully. "+count+" voxels loaded.</color>");
         loading = false;
@@ -404,38 +389,13 @@ public class SaveLoadVoxels : MonoBehaviour {
 		public VoxelPos pos1;
 	}
 
-	public void SaveSystem()//(bool SaveWorldSpace)
+	public void SaveSystem()
 	{	
-		saving = true;
-        //JSONClass node = new JSONClass();
-
-
-		//if(voxName == "") voxName = vs.voxName;
-
-
-        //node[voxName]["i"][0].AsInt = vs.XSize;
-        //node[voxName]["i"][1].AsInt = vs.YSize;
-        //node[voxName]["i"][2].AsInt = vs.ZSize;
-        //node[voxName]["i"][3].AsInt = vs.ChunkSizeX;
-        //node[voxName]["i"][4].AsInt = vs.ChunkSizeY;
-        //node[voxName]["i"][5].AsInt = vs.ChunkSizeZ;
-        //node[voxName]["i"][6].AsFloat = vs.VoxelSpacing;
+		saving = true;     
 
         string initLine = vs.XSize.ToString() + "~" + vs.YSize.ToString() + "~" + vs.ZSize.ToString()
                         + "~" + vs.ChunkSizeX.ToString() + "~" + vs.ChunkSizeY.ToString() + "~" + vs.ChunkSizeZ.ToString()
-                        + "~" + vs.VoxelSpacing.ToString();
-
-		/* Might not need to save this
-		if(SaveWorldSpace)
-		{
-			node["info"]["wp"][0].AsFloat = vs.transform.position.x;
-			node["info"]["wp"][1].AsFloat = vs.transform.position.y;
-			node["info"]["wp"][2].AsFloat = vs.transform.position.z;
-			node["info"]["wr"][0].AsFloat = vs.transform.rotation.x;
-			node["info"]["wr"][1].AsFloat = vs.transform.rotation.y;
-			node["info"]["wr"][2].AsFloat = vs.transform.rotation.z;
-			node["info"]["wr"][3].AsFloat = vs.transform.rotation.w;
-		}*/
+                        + "~" + vs.VoxelSpacing.ToString();		
 
 		//Loop through all the voxels in the system, Save them if they're not 0
 		count = 0;
@@ -453,8 +413,9 @@ public class SaveLoadVoxels : MonoBehaviour {
 					for (int xc = 0; xc < vs.ChunkSizeX; xc++)
 						for (int yc = 0; yc < vs.ChunkSizeY; yc++)
 							for (int zc = 0; zc < vs.ChunkSizeZ; zc++){															
-								g[ x * vs.ChunkSizeX + xc, y * vs.ChunkSizeY + yc, z * vs.ChunkSizeZ + zc ].type 
-								= vs.chunks_vcs[x,y,z].blocks[xc,yc,zc].voxel.VoxelType;																
+								g[ x * vs.ChunkSizeX + xc,
+                                   y * vs.ChunkSizeY + yc, 
+                                   z * vs.ChunkSizeZ + zc ].type = vs.chunks_vcs[x,y,z].blocks[xc,yc,zc].voxel.VoxelType;																
 							}
 
 
@@ -462,7 +423,9 @@ public class SaveLoadVoxels : MonoBehaviour {
 		VoxelPos Bookmark = new VoxelPos();
 		List<SaveArea> saveStreamArea = new List<SaveArea>();
 		List<SaveSingle> saveStreamSingle = new List<SaveSingle>();
-		for (int x = 0; x < voxX; x++) {
+
+        //Saving method uses greedy meshing logic to form saveAreas / saveSingle
+        for (int x = 0; x < voxX; x++) {
 			for (int y = 0; y < voxY; y++) {
 				for (int z = 0; z < voxZ; z++) {
 
@@ -479,7 +442,7 @@ public class SaveLoadVoxels : MonoBehaviour {
 						do
 						{
 							if(ztemp + 1 == voxX)break;
-							if((g[xtemp,ytemp,ztemp+1].type == g[xtemp,ytemp,ztemp].type) && !g[xtemp,ytemp,ztemp+1].saved)
+							if((g[xtemp,ytemp,ztemp + 1].type == g[xtemp,ytemp,ztemp].type) && !g[xtemp,ytemp,ztemp + 1].saved)
 							{
 								++z_length;
 								++ztemp;
@@ -588,14 +551,7 @@ public class SaveLoadVoxels : MonoBehaviour {
             foreach (SaveArea i in saveStreamArea)
             {
 
-                //node[voxName]["c"]["a"][count][0].AsInt = i.pos1.x;
-                //node[voxName]["c"]["a"][count][1].AsInt = i.pos1.y;
-                //node[voxName]["c"]["a"][count][2].AsInt = i.pos1.z;
-                //node[voxName]["c"]["a"][count][3].AsInt = i.pos2.x;
-                //node[voxName]["c"]["a"][count][4].AsInt = i.pos2.y;
-                //node[voxName]["c"]["a"][count][5].AsInt = i.pos2.z;
-                //node[voxName]["c"]["a"][count][6].AsInt = i.type;
-                //count++;
+               
 
                 output.Write("|"+ i.pos1.x.ToString() + "~" + i.pos1.y.ToString() + "~" + i.pos1.z.ToString()
                             + "~" + i.pos2.x.ToString() + "~" + i.pos2.y.ToString() + "~" + i.pos2.z.ToString()
@@ -607,26 +563,14 @@ public class SaveLoadVoxels : MonoBehaviour {
             output.Write("s"+saveStreamSingle.Count.ToString());
             foreach (SaveSingle i in saveStreamSingle)
             {
-                //node[voxName]["c"]["s"][count][0].AsInt = i.pos1.x;
-                //node[voxName]["c"]["s"][count][1].AsInt = i.pos1.y;
-                //node[voxName]["c"]["s"][count][2].AsInt = i.pos1.z;
-                //node[voxName]["c"]["s"][count][3].AsInt = i.type;
-                //count++;
+                
 
                 output.Write("|"+i.pos1.x.ToString() + "~" + i.pos1.y.ToString() + "~" + i.pos1.z.ToString() + "~"+i.type.ToString());
-            }
-          
-
-            //System.IO.File.WriteAllText("./Assets/SavedVoxels/"+ voxName +".txt",node.ToString());
-            
+            }  
             //Debug.Log("String Char Count "+node.ToString().Length+" "+node.ToString());
             
             output.Close();
         }
 		saving = false;
-
 	}
-
-
-
 }

@@ -239,7 +239,7 @@ public class VoxelSystemGreedy : MonoBehaviour {
 				if(update)
 				{
                     //chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z].neighbours.UpdateNeighbours();
-                    UpdateNeightbours(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].blocks[voxPos.x, voxPos.y, voxPos.z]);
+                    UpdateNeightbours(chunkPos,voxPos);
                     VSUM.QueueChunkForUpdate(ref chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z]);
                     //if(!chunks_vcs[chunkPos.x, chunkPos.y, chunkPos.z].Generating)
                     //{
@@ -370,33 +370,55 @@ public class VoxelSystemGreedy : MonoBehaviour {
 			}
 		}
 	}
-    public void UpdateNeightbours(ref VoxelShell _v)
+    public void UpdateNeightbours(VoxelPos cp, VoxelPos vp)
     {
-        VoxelShell v = Neighbouring(ref _v, Direction.negX);
-        if( v.parentChunk != null)
-        VSUM.QueueChunkForUpdate(ref v.parentChunk);
-
-        v = Neighbouring(ref _v, Direction.posX);
-        if (v.parentChunk != null)
-        VSUM.QueueChunkForUpdate(ref v.parentChunk);
-
-
-        v = Neighbouring(ref _v, Direction.negY);
-        if (v.parentChunk != null)
-        VSUM.QueueChunkForUpdate(ref v.parentChunk);
-
-        v = Neighbouring(ref _v, Direction.posY);
-        if (v.parentChunk != null)
-        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+        //+x
+        if (vp.x + 1 == ChunkSizeX)
+        {
+            if (cp.x < XSize - 1)
+            {
+                VSUM.QueueChunkForUpdate(ref chunks_vcs[cp.x+1, cp.y, cp.z].blocks[0, vp.y, vp.z].parentChunk);
+            }
+        }
+        else
+        {
+            
+        }
 
 
-        v = Neighbouring(ref _v, Direction.negZ);
-        if (v.parentChunk != null)
-        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+        //-x
+        //+y
+        //-y
+        //+z
+        //-z
+        
 
-        v = Neighbouring(ref _v, Direction.posZ);
-        if (v.parentChunk != null)
-        VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+
+
+        //VoxelShell v = Neighbouring(ref _v, Direction.negX);
+        //if( v.parentChunk != null)
+        //VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+        //v = Neighbouring(ref _v, Direction.posX);
+        //if (v.parentChunk != null)
+        //VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+        //v = Neighbouring(ref _v, Direction.negY);
+        //if (v.parentChunk != null)
+        //VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+        //v = Neighbouring(ref _v, Direction.posY);
+        //if (v.parentChunk != null)
+        //VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+        //v = Neighbouring(ref _v, Direction.negZ);
+        //if (v.parentChunk != null)
+        //VSUM.QueueChunkForUpdate(ref v.parentChunk);
+
+        //v = Neighbouring(ref _v, Direction.posZ);
+        //if (v.parentChunk != null)
+        //VSUM.QueueChunkForUpdate(ref v.parentChunk);
     }
 	void go(){}
 	public void UpdateMeshes()

@@ -56,7 +56,7 @@ public class ClearAlphaSystem : MonoBehaviour {
 	}
 	void Clear()
 	{
-		
+		if(Top!=null)
 		for (int x = 0; x < Top.width/sheetLayout.x/spacing.x; x++) {
 			for (int z = 0; z < Top.height/sheetLayout.y/spacing.y; z++) {
 				Color pixColor = Top.GetPixel(x * spacing.x,z* spacing.z);
@@ -72,6 +72,7 @@ public class ClearAlphaSystem : MonoBehaviour {
 				
 			}
 		}
+        if(Side!=null)
 		for (int z = 0; z < Side.width/sheetLayout.x/spacing.z; z++) {
 			for (int y = 0; y < Side.height/sheetLayout.y/spacing.y; y++) {
 				Color pixColor = Side.GetPixel(z* spacing.z,y* spacing.y);
@@ -86,6 +87,7 @@ public class ClearAlphaSystem : MonoBehaviour {
 				
 			}
 		}
+        if(Front!=null)
         for (int x = 0; x < Front.width / sheetLayout.x / spacing.x; x++)
         {
             for (int y = 0; y < Front.height / sheetLayout.y / spacing.y; y++)

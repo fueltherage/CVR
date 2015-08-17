@@ -35,7 +35,7 @@ public class KillOnImpact : MonoBehaviour {
 			if(rb!=null)
 			{
                 
-				rb.gameObject.GetComponentInChildren<VoxSystemChunkManager>().RemoveVoxelAoE(rayhit, RadiusExplosion, true);
+				rb.gameObject.GetComponent<VoxSystemChunkManager>().RemoveVoxelAoE(rayhit, RadiusExplosion, true);
 				rb.AddForceAtPosition(this_rb.velocity * this_rb.mass, rayhit.point);
 
 			}

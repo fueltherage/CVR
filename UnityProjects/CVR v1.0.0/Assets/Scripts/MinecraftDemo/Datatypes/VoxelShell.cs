@@ -3,7 +3,7 @@ using System.Collections;
 
 public class VoxelShell {
 	public Voxel voxel;	
-	public VoxelPos vp;
+	//public VoxelPos vp;
 	public bool filled;
 	public bool locked;
 	public VoxelSystemChunkGreedy parentChunk;

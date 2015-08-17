@@ -10,8 +10,7 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
     int currentSelectVoxel;
     public static Vector3 MouseClickNormal = Vector3.zero;
     public static Vector3 MouseClickWorldPos = Vector3.zero;
-	// Use this for initialization
-    Color rayColor;
+	// Use this for initialization 
 	RaycastHit hit;
 	Ray mouseRay;
 	string[] layerName = {"Rays","RaysConvex"};
@@ -30,62 +29,23 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(!GameState.gamePaused)
+        if (!GameState.gamePaused)
         {
-
-    		mouseRay = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
-            if (DebugMode)
+            if (Input.GetMouseButtonDown(0) || ( Input.GetMouseButton(0) && Input.GetKey(KeyCode.LeftControl)))
             {
-                if (Input.GetMouseButtonDown(0))
-                {                
 
-					if (Physics.Raycast(mouseRay, out hit, SelectRange,mask))
-                    {
-                        rayColor = Color.green;
-						//Debug.Log(hit.collider.gameObject.transform.parent.name);
-                        if (Input.GetKey(KeyCode.LeftAlt))
-                        {
-                            RemoveVoxel(hit);
-                        }
-                        else AddVoxel(hit);
-                    }else rayColor = Color.red;
-                }
-                if(Input.GetMouseButton(0))
+                //Generate a ray based on the mouse's position onscreen projected outwards from the camera 
+                mouseRay = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(mouseRay, out hit, SelectRange, mask))
                 {
-    				Debug.DrawLine(mouseRay.origin, mouseRay.direction * 100, Color.blue);
-    				if(Input.GetKey (KeyCode.LeftControl))
-    				{                
-						if (Physics.Raycast(mouseRay, out hit, SelectRange, mask ))
-    					{
-    						rayColor = Color.green;
-    						//Debug.Log(hit.collider.gameObject.transform.parent.name);
-    						if (Input.GetKey(KeyCode.LeftAlt))
-    						{
-    							RemoveVoxel(hit);
-    						}
-    						else AddVoxel(hit);
-    					}else rayColor = Color.red;
-    				}
-
-                }
-                else Debug.DrawLine(mouseRay.origin, mouseRay.direction * 100, rayColor);
-            }
-		
-            else
-            {
-                if (Input.GetMouseButtonDown(0))
-                {             
-					if (Physics.Raycast(mouseRay, out hit, SelectRange, mask))
-                    {                       
-						//Debug.Log(hit.collider.transform.parent.gameObject.name);
-                        if (Input.GetKey(KeyCode.LeftAlt))
-                        {
-                            RemoveVoxel(hit);
-                        }
-                        else AddVoxel(hit);
+                    //Debug.Log(hit.collider.gameObject.transform.parent.name);
+                    if (Input.GetKey(KeyCode.LeftAlt))
+                    {
+                        RemoveVoxel(hit);
                     }
+                    else AddVoxel(hit);
                 }
-            }	
+            }
         }
 	}
     
@@ -120,3 +80,4 @@ public class MouseSelectionTool_Greedy : MonoBehaviour {
 
 
 }
+
