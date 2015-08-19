@@ -293,7 +293,7 @@ public class CubePool : MonoBehaviour {
 
         int voxelType=0;
        
-        voxelType = system.chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z].voxel.VoxelType;        
+        voxelType = system.chunks_vcs[cp.x, cp.y, cp.z].blocks[vp.x, vp.y, vp.z].voxelType;        
         Material mat = system.chunks_vcs[cp.x, cp.y, cp.z].factory.VoxelMats[voxelType];
         Vector3 pos = new Vector3(_pos.x, _pos.y, _pos.z);
 

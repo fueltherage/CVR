@@ -15,23 +15,23 @@ public static class VoxelFactory {
 		case 1:
 			_voxelShell.filled = true;
             _voxelShell.locked = false;
-			_voxelShell.voxel.Mass = 1;
+			_voxelShell.Mass = 1;
 			break;		
 		case 2:	
 			_voxelShell.filled = true;
             _voxelShell.locked = false;
-			_voxelShell.voxel.Mass = 2;
+			_voxelShell.Mass = 2;
 			break;
 		case 3:
 			_voxelShell.filled = true;
             _voxelShell.locked = false;
-			_voxelShell.voxel.Mass = 3;
+			_voxelShell.Mass = 3;
 			break;
 		case 4:
 			_voxelShell.filled = true;
             _voxelShell.locked = false;
 			//_voxelShell.locked = true;
-			_voxelShell.voxel.Mass = 1000;
+			_voxelShell.Mass = 1000;
 			break;
 		case 5:
 			_voxelShell.filled = true;
@@ -52,7 +52,7 @@ public static class VoxelFactory {
 			_voxelShell.filled = true;
 			break;
 		}
-		_voxelShell.voxel.VoxelType = VoxelNum;//Set the type
+		_voxelShell.voxelType = (byte)VoxelNum;//Set the type
 		//_voxelShell.parentChunk.needsUpdating = true;
 	}
 

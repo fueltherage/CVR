@@ -415,7 +415,7 @@ public class SaveLoadVoxels : MonoBehaviour {
 							for (int zc = 0; zc < vs.ChunkSizeZ; zc++){															
 								g[ x * vs.ChunkSizeX + xc,
                                    y * vs.ChunkSizeY + yc, 
-                                   z * vs.ChunkSizeZ + zc ].type = vs.chunks_vcs[x,y,z].blocks[xc,yc,zc].voxel.VoxelType;																
+                                   z * vs.ChunkSizeZ + zc ].type = vs.chunks_vcs[x,y,z].blocks[xc,yc,zc].voxelType;																
 							}
 
 

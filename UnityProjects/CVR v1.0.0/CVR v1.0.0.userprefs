@@ -1,8 +1,8 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Tesse.shader">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GreedyMeshDemo\VoxelSystemGreedy.cs">
     <Files>
-      <File FileName="Assets\Tesse.shader" Line="53" Column="34" />
+      <File FileName="Assets\Scripts\GreedyMeshDemo\VoxelSystemGreedy.cs" Line="274" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

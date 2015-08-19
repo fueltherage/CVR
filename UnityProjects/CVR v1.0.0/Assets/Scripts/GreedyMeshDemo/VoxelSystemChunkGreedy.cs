@@ -24,6 +24,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
     
 
 	VoxelPos bookmark;
+	VoxelPosByte _tempVP;
 	GameObject ConvexCollider;
 	MeshCollider CC;
 	MeshCollider meshCollider;
@@ -41,7 +42,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
      * 32 posz
      * 
      */
-    byte[] flags = new byte[] { (byte)1, (byte)2, (byte)4, (byte)8, (byte)16, (byte)32 };
+    static byte[] flags = new byte[] { (byte)1, (byte)2, (byte)4, (byte)8, (byte)16, (byte)32 };
 
 
 	void Start()
@@ -67,6 +68,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
         }
 		meshCollider = GetComponent<MeshCollider>();
 		meshFilter = GetComponent<MeshFilter>();
+		_tempVP = new VoxelPosByte();
 
 		thisChunk = gameObject.GetComponent<VoxelSystemChunkGreedy>();
 		offset.x = - XSize*VoxelSpacing/2.0f;//Starting position of vertices
@@ -135,7 +137,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
             //temp vars
             int xtemp, ytemp, ztemp, type, width, height;
             bool QuadDone = false;
-            bookmark = new VoxelPos();
+			bookmark = new VoxelPos();
 
 
 
@@ -151,7 +153,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 
                             if (blocks[x, y, z].filled)
                             {
-                                chunkMass += blocks[x, y, x].voxel.Mass;
+                                chunkMass += blocks[x, y, x].Mass;
                             }
 
                         }
@@ -162,9 +164,9 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                         {
                             if (blocks[x, y, z].filled)
                             {
-                                centerOfMass.x += (x + offset.x) * blocks[x, y, z].voxel.Mass / chunkMass;
-                                centerOfMass.y += (y + offset.y) * blocks[x, y, z].voxel.Mass / chunkMass;
-                                centerOfMass.z += (z + offset.z) * blocks[x, y, z].voxel.Mass / chunkMass;
+                                centerOfMass.x += (x + offset.x) * blocks[x, y, z].Mass / chunkMass;
+                                centerOfMass.y += (y + offset.y) * blocks[x, y, z].Mass / chunkMass;
+                                centerOfMass.z += (z + offset.z) * blocks[x, y, z].Mass / chunkMass;
                             }
                         }
             }
@@ -195,7 +197,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                 {
                     for (int z = 0; z < ZSize; ++z)
                     {
-                        if (blocks[x, y, z].filled && !systemParent.Neighbouring(ref blocks[x, y, z], VoxelSystemGreedy.Direction.negX).filled)
+						_tempVP.Set(x,y,z);
+                        if (blocks[x, y, z].filled && !systemParent.NegX(_tempVP,chunkPos).filled)
                         {
                             if (!((genFlags[x, y, z] & flags[0]) == flags[0]))
                             {
@@ -206,7 +209,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                 ytemp = y;
                                 ztemp = z;
                                 QuadDone = false;
-                                type = blocks[xtemp, ytemp, ztemp].voxel.VoxelType;
+                                type = blocks[xtemp, ytemp, ztemp].voxelType;
 
                                 do
                                 {
@@ -216,14 +219,14 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                         //Check the adjacent voxel
 
                                         if (ztemp + 1 == ZSize) break;
-
-                                        VoxelShell negX = systemParent.Neighbouring(ref blocks[xtemp, ytemp, ztemp], VoxelSystemGreedy.Direction.negX);
+										_tempVP.Set(xtemp,ytemp,ztemp);
+                                        VoxelShell negX = systemParent.NegX(_tempVP, chunkPos);
                                         bool temp = negX.parentChunk != null;
-                                        if (temp) temp = systemParent.Neighbouring(ref negX, VoxelSystemGreedy.Direction.posZ).filled;
+                                        if (temp) temp = systemParent.PosZ(negX.vp, negX.parentChunk.chunkPos).filled;
                                         if (blocks[xtemp, ytemp, ztemp + 1].filled && !temp)
                                         {
                                             //If the voxel is the same type and the posZ voxel isnt already generated
-                                            if (blocks[xtemp, ytemp, ztemp + 1].voxel.VoxelType == type && !((genFlags[xtemp, ytemp, ztemp + 1] & flags[0]) == flags[0]))
+                                            if (blocks[xtemp, ytemp, ztemp + 1].voxelType == type && !((genFlags[xtemp, ytemp, ztemp + 1] & flags[0]) == flags[0]))
                                             {
                                                 width++;
                                                 ztemp++;
@@ -278,7 +281,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     //Check the voxel directly above, maybe we can go up
                                     if (ytemp < YSize - 1)
                                         if (blocks[xtemp, ytemp + 1, ztemp].filled
-                                           && blocks[xtemp, ytemp + 1, ztemp].voxel.VoxelType == type)
+                                           && blocks[xtemp, ytemp + 1, ztemp].voxelType == type)
                                         {
                                             //Move the cursor up a row 
                                             ytemp++;
@@ -296,11 +299,12 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                         for (int zc = ztemp; zc < ztemp + width; zc++)
                                         {
                                             //if there is a fault, move on and forget about that row
+											_tempVP.Set(xtemp,ytemp, zc);
                                             if (!blocks[xtemp, ytemp, zc].filled
-                                                || blocks[xtemp, ytemp, zc].voxel.VoxelType != type
-                                                || systemParent.Neighbouring(ref blocks[xtemp, ytemp, zc], VoxelSystemGreedy.Direction.negX).filled
+                                                || blocks[xtemp, ytemp, zc].voxelType != type
+                                                || systemParent.NegX(_tempVP,chunkPos).filled
                                                 || ((genFlags[xtemp, ytemp, zc] & flags[0]) == flags[0]))
-                                            {
+                                            {	
                                                 QuadDone = true;
                                                 break;
                                             }
@@ -387,7 +391,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                 {
                     for (int z = 0; z < ZSize; ++z)
                     {
-                        if (blocks[x, y, z].filled && !systemParent.Neighbouring(ref blocks[x, y, z], VoxelSystemGreedy.Direction.posX).filled)
+						_tempVP.Set(x,y,z);
+                        if (blocks[x, y, z].filled && !systemParent.PosX(_tempVP, chunkPos).filled)
                         {
                             if (!((genFlags[x, y, z] & flags[1]) == flags[1]))
                             {
@@ -398,7 +403,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                 ytemp = y;
                                 ztemp = z;
                                 QuadDone = false;
-                                type = blocks[xtemp, ytemp, ztemp].voxel.VoxelType;
+                                type = blocks[xtemp, ytemp, ztemp].voxelType;
 
                                 do
                                 {
@@ -407,12 +412,14 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     {
                                         //Check the adjacent voxel
                                         if (ztemp + 1 == ZSize) break;
-                                        VoxelShell xpos = systemParent.Neighbouring(ref blocks[xtemp, ytemp, ztemp], VoxelSystemGreedy.Direction.posX);
+
+										_tempVP.Set(xtemp, ytemp, ztemp);
+                                        VoxelShell xpos = systemParent.PosX(_tempVP, chunkPos);
                                         bool temp = xpos.parentChunk != null;
-                                        if (temp) temp = systemParent.Neighbouring(ref xpos, VoxelSystemGreedy.Direction.posZ).filled;
+                                        if (temp) temp = systemParent.PosZ(xpos.vp, xpos.parentChunk.chunkPos).filled;
                                         if (blocks[xtemp, ytemp, ztemp + 1].filled && !temp)
                                         {
-                                            if (blocks[xtemp, ytemp, ztemp + 1].voxel.VoxelType == type && !((genFlags[xtemp, ytemp, ztemp + 1] & flags[1]) == flags[1]))
+                                            if (blocks[xtemp, ytemp, ztemp + 1].voxelType == type && !((genFlags[xtemp, ytemp, ztemp + 1] & flags[1]) == flags[1]))
                                             {
                                                 width++;
                                                 ztemp++;
@@ -468,7 +475,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     //Check the voxel directly above, maybe we can go up
                                     if (ytemp < YSize - 1)
                                         if (blocks[xtemp, ytemp + 1, ztemp].filled
-                                            && blocks[xtemp, ytemp + 1, ztemp].voxel.VoxelType == type)
+                                            && blocks[xtemp, ytemp + 1, ztemp].voxelType == type)
                                         {
                                             //Move the cursor up a row 
                                             ytemp++;
@@ -485,10 +492,11 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     {
                                         for (int zc = ztemp; zc < ztemp + width; zc++)
                                         {
+											_tempVP.Set(xtemp, ytemp, zc);
                                             //if there is a fault, move on and forget about that row
                                             if (!blocks[xtemp, ytemp, zc].filled
-                                                || blocks[xtemp, ytemp, zc].voxel.VoxelType != type
-                                                || systemParent.Neighbouring(ref blocks[xtemp, ytemp, zc], VoxelSystemGreedy.Direction.posX).filled
+                                                || blocks[xtemp, ytemp, zc].voxelType != type
+											    || systemParent.PosX(_tempVP, chunkPos).filled
                                                 || ((genFlags[xtemp, ytemp, zc] & flags[1]) == flags[1]))
                                             {
                                                 QuadDone = true;
@@ -580,7 +588,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                 {
                     for (int z = 0; z < ZSize; ++z)
                     {
-                        if (blocks[x, y, z].filled && !systemParent.Neighbouring(ref blocks[x, y, z], VoxelSystemGreedy.Direction.negY).filled)
+						_tempVP.Set(x,y,z);
+                        if (blocks[x, y, z].filled && !systemParent.NegY(_tempVP, chunkPos).filled)
                         {
                             if (!((genFlags[x, y, z] & flags[2]) == flags[2]))
                             {
@@ -591,7 +600,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                 ytemp = y;
                                 ztemp = z;
                                 QuadDone = false;
-                                type = blocks[xtemp, ytemp, ztemp].voxel.VoxelType;
+                                type = blocks[xtemp, ytemp, ztemp].voxelType;
 
                                 do
                                 {
@@ -600,13 +609,14 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     {
                                         //Check the adjacent voxel
                                         if (ztemp + 1 == ZSize) break;
-                                        VoxelShell yneg = systemParent.Neighbouring(ref blocks[xtemp, ytemp, ztemp], VoxelSystemGreedy.Direction.negY);
+										_tempVP.Set(xtemp,ytemp,ztemp);
+                                        VoxelShell yneg = systemParent.NegY(_tempVP, chunkPos);
                                         bool temp = yneg.parentChunk != null;
-                                        if (temp) temp = systemParent.Neighbouring(ref yneg, VoxelSystemGreedy.Direction.posZ).filled;
+                                        if (temp) temp = systemParent.PosZ(yneg.vp, yneg.parentChunk.chunkPos).filled;
                                         if (blocks[xtemp, ytemp, ztemp + 1].filled && !temp)
                                         {
 
-                                            if (blocks[xtemp, ytemp, ztemp + 1].voxel.VoxelType == type && !((genFlags[xtemp, ytemp, ztemp + 1] & flags[2]) == flags[2]))
+                                            if (blocks[xtemp, ytemp, ztemp + 1].voxelType == type && !((genFlags[xtemp, ytemp, ztemp + 1] & flags[2]) == flags[2]))
                                             {
                                                 width++;
                                                 ztemp++;
@@ -662,7 +672,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     //Check the voxel directly above, maybe we can go up
                                     if (xtemp < XSize - 1)
                                         if (blocks[xtemp + 1, ytemp, ztemp].filled
-                                            && blocks[xtemp + 1, ytemp, ztemp].voxel.VoxelType == type)
+                                            && blocks[xtemp + 1, ytemp, ztemp].voxelType == type)
                                         {
                                             //Move the cursor up a row 
                                             xtemp++;
@@ -679,10 +689,11 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     {
                                         for (int zc = ztemp; zc < ztemp + width; zc++)
                                         {
+											_tempVP.Set(xtemp, ytemp, zc);
                                             //if there is a fault, move on and forget about that row
                                             if (!blocks[xtemp, ytemp, zc].filled
-                                                || blocks[xtemp, ytemp, zc].voxel.VoxelType != type
-                                                || systemParent.Neighbouring(ref blocks[xtemp, ytemp, zc], VoxelSystemGreedy.Direction.negY).filled
+                                                || blocks[xtemp, ytemp, zc].voxelType != type
+                                                || systemParent.NegY(_tempVP, chunkPos).filled
                                                 || ((genFlags[xtemp, ytemp, zc] & flags[2]) == flags[2]))
                                             {
                                                 QuadDone = true;
@@ -773,7 +784,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                 {
                     for (int z = 0; z < ZSize; ++z)
                     {
-                        if (blocks[x, y, z].filled && !systemParent.Neighbouring(ref blocks[x, y, z], VoxelSystemGreedy.Direction.posY).filled)
+						_tempVP.Set(x,y,z);
+                        if (blocks[x, y, z].filled && !systemParent.PosY(_tempVP, chunkPos).filled)
                         {
                             if (!((genFlags[x, y, z] & flags[3]) == flags[3]))
                             {
@@ -784,22 +796,23 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                 ytemp = y;
                                 ztemp = z;
                                 QuadDone = false;
-                                type = blocks[xtemp, ytemp, ztemp].voxel.VoxelType;
+                                type = blocks[xtemp, ytemp, ztemp].voxelType;
 
                                 do
                                 {
                                     //First Row 
                                     do
                                     {
+										_tempVP.Set(xtemp, ytemp, ztemp);
                                         if (ztemp + 1 == ZSize) break;
                                         //Check the adjacent voxel
-                                        VoxelShell ypos = systemParent.Neighbouring(ref blocks[xtemp, ytemp, ztemp], VoxelSystemGreedy.Direction.posY);
+                                        VoxelShell ypos = systemParent.PosY(_tempVP,chunkPos);
                                         bool temp = ypos.parentChunk != null;
-                                        if(temp) temp = systemParent.Neighbouring(ref ypos, VoxelSystemGreedy.Direction.posZ).filled;
+                                        if(temp) temp = systemParent.PosZ(ypos.vp,ypos.parentChunk.chunkPos).filled;
                                         if (blocks[xtemp, ytemp, ztemp + 1].filled && !temp)
                                         {
 
-                                            if (blocks[xtemp, ytemp, ztemp + 1].voxel.VoxelType == type && !((genFlags[xtemp, ytemp, ztemp + 1] & flags[3]) == flags[3]))
+                                            if (blocks[xtemp, ytemp, ztemp + 1].voxelType == type && !((genFlags[xtemp, ytemp, ztemp + 1] & flags[3]) == flags[3]))
                                             {
                                                 width++;
                                                 ztemp++;
@@ -855,7 +868,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     //Check the voxel directly above, maybe we can go up
                                     if (xtemp < XSize - 1)
                                         if (blocks[xtemp + 1, ytemp, ztemp].filled
-                                            && blocks[xtemp + 1, ytemp, ztemp].voxel.VoxelType == type)
+                                            && blocks[xtemp + 1, ytemp, ztemp].voxelType == type)
                                         {
                                             //Move the cursor up a row 
                                             xtemp++;
@@ -872,10 +885,11 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     {
                                         for (int zc = ztemp; zc < ztemp + width; zc++)
                                         {
+											_tempVP.Set(xtemp, ytemp, zc);
                                             //if there is a fault, move on and forget about that row
                                             if (!blocks[xtemp, ytemp, zc].filled
-                                                || blocks[xtemp, ytemp, zc].voxel.VoxelType != type
-                                                || systemParent.Neighbouring(ref blocks[xtemp, ytemp, zc], VoxelSystemGreedy.Direction.posY).filled
+                                                || blocks[xtemp, ytemp, zc].voxelType != type
+                                                || systemParent.PosY(_tempVP, chunkPos).filled
                                                 || ((genFlags[xtemp, ytemp, zc] & flags[3]) == flags[3]))
                                             {
                                                 QuadDone = true;
@@ -964,7 +978,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                 {
                     for (int y = 0; y < YSize; ++y)
                     {
-                        if (blocks[x, y, z].filled && !systemParent.Neighbouring(ref blocks[x, y, z], VoxelSystemGreedy.Direction.negZ).filled)
+						_tempVP.Set(x,y,z);
+                        if (blocks[x, y, z].filled && !systemParent.NegZ(_tempVP, chunkPos).filled)
                         {
                             if (!((genFlags[x, y, z] & flags[4]) == flags[4]))
                             {
@@ -975,22 +990,23 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                 ytemp = y;
                                 ztemp = z;
                                 QuadDone = false;
-                                type = blocks[xtemp, ytemp, ztemp].voxel.VoxelType;
+                                type = blocks[xtemp, ytemp, ztemp].voxelType;
 
                                 do
                                 {
                                     //First Row 
                                     do
                                     {
+										_tempVP.Set(xtemp, ytemp, ztemp);
                                         //Check the adjacent voxel
                                         if (ytemp + 1 == YSize) break;
-                                        VoxelShell zneg = systemParent.Neighbouring(ref blocks[xtemp, ytemp, ztemp], VoxelSystemGreedy.Direction.negZ);
+                                        VoxelShell zneg = systemParent.NegZ(_tempVP, chunkPos);
                                         bool temp = zneg.parentChunk != null;
-                                        if(temp) temp = systemParent.Neighbouring(ref zneg, VoxelSystemGreedy.Direction.posY).filled;
+                                        if(temp) temp = systemParent.PosY(zneg.vp, zneg.parentChunk.chunkPos).filled;
                                         if (blocks[xtemp, ytemp + 1, ztemp].filled && !temp)
                                         {
 
-                                            if (blocks[xtemp, ytemp + 1, ztemp].voxel.VoxelType == type && !((genFlags[xtemp, ytemp + 1, ztemp] & flags[4]) == flags[4]))
+                                            if (blocks[xtemp, ytemp + 1, ztemp].voxelType == type && !((genFlags[xtemp, ytemp + 1, ztemp] & flags[4]) == flags[4]))
                                             {
                                                 width++;
                                                 ytemp++;
@@ -1046,7 +1062,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     //Check the voxel directly above, maybe we can go up
                                     if (xtemp < XSize - 1)
                                         if (blocks[xtemp + 1, ytemp, ztemp].filled
-                                            && blocks[xtemp + 1, ytemp, ztemp].voxel.VoxelType == type)
+                                            && blocks[xtemp + 1, ytemp, ztemp].voxelType == type)
                                         {
                                             //Move the cursor up a row 
                                             xtemp++;
@@ -1063,10 +1079,11 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     {
                                         for (int yc = ytemp; yc < ytemp + width; yc++)
                                         {
+											_tempVP.Set(xtemp, yc, ztemp);
                                             //if there is a fault, move on and forget about that row
                                             if (!blocks[xtemp, yc, ztemp].filled
-                                                || blocks[xtemp, yc, ztemp].voxel.VoxelType != type
-                                                || systemParent.Neighbouring(ref blocks[xtemp, yc, ztemp], VoxelSystemGreedy.Direction.negZ).filled
+                                                || blocks[xtemp, yc, ztemp].voxelType != type
+                                                || systemParent.NegZ(_tempVP, chunkPos).filled
                                                 || ((genFlags[xtemp, yc, ztemp] & flags[4]) == flags[4]))
                                             {
                                                 QuadDone = true;
@@ -1158,7 +1175,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                 {
                     for (int y = 0; y < YSize; ++y)
                     {
-                        if (blocks[x, y, z].filled && !systemParent.Neighbouring(ref blocks[x, y, z], VoxelSystemGreedy.Direction.posZ).filled)
+						_tempVP.Set(x,y,z);
+                        if (blocks[x, y, z].filled && !systemParent.PosZ(_tempVP, chunkPos).filled)
                         {
                             if (!((genFlags[x, y, z] & flags[5]) == flags[5]))
                             {
@@ -1169,7 +1187,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                 ytemp = y;
                                 ztemp = z;
                                 QuadDone = false;
-                                type = blocks[xtemp, ytemp, ztemp].voxel.VoxelType;
+                                type = blocks[xtemp, ytemp, ztemp].voxelType;
 
                                 do
                                 {
@@ -1178,14 +1196,14 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     {
                                         //Check the adjacent voxel
                                         if (ytemp + 1 == YSize) break;
-
-                                        VoxelShell zpos = systemParent.Neighbouring(ref blocks[xtemp, ytemp, ztemp], VoxelSystemGreedy.Direction.posZ);
+										_tempVP.Set(xtemp,ytemp, ztemp);
+                                        VoxelShell zpos = systemParent.PosZ(_tempVP, chunkPos);
                                         bool temp = zpos.parentChunk != null;
-                                        if(temp) temp = systemParent.Neighbouring(ref zpos, VoxelSystemGreedy.Direction.posY).filled;
+                                        if(temp) temp = systemParent.PosY(zpos.vp,zpos.parentChunk.chunkPos).filled;
                                         if (blocks[xtemp, ytemp + 1, ztemp].filled && !temp)
                                         {
 
-                                            if (blocks[xtemp, ytemp + 1, ztemp].voxel.VoxelType == type && !((genFlags[xtemp, ytemp + 1, ztemp] & flags[5]) == flags[5]))
+                                            if (blocks[xtemp, ytemp + 1, ztemp].voxelType == type && !((genFlags[xtemp, ytemp + 1, ztemp] & flags[5]) == flags[5]))
                                             {
                                                 width++;
                                                 ytemp++;
@@ -1242,7 +1260,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     //Check the voxel directly above, maybe we can go up
                                     if (xtemp < XSize - 1)
                                         if (blocks[xtemp + 1, ytemp, ztemp].filled
-                                            && blocks[xtemp + 1, ytemp, ztemp].voxel.VoxelType == type)
+                                            && blocks[xtemp + 1, ytemp, ztemp].voxelType == type)
                                         {
                                             //Move the cursor up a row 
                                             xtemp++;
@@ -1259,10 +1277,11 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                     {
                                         for (int yc = ytemp; yc < ytemp + width; yc++)
                                         {
+											_tempVP.Set(xtemp, yc, ztemp);
                                             //if there is a fault, move on and forget about that row
                                             if (!blocks[xtemp, yc, ztemp].filled
-                                                || blocks[xtemp, yc, ztemp].voxel.VoxelType != type
-                                                || systemParent.Neighbouring(ref blocks[xtemp, yc, ztemp], VoxelSystemGreedy.Direction.posZ).filled
+                                                || blocks[xtemp, yc, ztemp].voxelType != type
+                                                || systemParent.PosZ(_tempVP, chunkPos).filled
                                                 || ((genFlags[xtemp, yc, ztemp] & flags[5]) == flags[5]))
                                             {
                                                 QuadDone = true;
@@ -1336,8 +1355,7 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
                                 y = bookmark.y - 1;
                                 z = bookmark.z;
                             }
-                        }
-                        //Inertia Calculation
+						}                        
                     }
                 }
             }
@@ -1359,15 +1377,14 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
 	protected void InitShells()
 	{
 		blocks = new VoxelShell[XSize, YSize, ZSize];
-		for (int x = 0; x < XSize; ++x)
+		for (byte x = 0; x < XSize; ++x)
 		{
-			for (int y = 0; y < YSize; ++y)
+			for (byte y = 0; y < YSize; ++y)
 			{
-				for (int z = 0; z < ZSize; ++z)
+				for (byte z = 0; z < ZSize; ++z)
 				{
 					blocks[x, y, z] = new VoxelShell(ref thisChunk);
-					blocks[x, y, z].voxel = new Voxel();
-					//blocks[x, y, z].vp = new VoxelPos(x, y, z);
+					blocks[x, y, z].vp = new VoxelPosByte(x, y, z);
 				}
 			}
 		}
@@ -1412,7 +1429,6 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
             Profiler.BeginSample("Triangle Assignement");
             for (int i = 0; i < SubmeshCount; ++i)
             {
-
                 vmesh.SetTriangles(GetSubMeshTriangles(i, ref Triangles, ref TrIndex), i);
             }
             Profiler.EndSample();
@@ -1422,7 +1438,8 @@ public class VoxelSystemChunkGreedy : VoxelChunk{
             Material[] mat = new Material[SubmeshCount];
             for (int i = 0; i < SubmeshCount; ++i)
             {
-                mat[i] = factory.VoxelMats[MaterialIndex[i]];
+				int m = MaterialIndex[i];
+                mat[i] = factory.VoxelMats[m];
             }
             Profiler.EndSample();
 			if(gameObject != null)
